@@ -1,23 +1,23 @@
 """
-SINPLE (SImple Network Python Library for Education) is a pedagogical implementation of basic network concepts in Python.
+Many systems can be represented as networks, e.g. transport connections, gene regulation, social interactions, the World Wide Web. [Network science](http://en.wikipedia.org/wiki/Network_science) is an increasingly important field to analyse and predict the behaviour of such systems. 
 
-It is pedagogical at various levels:
+SINPLE is a SImple Network Python Library for Education. SINPLE does *not* enable analysis of large networks; there are various state-of-the-art libraries for that. Instead SINPLE's aims are pedagogical:
 
-- It illustrates basic Python constructs: loops, functions, tuples, sets, etc.
-- It illustrates a simple form of unit testing.
-- It explains basic graph theoretical concepts through executable definitions (the functions) and concrete examples (the unit tests).
-- It is extensively documented. You can run [Pycco](http://fitzgen.github.io/pycco/) on this file to generate a side-by-side view of documentation and code. 
-- It includes exercises.
+- it illustrates basic Python constructs: loops, functions, tuples, sets, etc;
+- it illustrates simple forms of [unit testing](http://en.wikipedia.org/wiki/Unit_testing) and [preconditions](http://en.wikipedia.org/wiki/Precondition) using assertions;
+- it explains basic network concepts through executable definitions (the functions) and concrete examples (the unit tests);
+- it includes small exercises and larger projects;
+- it is extensively documented in a simple [literate programming](http://en.wikipedia.org/wiki/Literate_programming) style. 
 
-This implementation does *not* aim to provide efficient operations for large graphs: there are several state-of-the-art libraries for that. 
+Running [Pycco](http://fitzgen.github.io/pycco/) on the source code (`pycco -d . sinple.py`) generates `sinple.html` with a side-by-side view of documentation and code. 
 
-The terminology was taken from the Wikipedia pages on [digraphs](http://en.wikipedia.org/wiki/Digraph_(mathematics)).
-
-The latest version of this file can be found on https://bitbucket.org/mwermelinger/digraph-py.
+The latest version of SINPLE can be found on http://tiny.cc/sinple.
 
 Digraph representation
 ----------------------
 A digraph (short for 'directed graph') is represented by a pair `(nodes, arcs)`, where `nodes` is the *set* of unique node names (e.g. integers or strings) and `arcs` is the *set* of arcs. Each arc is a pair of node names `(tail, head)`, stating there is a directed arc from the `tail` node to the `head` node.
+
+The terminology was taken from the Wikipedia page on [digraphs](http://en.wikipedia.org/wiki/Digraph_(mathematics)).
 """
 
 # Example graphs
@@ -27,20 +27,20 @@ A digraph (short for 'directed graph') is represented by a pair `(nodes, arcs)`,
 # The **empty graph** has no nodes and hence no arcs.
 EMPTY = (set(), set())		# {} is the empty dictionary, not the empty set
 
-# A **null graph** Nn has n nodes but no edges.
+# A **null graph** N*n* has *n* nodes but no arcs.
 N1 = ({1}, set())			# also called the trivial graph
 N2 = ({1,2}, set())
 
-# The smallest non-simple graph.
+# The smallest non-simple graph has a single node connected to itself.
 LOOP = ({1}, {(1,1)})
 
-# A **cycle graph** Cn has n nodes connected in a 'round-robin' fashion. 
+# A **cycle graph** C*n* has *n* nodes connected in a 'round-robin' fashion. 
 # Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, hexagon, etc.
 C3 = ({1,2,3}, {(1,2), (2,3), (3,1)})               		
 C4 = ({1,2,3,4}, {(1,2), (2,3), (3,4), (4,1)})      		
 C5 = ({1,2,3,4,5},{(1,2), (2,3), (3,4), (4,5), (5,1)})     
 
-# In a **complete graph** Kn, each of the n nodes is connected to all other n-1 nodes.
+# In a **complete graph** K*n*, each of the *n* nodes is connected to all other *n-1* nodes.
 K2 = ({1,2}, {(1,2), (2,1)})
 K3 = ({1,2,3}, {(1,2), (1,3), (2,1), (2,3), (3,1), (3,2)})
 
@@ -55,6 +55,9 @@ PETERSEN = ({1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
 # ### Exercises
 #
 # 1. Define K1 and C2.
+
+K1 = N1
+C2 = ({1, 2}, {(1,2), (2,1)})
 
 # Basic functions
 # ---------------
@@ -80,18 +83,18 @@ def head(arc):
 	(tail, head) = arc
 	return head
 	
-def make_arc(tail, head):
+def arc(tail, head):
 	"""Create an arc from tail node to head node."""
 	return (tail, head)
 	
 # Arc properties
 # --------------
 
-def inverted(arc):
+def invert(arc):
 	"""The **inverted arc** has its head and tail swapped."""
-	return make_arc(head(arc), tail(arc))
+	return arc(head(arc), tail(arc))
 	
-def loop(arc):
+def is_loop(arc):
 	"""An arc is a **loop** if it connects a node to itself."""
 	return tail(arc) == head(arc)
 	
@@ -100,27 +103,24 @@ def loop(arc):
 
 def adjacent(node1, node2, graph):
 	"""Two nodes are **adjacent** if an arc connects them in either direction."""
-	return 	make_arc(node1, node2) in arcs(graph) or \
-			make_arc(node2, node1) in arcs(graph)
+	return 	arc(node1, node2) in arcs(graph) or arc(node2, node1) in arcs(graph)
 		
-# Unit tests for `adjacent()`
 assert(adjacent(1, 2, K2))
 assert(adjacent(1, 4, C4))
 assert(not adjacent(1, 3, C4))
 
-def isolated (node, graph):
+def isolated(node, graph):
 	"""A node is **isolated** if it is not adjacent to any other node."""
 	for node2 in nodes(graph):
 		if adjacent(node, node2, graph):
 			return False
 	return True
 	
-# Unit tests for `isolated()`
 assert(isolated(1, N1))
 assert(not isolated(1, K2))
 
 def indegree(node, graph):
-	"""The **indegree** of a node is the number of incoming arcs."""
+	"""The **indegree** of a node is the number of incoming arcs."""	
 	degree = 0
 	for arc in arcs(graph):
 		if head(arc) == node:
@@ -184,7 +184,7 @@ assert(order(PETERSEN) == 10)
 def simple(graph):
 	"""A graph is **simple** if it has no loops and no duplicate arcs."""
 	for arc in arcs(graph):
-		if loop(arc):
+		if is_loop(arc):
 			return False
 	return True
 	
@@ -197,7 +197,7 @@ assert(not simple(LOOP))
 def oriented(graph):
 	"""An **oriented** graph is an undirected graph with a direction imposed on each edge."""
 	for arc in arcs(graph):
-		if not loop(arc) and inverted(arc) in arcs(graph):
+		if not is_loop(arc) and invert(arc) in arcs(graph):
 			return False
 	return True		
 	
@@ -209,7 +209,7 @@ assert(not oriented(K2))
 def symmetric(graph):
 	"""A digraph is **symmetric** if for every arc it also has the inverted arc."""
 	for arc in arcs(graph):
-		if inverted(arc) not in arcs(graph):
+		if invert(arc) not in arcs(graph):
 			return False
 	return True
 	
@@ -235,12 +235,12 @@ assert(balanced(C3))
 assert(not balanced(PETERSEN))
 
 def tournament(graph):
-	"""A tournament is a digraph with exactly one arc for each pair of distinct nodes."""
+	"""A **tournament** is a digraph with exactly one arc for each pair of distinct nodes."""
 	for node1 in nodes(graph):
 		for node2 in nodes(graph):
 			if node1 != node2:
-				has_arc = make_arc(node1, node2) in arcs(graph)
-				has_inverted = inverted(arc) in arcs(graph)
+				has_arc = arc(node1, node2) in arcs(graph)
+				has_inverted = invert(arc) in arcs(graph)
 				if (not has_arc and not has_inverted) or (has_arc and has_inverted):
 					return False
 	return True

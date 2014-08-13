@@ -2,14 +2,14 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html;charset=utf-8">
-  <title>digraph.py</title>
+  <title>sinple.py</title>
   <link rel="stylesheet" href="pycco.css">
 </head>
 <body>
 <div id="background"></div>
 <div id='container'>
   <div class='section'>
-    <div class='docs'><h1>digraph.py</h1></div>
+    <div class='docs'><h1>sinple.py</h1></div>
   </div>
   <div class='clearall'>
   <div class='section' id='section-0'>
@@ -17,20 +17,20 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-0'>#</a>
       </div>
-      <p>This is a pedagogical implementation of directed graphs in Python.</p>
-<p>It is pedagogical at various levels:</p>
+      <p>Many systems can be represented as networks, e.g. transport connections, gene regulation, social interactions, the World Wide Web. <a href="http://en.wikipedia.org/wiki/Network_science">Network science</a> is an increasingly important field to analyse and predict the behaviour of such systems. </p>
+<p>SINPLE is a SImple Network Python Library for Education. SINPLE does <em>not</em> enable analysis of large networks; there are various state-of-the-art libraries for that. Instead SINPLE's aims are pedagogical:</p>
 <ul>
-<li>It illustrates basic Python constructs: loops, functions, tuples, sets, etc.</li>
-<li>It illustrates a simple form of unit testing.</li>
-<li>It explains basic graph theoretical concepts through executable definitions (the functions) and concrete examples (the unit tests).</li>
-<li>It is extensively documented. You can run <a href="http://fitzgen.github.io/pycco/">Pycco</a> on this file to generate a side-by-side view of documentation and code. </li>
-<li>It includes exercises.</li>
+<li>it illustrates basic Python constructs: loops, functions, tuples, sets, etc;</li>
+<li>it illustrates simple forms of <a href="http://en.wikipedia.org/wiki/Unit_testing">unit testing</a> and <a href="http://en.wikipedia.org/wiki/Precondition">preconditions</a> using assertions;</li>
+<li>it explains basic network concepts through executable definitions (the functions) and concrete examples (the unit tests);</li>
+<li>it includes small exercises and larger projects;</li>
+<li>it is extensively documented in a simple <a href="http://en.wikipedia.org/wiki/Literate_programming">literate programming</a> style. </li>
 </ul>
-<p>This implementation does <em>not</em> aim to provide efficient operations for large graphs: there are several state-of-the-art libraries for that. </p>
-<p>The terminology was taken from the Wikipedia pages on <a href="http://en.wikipedia.org/wiki/Digraph_(mathematics)">digraphs</a>.</p>
-<p>The latest version of this file can be found on https://bitbucket.org/mwermelinger/digraph-py.</p>
+<p>Running <a href="http://fitzgen.github.io/pycco/">Pycco</a> on the source code (<code>pycco -d . sinple.py</code>) generates <code>sinple.html</code> with a side-by-side view of documentation and code. </p>
+<p>The latest version of SINPLE can be found on http://tiny.cc/sinple.</p>
 <h2>Digraph representation</h2>
 <p>A digraph (short for 'directed graph') is represented by a pair <code>(nodes, arcs)</code>, where <code>nodes</code> is the <em>set</em> of unique node names (e.g. integers or strings) and <code>arcs</code> is the <em>set</em> of arcs. Each arc is a pair of node names <code>(tail, head)</code>, stating there is a directed arc from the <code>tail</code> node to the <code>head</code> node.</p>
+<p>The terminology was taken from the Wikipedia page on <a href="http://en.wikipedia.org/wiki/Digraph_(mathematics)">digraphs</a>.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -67,7 +67,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-3'>#</a>
       </div>
-      <p>A <strong>null graph</strong> Nn has n nodes but no edges.</p>
+      <p>A <strong>null graph</strong> N<em>n</em> has <em>n</em> nodes but no edges.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="n">N1</span> <span class="o">=</span> <span class="p">({</span><span class="mi">1</span><span class="p">},</span> <span class="nb">set</span><span class="p">())</span>			<span class="c"># also called the trivial graph</span>
@@ -80,7 +80,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-4'>#</a>
       </div>
-      <p>The smallest non-simple graph.</p>
+      <p>The smallest non-simple graph has a single node connected to itself.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="n">LOOP</span> <span class="o">=</span> <span class="p">({</span><span class="mi">1</span><span class="p">},</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)})</span></pre></div>
@@ -92,7 +92,7 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-5'>#</a>
       </div>
-      <p>A <strong>cycle graph</strong> Cn has n nodes connected in a 'round-robin' fashion. 
+      <p>A <strong>cycle graph</strong> C<em>n</em> has <em>n</em> nodes connected in a 'round-robin' fashion. 
 Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, hexagon, etc.</p>
     </div>
     <div class='code'>
@@ -107,7 +107,7 @@ Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, hexagon
       <div class='octowrap'>
         <a class='octothorpe' href='#section-6'>#</a>
       </div>
-      <p>In a <strong>complete graph</strong> Kn, each of the n nodes is connected to all other n-1 nodes.</p>
+      <p>In a <strong>complete graph</strong> K<em>n</em>, each of the <em>n</em> nodes is connected to all other <em>n-1</em> nodes.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="n">K2</span> <span class="o">=</span> <span class="p">({</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">},</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)})</span>
@@ -143,7 +143,8 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
 </ol>
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre><span class="n">K1</span> <span class="o">=</span> <span class="n">N1</span>
+<span class="n">C2</span> <span class="o">=</span> <span class="p">({</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">},</span> <span class="p">{(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)})</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -268,7 +269,7 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
       <p>Create an arc from tail node to head node.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">make_arc</span><span class="p">(</span><span class="n">tail</span><span class="p">,</span> <span class="n">head</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">arc</span><span class="p">(</span><span class="n">tail</span><span class="p">,</span> <span class="n">head</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -304,7 +305,7 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
       <p>The <strong>inverted arc</strong> has its head and tail swapped.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">inverted</span><span class="p">(</span><span class="n">arc</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">invert</span><span class="p">(</span><span class="n">arc</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -316,7 +317,7 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>	<span class="k">return</span> <span class="n">make_arc</span><span class="p">(</span><span class="n">head</span><span class="p">(</span><span class="n">arc</span><span class="p">),</span> <span class="n">tail</span><span class="p">(</span><span class="n">arc</span><span class="p">))</span></pre></div>
+      <div class="highlight"><pre>	<span class="k">return</span> <span class="n">arc</span><span class="p">(</span><span class="n">head</span><span class="p">(</span><span class="n">arc</span><span class="p">),</span> <span class="n">tail</span><span class="p">(</span><span class="n">arc</span><span class="p">))</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -328,7 +329,7 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
       <p>An arc is a <strong>loop</strong> if it connects a node to itself.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">loop</span><span class="p">(</span><span class="n">arc</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">is_loop</span><span class="p">(</span><span class="n">arc</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -376,8 +377,11 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>	<span class="k">return</span> 	<span class="n">make_arc</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="ow">or</span> \
-			<span class="n">make_arc</span><span class="p">(</span><span class="n">node2</span><span class="p">,</span> <span class="n">node1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>	<span class="k">return</span> 	<span class="n">arc</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="ow">or</span> <span class="n">arc</span><span class="p">(</span><span class="n">node2</span><span class="p">,</span> <span class="n">node1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+		
+<span class="k">assert</span><span class="p">(</span><span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">K2</span><span class="p">))</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">C4</span><span class="p">))</span>
+<span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">C4</span><span class="p">))</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -386,12 +390,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-28'>#</a>
       </div>
-      <p>Unit tests for <code>adjacent()</code></p>
+      <p>A node is <strong>isolated</strong> if it is not adjacent to any other node.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">assert</span><span class="p">(</span><span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">K2</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">C4</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">C4</span><span class="p">))</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">isolated</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -400,10 +402,16 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-29'>#</a>
       </div>
-      <p>A node is <strong>isolated</strong> if it is not adjacent to any other node.</p>
+      
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">isolated</span> <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre>	<span class="k">for</span> <span class="n">node2</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">adjacent</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
+			<span class="k">return</span> <span class="bp">False</span>
+	<span class="k">return</span> <span class="bp">True</span>
+	
+<span class="k">assert</span><span class="p">(</span><span class="n">isolated</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N1</span><span class="p">))</span>
+<span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="n">isolated</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">K2</span><span class="p">))</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -412,13 +420,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-30'>#</a>
       </div>
-      
+      <p>The <strong>indegree</strong> of a node is the number of incoming arcs.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>	<span class="k">for</span> <span class="n">node2</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
-		<span class="k">if</span> <span class="n">adjacent</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
-			<span class="k">return</span> <span class="bp">False</span>
-	<span class="k">return</span> <span class="bp">True</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">indegree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -427,11 +432,14 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-31'>#</a>
       </div>
-      <p>Unit tests for <code>isolated()</code></p>
+      
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">assert</span><span class="p">(</span><span class="n">isolated</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N1</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="n">isolated</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">K2</span><span class="p">))</span></pre></div>
+      <div class="highlight"><pre>	<span class="n">degree</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="k">for</span> <span class="n">arc</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">head</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span> <span class="o">==</span> <span class="n">node</span><span class="p">:</span>
+			<span class="n">degree</span> <span class="o">=</span> <span class="n">degree</span> <span class="o">+</span> <span class="mi">1</span>
+	<span class="k">return</span> <span class="n">degree</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -440,10 +448,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-32'>#</a>
       </div>
-      <p>The <strong>indegree</strong> of a node is the number of incoming arcs.</p>
+      <p>The <strong>outdegree</strong> of a node is the number of outgoing arcs.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">indegree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">outdegree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -457,7 +465,7 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     <div class='code'>
       <div class="highlight"><pre>	<span class="n">degree</span> <span class="o">=</span> <span class="mi">0</span>
 	<span class="k">for</span> <span class="n">arc</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
-		<span class="k">if</span> <span class="n">head</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span> <span class="o">==</span> <span class="n">node</span><span class="p">:</span>
+		<span class="k">if</span> <span class="n">tail</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span> <span class="o">==</span> <span class="n">node</span><span class="p">:</span>
 			<span class="n">degree</span> <span class="o">=</span> <span class="n">degree</span> <span class="o">+</span> <span class="mi">1</span>
 	<span class="k">return</span> <span class="n">degree</span></pre></div>
     </div>
@@ -468,10 +476,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-34'>#</a>
       </div>
-      <p>The <strong>outdegree</strong> of a node is the number of outgoing arcs.</p>
+      <p>A node is a <strong>source</strong> if it has no incoming arcs.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">outdegree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -483,11 +491,7 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>	<span class="n">degree</span> <span class="o">=</span> <span class="mi">0</span>
-	<span class="k">for</span> <span class="n">arc</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
-		<span class="k">if</span> <span class="n">tail</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span> <span class="o">==</span> <span class="n">node</span><span class="p">:</span>
-			<span class="n">degree</span> <span class="o">=</span> <span class="n">degree</span> <span class="o">+</span> <span class="mi">1</span>
-	<span class="k">return</span> <span class="n">degree</span></pre></div>
+      <div class="highlight"><pre>	<span class="k">return</span> <span class="n">indegree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -495,30 +499,6 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-36'>#</a>
-      </div>
-      <p>A node is a <strong>source</strong> if it has no incoming arcs.</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">source</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-37'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-37'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>	<span class="k">return</span> <span class="n">indegree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-38'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-38'>#</a>
       </div>
       <p>Unit tests for <code>source()</code></p>
     </div>
@@ -528,10 +508,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-39'>
+  <div class='section' id='section-37'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-39'>#</a>
+        <a class='octothorpe' href='#section-37'>#</a>
       </div>
       <p>A node is a <strong>sink</strong> if it has no outgoing arcs.</p>
     </div>
@@ -540,10 +520,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-40'>
+  <div class='section' id='section-38'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-40'>#</a>
+        <a class='octothorpe' href='#section-38'>#</a>
       </div>
       
     </div>
@@ -552,10 +532,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-41'>
+  <div class='section' id='section-39'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-41'>#</a>
+        <a class='octothorpe' href='#section-39'>#</a>
       </div>
       <p>Unit tests for <code>sink()</code></p>
     </div>
@@ -565,10 +545,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-42'>
+  <div class='section' id='section-40'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-42'>#</a>
+        <a class='octothorpe' href='#section-40'>#</a>
       </div>
       <h3>Exercises</h3>
 <ol>
@@ -583,10 +563,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-43'>
+  <div class='section' id='section-41'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-43'>#</a>
+        <a class='octothorpe' href='#section-41'>#</a>
       </div>
       <h2>Graph properties</h2>
     </div>
@@ -595,10 +575,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-44'>
+  <div class='section' id='section-42'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-44'>#</a>
+        <a class='octothorpe' href='#section-42'>#</a>
       </div>
       <p>The graph's <strong>size</strong> is the number of its arcs.</p>
     </div>
@@ -607,10 +587,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-45'>
+  <div class='section' id='section-43'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-45'>#</a>
+        <a class='octothorpe' href='#section-43'>#</a>
       </div>
       
     </div>
@@ -619,10 +599,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-46'>
+  <div class='section' id='section-44'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-46'>#</a>
+        <a class='octothorpe' href='#section-44'>#</a>
       </div>
       <p>Unit tests for <code>size()</code></p>
     </div>
@@ -634,10 +614,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-47'>
+  <div class='section' id='section-45'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-47'>#</a>
+        <a class='octothorpe' href='#section-45'>#</a>
       </div>
       <p>The graph's <strong>order</strong> is the number of its nodes.</p>
     </div>
@@ -646,10 +626,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-48'>
+  <div class='section' id='section-46'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-48'>#</a>
+        <a class='octothorpe' href='#section-46'>#</a>
       </div>
       
     </div>
@@ -658,10 +638,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-49'>
+  <div class='section' id='section-47'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-49'>#</a>
+        <a class='octothorpe' href='#section-47'>#</a>
       </div>
       <p>Unit tests for <code>order()</code></p>
     </div>
@@ -673,10 +653,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-50'>
+  <div class='section' id='section-48'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-50'>#</a>
+        <a class='octothorpe' href='#section-48'>#</a>
       </div>
       <p>A graph is <strong>simple</strong> if it has no loops and no duplicate arcs.</p>
     </div>
@@ -685,25 +665,25 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-51'>
+  <div class='section' id='section-49'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-51'>#</a>
+        <a class='octothorpe' href='#section-49'>#</a>
       </div>
       
     </div>
     <div class='code'>
       <div class="highlight"><pre>	<span class="k">for</span> <span class="n">arc</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
-		<span class="k">if</span> <span class="n">loop</span><span class="p">(</span><span class="n">arc</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">is_loop</span><span class="p">(</span><span class="n">arc</span><span class="p">):</span>
 			<span class="k">return</span> <span class="bp">False</span>
 	<span class="k">return</span> <span class="bp">True</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-52'>
+  <div class='section' id='section-50'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-52'>#</a>
+        <a class='octothorpe' href='#section-50'>#</a>
       </div>
       <p>Unit tests for <code>simple()</code></p>
     </div>
@@ -715,15 +695,47 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-53'>
+  <div class='section' id='section-51'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-53'>#</a>
+        <a class='octothorpe' href='#section-51'>#</a>
       </div>
       <p>An <strong>oriented</strong> graph is an undirected graph with a direction imposed on each edge.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">oriented</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-52'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-52'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">for</span> <span class="n">arc</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">is_loop</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span> <span class="ow">and</span> <span class="n">invert</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+			<span class="k">return</span> <span class="bp">False</span>
+	<span class="k">return</span> <span class="bp">True</span>		
+	
+<span class="k">assert</span><span class="p">(</span><span class="n">oriented</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">))</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">oriented</span><span class="p">(</span><span class="n">N1</span><span class="p">))</span>
+<span class="k">assert</span><span class="p">(</span><span class="n">oriented</span><span class="p">(</span><span class="n">LOOP</span><span class="p">))</span>
+<span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="n">oriented</span><span class="p">(</span><span class="n">K2</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-53'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-53'>#</a>
+      </div>
+      <p>A digraph is <strong>symmetric</strong> if for every arc it also has the inverted arc.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">symmetric</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -736,14 +748,9 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>	<span class="k">for</span> <span class="n">arc</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
-		<span class="k">if</span> <span class="ow">not</span> <span class="n">loop</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span> <span class="ow">and</span> <span class="n">inverted</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">invert</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
 			<span class="k">return</span> <span class="bp">False</span>
-	<span class="k">return</span> <span class="bp">True</span>		
-	
-<span class="k">assert</span><span class="p">(</span><span class="n">oriented</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">oriented</span><span class="p">(</span><span class="n">N1</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">oriented</span><span class="p">(</span><span class="n">LOOP</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="n">oriented</span><span class="p">(</span><span class="n">K2</span><span class="p">))</span></pre></div>
+	<span class="k">return</span> <span class="bp">True</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -751,33 +758,6 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-55'>#</a>
-      </div>
-      <p>A digraph is <strong>symmetric</strong> if for every arc it also has the inverted arc.</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">symmetric</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-56'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-56'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>	<span class="k">for</span> <span class="n">arc</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
-		<span class="k">if</span> <span class="n">inverted</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
-			<span class="k">return</span> <span class="bp">False</span>
-	<span class="k">return</span> <span class="bp">True</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-57'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-57'>#</a>
       </div>
       <p>Unit tests for <code>symmetric()</code></p>
     </div>
@@ -790,10 +770,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-58'>
+  <div class='section' id='section-56'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-58'>#</a>
+        <a class='octothorpe' href='#section-56'>#</a>
       </div>
       <p>A digraph is <strong>balanced</strong> if every node has the same in and out degrees.</p>
     </div>
@@ -802,10 +782,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-59'>
+  <div class='section' id='section-57'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-59'>#</a>
+        <a class='octothorpe' href='#section-57'>#</a>
       </div>
       
     </div>
@@ -817,10 +797,10 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-60'>
+  <div class='section' id='section-58'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-60'>#</a>
+        <a class='octothorpe' href='#section-58'>#</a>
       </div>
       <p>Unit tests for <code>balanced()</code></p>
     </div>
@@ -833,15 +813,46 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-61'>
+  <div class='section' id='section-59'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-61'>#</a>
+        <a class='octothorpe' href='#section-59'>#</a>
       </div>
       <p>A tournament is a digraph with exactly one arc for each pair of distinct nodes.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">tournament</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-60'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-60'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>	<span class="k">for</span> <span class="n">node1</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+		<span class="k">for</span> <span class="n">node2</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+			<span class="k">if</span> <span class="n">node1</span> <span class="o">!=</span> <span class="n">node2</span><span class="p">:</span>
+				<span class="n">has_arc</span> <span class="o">=</span> <span class="n">arc</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+				<span class="n">has_inverted</span> <span class="o">=</span> <span class="n">invert</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+				<span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">has_arc</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">has_inverted</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">has_arc</span> <span class="ow">and</span> <span class="n">has_inverted</span><span class="p">):</span>
+					<span class="k">return</span> <span class="bp">False</span>
+	<span class="k">return</span> <span class="bp">True</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-61'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-61'>#</a>
+      </div>
+      <p>A graph is <strong>acyclic</strong> if it has no cycles.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">acyclic</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -853,14 +864,7 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>	<span class="k">for</span> <span class="n">node1</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
-		<span class="k">for</span> <span class="n">node2</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
-			<span class="k">if</span> <span class="n">node1</span> <span class="o">!=</span> <span class="n">node2</span><span class="p">:</span>
-				<span class="n">has_arc</span> <span class="o">=</span> <span class="n">make_arc</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
-				<span class="n">has_inverted</span> <span class="o">=</span> <span class="n">inverted</span><span class="p">(</span><span class="n">arc</span><span class="p">)</span> <span class="ow">in</span> <span class="n">arcs</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
-				<span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">has_arc</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">has_inverted</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">has_arc</span> <span class="ow">and</span> <span class="n">has_inverted</span><span class="p">):</span>
-					<span class="k">return</span> <span class="bp">False</span>
-	<span class="k">return</span> <span class="bp">True</span></pre></div>
+      <div class="highlight"><pre>	<span class="k">return</span> <span class="bp">False</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -868,30 +872,6 @@ It is usually drawn as a pentagram connected to a pentagon.</p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-63'>#</a>
-      </div>
-      <p>A graph is <strong>acyclic</strong> if it has no cycles.</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">acyclic</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-64'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-64'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>	<span class="k">return</span> <span class="bp">False</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-65'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-65'>#</a>
       </div>
       <h3>Exercises</h3>
 <ol>
