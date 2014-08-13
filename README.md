@@ -1,6 +1,6 @@
-# digraph.py
+# SINPLE
 
-This is a pedagogical (*not* a state-of-the-art) implementation of directed graphs in Python.
+SINPLE (SImple Network Python Library for Education) is a pedagogical (*not* a state-of-the-art) implementation of basic network concepts in Python.
 
 It is pedagogical at various levels:
 

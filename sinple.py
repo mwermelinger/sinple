@@ -1,5 +1,5 @@
 """
-This is a pedagogical implementation of directed graphs in Python.
+SINPLE (SImple Network Python Library for Education) is a pedagogical implementation of basic network concepts in Python.
 
 It is pedagogical at various levels:
 
