@@ -90,9 +90,9 @@ def arc(tail, head):
 # Arc properties
 # --------------
 
-def invert(arc):
+def invert(an_arc):
 	"""The **inverted arc** has its head and tail swapped."""
-	return arc(head(arc), tail(arc))
+	return arc(head(an_arc), tail(an_arc))
 	
 def is_loop(arc):
 	"""An arc is a **loop** if it connects a node to itself."""
@@ -240,7 +240,7 @@ def tournament(graph):
 		for node2 in nodes(graph):
 			if node1 != node2:
 				has_arc = arc(node1, node2) in arcs(graph)
-				has_inverted = invert(arc) in arcs(graph)
+				has_inverted = invert(arc(node1, node2)) in arcs(graph)
 				if (not has_arc and not has_inverted) or (has_arc and has_inverted):
 					return False
 	return True
