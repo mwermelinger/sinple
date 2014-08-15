@@ -1,255 +1,266 @@
 """
-Many systems can be represented as networks, e.g. transport connections, gene regulation, social interactions, the World Wide Web. [Network science](http://en.wikipedia.org/wiki/Network_science) is an increasingly important field to analyse and predict the behaviour of such systems. 
+SImple Network Python Library for Education (SINPLE), version 0.1
 
-SINPLE is a SImple Network Python Library for Education. SINPLE does *not* enable analysis of large networks; there are various state-of-the-art libraries for that. Instead SINPLE's aims are pedagogical:
+Michel Wermelinger, 15 August 2014
+
+Many systems can be represented as networks, e.g. transport connections,
+gene regulation, social interactions, the World Wide Web.
+[Network science](http://en.wikipedia.org/wiki/Network_science) is an
+important field to analyse and predict the behaviour of such systems.
+
+SINPLE does *not* enable analysis of large networks;
+there are various state-of-the-art libraries for that.
+Instead SINPLE's aims are pedagogical:
 
 - it illustrates basic Python constructs: loops, functions, tuples, sets, etc;
-- it illustrates simple forms of [unit testing](http://en.wikipedia.org/wiki/Unit_testing) and [preconditions](http://en.wikipedia.org/wiki/Precondition) using assertions;
-- it explains basic network concepts through executable definitions (the functions) and concrete examples (the unit tests);
+- it illustrates simple forms of
+[unit testing](http://en.wikipedia.org/wiki/Unit_testing) and
+[preconditions](http://en.wikipedia.org/wiki/Precondition) using assertions;
+- it explains basic network concepts through executable definitions
+(the functions) and concrete examples (the unit tests);
 - it includes small exercises and larger projects;
-- it is extensively documented in a simple [literate programming](http://en.wikipedia.org/wiki/Literate_programming) style. 
+- it is extensively documented in a simple [literate
+programming](http://en.wikipedia.org/wiki/Literate_programming) style.
 
-Running [Pycco](http://fitzgen.github.io/pycco/) on the source code (`pycco -d . sinple.py`) generates `sinple.html` with a side-by-side view of documentation and code. 
+Running [Pycco](http://fitzgen.github.io/pycco/) on the source code
+(`pycco -d . sinple.py`) generates `sinple.html`,
+a side-by-side view of documentation and code.
 
 The latest version of SINPLE can be found on http://tiny.cc/sinple.
-
-Digraph representation
-----------------------
-A digraph (short for 'directed graph') is represented by a pair `(nodes, arcs)`, where `nodes` is the *set* of unique node names (e.g. integers or strings) and `arcs` is the *set* of arcs. Each arc is a pair of node names `(tail, head)`, stating there is a directed arc from the `tail` node to the `head` node.
-
-The terminology was taken from the Wikipedia page on [digraphs](http://en.wikipedia.org/wiki/Digraph_(mathematics)).
 """
 
-# Example graphs
-# --------------
-# The following digraphs will be used as unit tests for functions. 
+# Coding conventions
+# ------------------
+# Functions named with adjectives or `is_`noun return booleans.
+# Functions named with nouns return network entities or metrics.
+# The code passes the [PEP8 style checker](https://github.com/jcrocholl/pep8).
 
-# The **empty graph** has no nodes and hence no arcs.
-EMPTY = (set(), set())		# {} is the empty dictionary, not the empty set
+# Network representation
+# ----------------------
+# The mathematical basis of network science is graph theory.
+# Graph terminology varies among authors.
+# We will mostly follow the Wikipedia [glossary of graph
+# theory](http://en.wikipedia.org/wiki/Glossary_of_graph_theory).
+#
+# In SINPLE, a **network** (also called a **graph**)
+# is a set of **nodes** connected by a set of undirected **edges**.
+# Each pair of nodes is connected by one edge or it is not connected.
+# A node may be connected to itself.
+#
+# SINPLE represents a network by a pair `(nodes, edges)`,
+# where `nodes` is a Python set of node names (e.g. integers or strings)
+# and `edges` is a Python set of edges.
+# Each edge is represented by a pair of node names `(node1, node2)`.
+# The order of the two nodes does not matter.
+#
+# The functions in this and the next section encapsulate this representation
+# from the rest of the library.
 
-# A **null graph** N*n* has *n* nodes but no arcs.
-N1 = ({1}, set())			# also called the trivial graph
-N2 = ({1,2}, set())
 
-# The smallest non-simple graph has a single node connected to itself.
-LOOP = ({1}, {(1,1)})
+def edges(graph):
+    """Return the set of the graph's edges"""
+    (nodes, edges) = graph
+    return edges
 
-# A **cycle graph** C*n* has *n* nodes connected in a 'round-robin' fashion. 
-# Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, hexagon, etc.
-C3 = ({1,2,3}, {(1,2), (2,3), (3,1)})               		
-C4 = ({1,2,3,4}, {(1,2), (2,3), (3,4), (4,1)})      		
-C5 = ({1,2,3,4,5},{(1,2), (2,3), (3,4), (4,5), (5,1)})     
 
-# In a **complete graph** K*n*, each of the *n* nodes is connected to all other *n-1* nodes.
-K2 = ({1,2}, {(1,2), (2,1)})
-K3 = ({1,2,3}, {(1,2), (1,3), (2,1), (2,3), (3,1), (3,2)})
+def nodes(graph):
+    """Return the set of the graph's nodes."""
+    (nodes, edges) = graph
+    return nodes
 
-# The **Petersen graph** is a (counter-)example of various graph theory concepts.
-# It is usually drawn as a pentagram connected to a pentagon.
-PETERSEN = ({1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 
-            {(1,2), (2,3), (3,4), (4,5), (5,1),     # the outer C5 (pentagon)
-             (6,8), (8, 10), (10, 7), (7,9), (9,6), # the inner C5 (pentagram)
-             (1,6), (2,7), (3,8), (4,9), (5,10)     # connected to one another
-            })
+
+def edge(node1, node2):
+    """Create an edge connecting the two nodes."""
+    return (node1, node2)
+
+
+def endpoints(edge):
+    """Return the **endpoints** of the edge, i.e. the nodes it connects."""
+    (node1, node2) = edge
+    return {node1, node2}
+
+
+def incident(edge, node):
+    """An edge is **incident** to the nodes it connects, and vice-versa."""
+    return node in endpoints(edge)
+
+assert(incident(edge(1, 2), 1))
+assert(incident(edge(1, 2), 2))
+assert(not incident(edge(1, 2), 3))
+
+
+def is_loop(edge):
+    """An edge is a **loop** if it connects a node to itself."""
+    return len(endpoints(edge)) == 1
+
+assert(is_loop(edge("A", "A")))
+assert(not is_loop(edge("A", "B")))
+
+# ### Network creation and example networks
+#
+# The following functions construct new graphs.
+# The example graphs are used in further unit tests.
+
+
+def null(n):
+    """Return the **null graph** with nodes numbered 1 to *n* and no edges."""
+    return ({x for x in range(1, n+1)}, set())
+
+# The **empty graph** has no nodes and hence no edges.
+EMPTY = null(0)
+
+# The **trivial graph** has a single node and no edges.
+N1 = null(1)
+N2 = null(2)
+
+
+def add_edges(edgeset, graph):
+    """Add the edge set and their incident nodes to the graph."""
+    nodeset = set()
+    for edge in edgeset:
+        nodeset = nodeset | endpoints(edge)
+    return (nodes(graph) | nodeset, edges(graph) | edgeset)
+
+
+def network(edges):
+    """Create a network from the given edges."""
+    return add_edges(edges, EMPTY)
+
+# The smallest non-simple graph has a single loop.
+LOOP = network({edge(1, 1)})
+
+# A **complete graph** K*n* connects each node to all other *n-1* nodes.
+K2 = network({edge(1, 2)})
+K3 = network({edge(1, 2), edge(1, 3), edge(2, 3)})
+
+
+def delete_edges(edgeset, graph):
+    """Remove the edge set, but not their incident nodes, from the graph."""
+    return (nodes(graph), edges(graph) - edgeset)
+
+# A **cycle graph** C*n* has *n* nodes connected in a 'round-robin' fashion.
+# Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, etc.
+C3 = network({edge(1, 2), edge(2, 3), edge(3, 1)})
+C4 = add_edges({edge(3, 4), edge(4, 1)}, delete_edges({edge(3, 1)}, C3))
+C5 = add_edges({edge(4, 5), edge(5, 1)}, delete_edges({edge(4, 1)}, C4))
+
+# The **Petersen graph** is a (counter-)example of various graph concepts.
+PETERSEN = add_edges({
+    # It is usually drawn as an inner pentagram (C5)
+    edge(6, 8), edge(8, 10), edge(10, 7), edge(7, 9), edge(9, 6),
+    # connected to
+    edge(1, 6), edge(2, 7), edge(3, 8), edge(4, 9), edge(5, 10)},
+    # an outer pentagon (C5).
+    C5)
+
+# In December 1970, the Arpanet (the precursor of the Internet) had 13 nodes.
+# Source: http://som.csudh.edu/cis/lpress/history/arpamaps.
+ARPANET = network({
+    edge("SRI", "Stanford"), edge("SRI", "UCSB"),
+    edge("SRI", "UCLA"), edge("SRI", "Utah"),
+    edge("Stanford", "UCLA"), edge("UCLA", "UCSB"), edge("UCLA", "RAND"),
+    edge("RAND", "SDC"), edge("SDC", "Utah"), edge("UTAH", "MIT"),
+    edge("RAND", "BBN"), edge("MIT", "BBN"), edge("BBN", "Harvard"),
+    edge("Harvard", "Carnegie"), edge("Carnegie", "CASE"),
+    edge("CASE", "Lincoln"), edge("Lincoln", "MIT")
+    })
 
 # ### Exercises
 #
+# 1. Consult the Python documentation about sets.
+# Explain how `null()` works, and why `{}` wasn't used instead of `set()`.
+# 1. Explain how `add_edges()` works. Why isn't `edgseset` just named `edges`?
+# 1. Draw the Petersen graph on paper and label the nodes as in `PETERSEN`.
+# 1. Explain how C4 is constructed from C3.
 # 1. Define K1 and C2.
 
-K1 = N1
-C2 = ({1, 2}, {(1,2), (2,1)})
-
-# Basic functions
-# ---------------
-# These functions make the remaining functions independent of the actual data structure.
-
-def arcs(graph):
-	"""Return the set of the graph's arcs"""
-	(nodes, arcs) = graph
-	return arcs
-	
-def nodes(graph):
-	"""Return the set of the graph's nodes."""
-	(nodes, arcs) = graph
-	return nodes
-	
-def tail(arc):
-	"""The **tail** of an arc is the node it points *from*."""
-	(tail, head) = arc
-	return tail
-	
-def head(arc):
-	"""The **head** of an arc is the node it points *to*."""
-	(tail, head) = arc
-	return head
-	
-def arc(tail, head):
-	"""Create an arc from tail node to head node."""
-	return (tail, head)
-	
-# Arc properties
-# --------------
-
-def invert(an_arc):
-	"""The **inverted arc** has its head and tail swapped."""
-	return arc(head(an_arc), tail(an_arc))
-	
-def is_loop(arc):
-	"""An arc is a **loop** if it connects a node to itself."""
-	return tail(arc) == head(arc)
-	
 # Node properties
 # ---------------
 
+
+def degree(node, graph):
+    """A node's **degree** is the number of incident edge tips.
+
+    Loops count twice, so that each edge contributes 2 to the degree sum.
+    """
+    degree = 0
+    for edge in edges(graph):
+        if incident(edge, node):
+            degree = degree + 1
+            if is_loop(edge):
+                degree = degree + 1
+    return degree
+
+assert(degree(1, N1) == 0)
+assert(degree(1, LOOP) == 2)
+assert(degree(1, C4) == 2)
+assert(degree(6, PETERSEN) == 3)
+
+
 def adjacent(node1, node2, graph):
-	"""Two nodes are **adjacent** if an arc connects them in either direction."""
-	return 	arc(node1, node2) in arcs(graph) or arc(node2, node1) in arcs(graph)
-		
+    """Two nodes are **adjacent** if an edge connects them."""
+    return edge(node1, node2) in edges(graph) \
+        or edge(node2, node1) in edges(graph)
+
 assert(adjacent(1, 2, K2))
 assert(adjacent(1, 4, C4))
+assert(adjacent(1, 1, LOOP))
+assert(not adjacent(1, 1, K2))
 assert(not adjacent(1, 3, C4))
 
+
 def isolated(node, graph):
-	"""A node is **isolated** if it is not adjacent to any other node."""
-	for node2 in nodes(graph):
-		if adjacent(node, node2, graph):
-			return False
-	return True
-	
+    """A node is **isolated** if it is not adjacent to any other node."""
+    for node2 in nodes(graph):
+        if adjacent(node, node2, graph):
+            return False
+    return True
+
 assert(isolated(1, N1))
 assert(not isolated(1, K2))
 
-def indegree(node, graph):
-	"""The **indegree** of a node is the number of incoming arcs."""	
-	degree = 0
-	for arc in arcs(graph):
-		if head(arc) == node:
-			degree = degree + 1
-	return degree
-	
-def outdegree(node, graph):
-	"""The **outdegree** of a node is the number of outgoing arcs."""
-	degree = 0
-	for arc in arcs(graph):
-		if tail(arc) == node:
-			degree = degree + 1
-	return degree
-
-def source(node, graph):
-	"""A node is a **source** if it has no incoming arcs."""
-	return indegree(node, graph) == 0
-	
-# Unit tests for `source()`
-assert(source(1, N1))
-assert(not source(3, C4))
-
-def sink(node, graph):
-	"""A node is a **sink** if it has no outgoing arcs."""
-	return outdegree(node, graph) == 0
-
-# Unit tests for `sink()`
-assert(sink(1, N1))
-assert(not sink(3, C4))
-
 # ### Exercises
 #
-# 1. Implement `outdegree()` and `sink()` and un-comment its unit tests.
-# 1. Rewrite `adjacent()` to make it more efficient, by searching the arc set only once.
-# 1. Is every node adjacent to itself? Does that depend on the existence of a loop? Look for answers on the internet, modify `adjacent()` if needed, and create further unit tests. 
-# 1. Write another version of `isolated()` using the degree concept. Which is more efficient?
+# 1. Make `adjacent()` more efficient, searching the edge set once.
+# 1. Is every node adjacent to itself?
+#    Does that depend on the existence of a loop?
+#    Look for answers on the internet, modify `adjacent()` if needed,
+#    and create further unit tests.
+# 1. Rewrite `isolated()` without using `adjacent()`.
+#    Which version is more efficient?
 
 # Graph properties
 # ----------------
 
-def size(graph):
-	"""The graph's **size** is the number of its arcs."""
-	return len(arcs(graph))
 
-# Unit tests for `size()`
+def size(graph):
+    """The graph's **size** is the number of its edges."""
+    return len(edges(graph))
+
 assert(size(EMPTY) == 0)
 assert(size(N1) == 0)
 assert(size(C3) == 3)
 assert(size(PETERSEN) == 15)
-	
+
+
 def order(graph):
-	"""The graph's **order** is the number of its nodes."""
-	return len(nodes(graph))
-	
-# Unit tests for `order()`
+    """The graph's **order** is the number of its nodes."""
+    return len(nodes(graph))
+
 assert(order(EMPTY) == 0)
 assert(order(N1) == 1)
 assert(order(C3) == 3)
 assert(order(PETERSEN) == 10)
 
+
 def simple(graph):
-	"""A graph is **simple** if it has no loops and no duplicate arcs."""
-	for arc in arcs(graph):
-		if is_loop(arc):
-			return False
-	return True
-	
-# Unit tests for `simple()`
+    """A graph is **simple** if it has no loops."""
+    for edge in edges(graph):
+        if is_loop(edge):
+            return False
+    return True
+
 assert(simple(EMPTY))
 assert(simple(N1))
 assert(simple(PETERSEN))
 assert(not simple(LOOP))
-	
-def oriented(graph):
-	"""An **oriented** graph is an undirected graph with a direction imposed on each edge."""
-	for arc in arcs(graph):
-		if not is_loop(arc) and invert(arc) in arcs(graph):
-			return False
-	return True		
-	
-assert(oriented(EMPTY))
-assert(oriented(N1))
-assert(oriented(LOOP))
-assert(not oriented(K2))
-
-def symmetric(graph):
-	"""A digraph is **symmetric** if for every arc it also has the inverted arc."""
-	for arc in arcs(graph):
-		if invert(arc) not in arcs(graph):
-			return False
-	return True
-	
-# Unit tests for `symmetric()`
-assert(symmetric(EMPTY))
-assert(symmetric(N1))
-assert(symmetric(LOOP))
-assert(symmetric(K2))
-assert(not symmetric(C3))
-
-def balanced(graph):
-	"""A digraph is **balanced** if every node has the same in and out degrees."""
-	for node in nodes(graph):
-		if indegree(node, graph) != outdegree(node, graph):
-			return False
-	return True
-
-# Unit tests for `balanced()`
-assert(balanced(EMPTY))
-assert(balanced(N1))
-assert(balanced(K2))
-assert(balanced(C3))
-assert(not balanced(PETERSEN))
-
-def tournament(graph):
-	"""A **tournament** is a digraph with exactly one arc for each pair of distinct nodes."""
-	for node1 in nodes(graph):
-		for node2 in nodes(graph):
-			if node1 != node2:
-				has_arc = arc(node1, node2) in arcs(graph)
-				has_inverted = invert(arc(node1, node2)) in arcs(graph)
-				if (not has_arc and not has_inverted) or (has_arc and has_inverted):
-					return False
-	return True
-	
-def acyclic(graph):
-	"""A graph is **acyclic** if it has no cycles."""
-	return False
-	
-# ### Exercises
-#
-# 1. Why doesn't `simple()` check for duplicate arcs?
-# 1. Rewrite `simple()` to make it more efficient. Hint: usually the order is smaller than the size. 
