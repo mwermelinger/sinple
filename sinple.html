@@ -170,10 +170,14 @@ from the rest of the library.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-9'>#</a>
       </div>
-      <p>Return the edge's <strong>endpoints</strong>, i.e. the set of nodes it connects.</p>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Consult the Python documentation about sets.
+  Why is an edge represented by a frozen (i.e. immutable) set?</li>
+</ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">endpoints</span><span class="p">(</span><span class="n">edge</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -181,6 +185,18 @@ from the rest of the library.</p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>Return the edge's <strong>endpoints</strong>, i.e. the set of nodes it connects.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">endpoints</span><span class="p">(</span><span class="n">edge</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
       </div>
       
     </div>
@@ -191,10 +207,10 @@ from the rest of the library.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-11'>
+  <div class='section' id='section-12'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-11'>#</a>
+        <a class='octothorpe' href='#section-12'>#</a>
       </div>
       <p>Return the <strong>null graph</strong> with nodes numbered 1 to <em>n</em> and no edges.</p>
     </div>
@@ -203,31 +219,20 @@ from the rest of the library.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-12'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-12'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="k">return</span> <span class="p">({</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)},</span> <span class="nb">set</span><span class="p">())</span>
-
-<span class="k">assert</span> <span class="n">nodes</span><span class="p">(</span><span class="n">null</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">==</span> <span class="nb">set</span><span class="p">()</span>
-<span class="k">assert</span> <span class="n">edges</span><span class="p">(</span><span class="n">null</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">==</span> <span class="nb">set</span><span class="p">()</span>
-<span class="k">assert</span> <span class="n">nodes</span><span class="p">(</span><span class="n">null</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">==</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">}</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-13'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-13'>#</a>
       </div>
-      <p>Add the set of edges and their incident nodes to the graph.</p>
+      
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">add_edges</span><span class="p">(</span><span class="n">edgeset</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="p">({</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)},</span> <span class="nb">set</span><span class="p">())</span>
+
+<span class="k">assert</span> <span class="n">nodes</span><span class="p">(</span><span class="n">null</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span> <span class="o">==</span> <span class="nb">set</span><span class="p">()</span>
+<span class="k">assert</span> <span class="n">edges</span><span class="p">(</span><span class="n">null</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">==</span> <span class="nb">set</span><span class="p">()</span>
+<span class="k">assert</span> <span class="n">nodes</span><span class="p">(</span><span class="n">null</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="o">==</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">}</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -236,7 +241,34 @@ from the rest of the library.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-14'>#</a>
       </div>
-      <p>Return a new graph.</p>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Explain how <code>null()</code> works. Why is <code>set()</code> used instead of <code>{}</code>?</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <p>Add a set of edges and their endpoints to a graph to create a new graph.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">add_edges</span><span class="p">(</span><span class="n">edgeset</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="n">nodeset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -248,41 +280,18 @@ from the rest of the library.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-15'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-15'>#</a>
-      </div>
-      <p>Remove the edge set, but not their incident nodes, from the graph.</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">delete_edges</span><span class="p">(</span><span class="n">edgeset</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-16'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-16'>#</a>
-      </div>
-      <p>Return a new graph.</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="k">return</span> <span class="p">(</span><span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">),</span> <span class="n">edges</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="o">-</span> <span class="n">edgeset</span><span class="p">)</span>
-
-<span class="k">assert</span> <span class="n">delete_edges</span><span class="p">({</span><span class="n">edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)},</span> <span class="n">add_edges</span><span class="p">({</span><span class="n">edge</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)},</span> <span class="n">null</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span> <span class="o">==</span> <span class="n">null</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-17'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-17'>#</a>
       </div>
-      <p>Create a network from the given set of edges.</p>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Explain how <code>add_edges()</code> works. Why isn't <code>edgseset</code> just named <code>edges</code>?</li>
+</ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">network</span><span class="p">(</span><span class="n">edgeset</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -291,10 +300,10 @@ from the rest of the library.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-18'>#</a>
       </div>
-      
+      <p>Remove a set of edges from a graph to create a new graph.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">add_edges</span><span class="p">(</span><span class="n">edgeset</span><span class="p">,</span> <span class="n">null</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">delete_edges</span><span class="p">(</span><span class="n">edgeset</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -303,11 +312,12 @@ from the rest of the library.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-19'>#</a>
       </div>
-      <h3>Example networks</h3>
-<p>The example graphs are used in further unit tests.</p>
+      
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="p">(</span><span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">),</span> <span class="n">edges</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="o">-</span> <span class="n">edgeset</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">delete_edges</span><span class="p">({</span><span class="n">edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)},</span> <span class="n">add_edges</span><span class="p">({</span><span class="n">edge</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)},</span> <span class="n">null</span><span class="p">(</span><span class="mi">0</span><span class="p">)))</span> <span class="o">==</span> <span class="n">null</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -316,10 +326,16 @@ from the rest of the library.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-20'>#</a>
       </div>
-      <p>The <strong>empty graph</strong> has no nodes and hence no edges.</p>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Write a function to remove a set of nodes from a graph.</li>
+<li>Write a function <code>subgraph(nodeset, graph)</code> that returns the <strong>subgraph</strong>
+  with the nodes of <code>graph</code> that are in <code>nodeset</code> and the edges of <code>graph</code>
+  that connect those nodes.</li>
+</ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="n">EMPTY</span> <span class="o">=</span> <span class="n">null</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -327,6 +343,55 @@ from the rest of the library.</p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      <p>Create a network from the given set of edges.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">network</span><span class="p">(</span><span class="n">edgeset</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">add_edges</span><span class="p">(</span><span class="n">edgeset</span><span class="p">,</span> <span class="n">null</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      <h3>Example networks</h3>
+<p>These examples are used in further unit tests.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      <p>The <strong>empty graph</strong> has no nodes and hence no edges.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">EMPTY</span> <span class="o">=</span> <span class="n">null</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-25'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-25'>#</a>
       </div>
       <p>The <strong>trivial graph</strong> has a single node and no edges.</p>
     </div>
@@ -336,10 +401,10 @@ from the rest of the library.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-22'>
+  <div class='section' id='section-26'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-22'>#</a>
+        <a class='octothorpe' href='#section-26'>#</a>
       </div>
       <p>The smallest non-simple graph has a single loop.</p>
     </div>
@@ -348,10 +413,10 @@ from the rest of the library.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-23'>
+  <div class='section' id='section-27'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-23'>#</a>
+        <a class='octothorpe' href='#section-27'>#</a>
       </div>
       <p>A <strong>complete graph</strong> K<em>n</em> connects each node to all other <em>n-1</em> nodes.</p>
     </div>
@@ -361,10 +426,28 @@ from the rest of the library.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-24'>
+  <div class='section' id='section-28'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-24'>#</a>
+        <a class='octothorpe' href='#section-28'>#</a>
+      </div>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Define K1.</li>
+<li>Write a function to create a complete graph, given the number of nodes.
+  Don't forget to write a precondition and unit tests.
+  Hint: compare the output to the 'manually' created K1, K2, K3.</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-29'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-29'>#</a>
       </div>
       <p>A <strong>cycle graph</strong> C<em>n</em> has <em>n</em> nodes connected in a 'round-robin' fashion.
 Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, etc.</p>
@@ -376,10 +459,27 @@ Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, etc.</p
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-25'>
+  <div class='section' id='section-30'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-25'>#</a>
+        <a class='octothorpe' href='#section-30'>#</a>
+      </div>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Define C2.</li>
+<li>Explain how C4 is constructed from C3.</li>
+<li>Write a function to create a cycle graph, given the number of nodes.</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-31'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-31'>#</a>
       </div>
       <p>The <strong>Petersen graph</strong> is a (counter-)example of various graph concepts.</p>
     </div>
@@ -388,10 +488,10 @@ Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, etc.</p
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-26'>
+  <div class='section' id='section-32'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-26'>#</a>
+        <a class='octothorpe' href='#section-32'>#</a>
       </div>
       <p>It is usually drawn as an inner pentagram (C5)</p>
     </div>
@@ -400,10 +500,10 @@ Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, etc.</p
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-27'>
+  <div class='section' id='section-33'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-27'>#</a>
+        <a class='octothorpe' href='#section-33'>#</a>
       </div>
       <p>connected to</p>
     </div>
@@ -412,10 +512,10 @@ Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, etc.</p
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-28'>
+  <div class='section' id='section-34'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-28'>#</a>
+        <a class='octothorpe' href='#section-34'>#</a>
       </div>
       <p>an outer pentagon (C5).</p>
     </div>
@@ -424,10 +524,25 @@ Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, etc.</p
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-29'>
+  <div class='section' id='section-35'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-29'>#</a>
+        <a class='octothorpe' href='#section-35'>#</a>
+      </div>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Draw the Petersen graph on paper and label the nodes as in <code>PETERSEN</code>.</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-36'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-36'>#</a>
       </div>
       <p>In December 1970, the Arpanet (the precursor of the Internet) had 13 nodes.
 Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
@@ -445,33 +560,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-30'>
+  <div class='section' id='section-37'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-30'>#</a>
-      </div>
-      <h3>Exercises</h3>
-<ol>
-<li>Consult the Python documentation about sets.
-   Explain why an edge is represented by a frozen (i.e. immutable) set.</li>
-<li>Explain how <code>null()</code> works. Why isn't <code>{}</code> used instead of <code>set()</code>?</li>
-<li>Explain how <code>add_edges()</code> works. Why isn't <code>edgseset</code> just named <code>edges</code>?</li>
-<li>Draw the Petersen graph on paper and label the nodes as in <code>PETERSEN</code>.</li>
-<li>Explain how C4 is constructed from C3.</li>
-<li>Define K1 and C2.</li>
-<li>Write a function that creates a cycle graph, given the number of nodes.</li>
-<li>Write a function that creates a complete graph, given the number of nodes.</li>
-</ol>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-31'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-31'>#</a>
+        <a class='octothorpe' href='#section-37'>#</a>
       </div>
       <h2>Edge properties</h2>
     </div>
@@ -480,10 +572,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-32'>
+  <div class='section' id='section-38'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-32'>#</a>
+        <a class='octothorpe' href='#section-38'>#</a>
       </div>
       <p>An edge is <strong>incident</strong> to the nodes it connects, and vice-versa.</p>
     </div>
@@ -492,10 +584,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-33'>
+  <div class='section' id='section-39'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-33'>#</a>
+        <a class='octothorpe' href='#section-39'>#</a>
       </div>
       
     </div>
@@ -508,10 +600,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-34'>
+  <div class='section' id='section-40'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-34'>#</a>
+        <a class='octothorpe' href='#section-40'>#</a>
       </div>
       <p>An edge is a <strong>loop</strong> if it connects a node to itself.</p>
     </div>
@@ -520,10 +612,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-35'>
+  <div class='section' id='section-41'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-35'>#</a>
+        <a class='octothorpe' href='#section-41'>#</a>
       </div>
       
     </div>
@@ -535,10 +627,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-36'>
+  <div class='section' id='section-42'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-36'>#</a>
+        <a class='octothorpe' href='#section-42'>#</a>
       </div>
       <h2>Node properties</h2>
     </div>
@@ -547,10 +639,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-37'>
+  <div class='section' id='section-43'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-37'>#</a>
+        <a class='octothorpe' href='#section-43'>#</a>
       </div>
       <p>A node's <strong>degree</strong> is the number of incident edge tips.</p>
     </div>
@@ -559,10 +651,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-38'>
+  <div class='section' id='section-44'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-38'>#</a>
+        <a class='octothorpe' href='#section-44'>#</a>
       </div>
       <p>Loops count twice, so that each edge contributes 2 to the degree sum.</p>
     </div>
@@ -582,10 +674,26 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-39'>
+  <div class='section' id='section-45'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-39'>#</a>
+        <a class='octothorpe' href='#section-45'>#</a>
+      </div>
+      <p><strong>EXERCISES</strong>:</p>
+<ul>
+<li>Explain why all nodes in a cycle graph have degree 2.</li>
+<li>What is the degree of each node in K<em>n</em>? Write some unit tests to confirm.</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-46'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-46'>#</a>
       </div>
       <p>Two nodes are <strong>adjacent</strong> if an edge connects them.</p>
     </div>
@@ -594,16 +702,15 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-40'>
+  <div class='section' id='section-47'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-40'>#</a>
+        <a class='octothorpe' href='#section-47'>#</a>
       </div>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">edge</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> \
-        <span class="ow">or</span> <span class="n">edge</span><span class="p">(</span><span class="n">node2</span><span class="p">,</span> <span class="n">node1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">edge</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
 
 <span class="k">assert</span> <span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">K2</span><span class="p">)</span>
 <span class="k">assert</span> <span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">C4</span><span class="p">)</span>
@@ -613,28 +720,28 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-41'>
+  <div class='section' id='section-48'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-41'>#</a>
+        <a class='octothorpe' href='#section-48'>#</a>
       </div>
-      <p>A node is <strong>isolated</strong> if it is not adjacent to any other node.</p>
+      <p>A node is <strong>isolated</strong> if it is not incident to any edge.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">isolated</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-42'>
+  <div class='section' id='section-49'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-42'>#</a>
+        <a class='octothorpe' href='#section-49'>#</a>
       </div>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">for</span> <span class="n">node2</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">adjacent</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
+      <div class="highlight"><pre>    <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">incident</span><span class="p">(</span><span class="n">edge</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">False</span>
     <span class="k">return</span> <span class="bp">True</span>
 
@@ -643,31 +750,27 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-43'>
+  <div class='section' id='section-50'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-43'>#</a>
+        <a class='octothorpe' href='#section-50'>#</a>
       </div>
-      <h3>Exercises</h3>
-<ol>
-<li>Make <code>adjacent()</code> more efficient, searching the edge set once.</li>
-<li>Is every node adjacent to itself?
-   Does that depend on the existence of a loop?
-   Look for answers on the internet, modify <code>adjacent()</code> if needed,
-   and create further unit tests.</li>
-<li>Rewrite <code>isolated()</code> without using <code>adjacent()</code>.
-   Which version is more efficient?</li>
-</ol>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Rewrite <code>isolated()</code> using <code>adjacent()</code>.</li>
+<li>Rewrite <code>isolated()</code> using <code>degree()</code>.</li>
+<li>Which of the 3 versions is more efficient?</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-44'>
+  <div class='section' id='section-51'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-44'>#</a>
+        <a class='octothorpe' href='#section-51'>#</a>
       </div>
       <h2>Graph properties</h2>
     </div>
@@ -676,10 +779,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-45'>
+  <div class='section' id='section-52'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-45'>#</a>
+        <a class='octothorpe' href='#section-52'>#</a>
       </div>
       <p>The graph's <strong>size</strong> is the number of its edges.</p>
     </div>
@@ -688,10 +791,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-46'>
+  <div class='section' id='section-53'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-46'>#</a>
+        <a class='octothorpe' href='#section-53'>#</a>
       </div>
       
     </div>
@@ -705,10 +808,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-47'>
+  <div class='section' id='section-54'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-47'>#</a>
+        <a class='octothorpe' href='#section-54'>#</a>
       </div>
       <p>The graph's <strong>order</strong> is the number of its nodes.</p>
     </div>
@@ -717,10 +820,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-48'>
+  <div class='section' id='section-55'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-48'>#</a>
+        <a class='octothorpe' href='#section-55'>#</a>
       </div>
       
     </div>
@@ -734,10 +837,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-49'>
+  <div class='section' id='section-56'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-49'>#</a>
+        <a class='octothorpe' href='#section-56'>#</a>
       </div>
       <p>A graph is <strong>simple</strong> if it has no loops.</p>
     </div>
@@ -746,10 +849,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-50'>
+  <div class='section' id='section-57'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-50'>#</a>
+        <a class='octothorpe' href='#section-57'>#</a>
       </div>
       
     </div>
@@ -766,10 +869,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-51'>
+  <div class='section' id='section-58'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-51'>#</a>
+        <a class='octothorpe' href='#section-58'>#</a>
       </div>
       <p>A graph's <strong>degree sequence</strong> is a descending list of nodes' degrees.</p>
     </div>
@@ -778,10 +881,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-52'>
+  <div class='section' id='section-59'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-52'>#</a>
+        <a class='octothorpe' href='#section-59'>#</a>
       </div>
       
     </div>
@@ -797,10 +900,28 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-53'>
+  <div class='section' id='section-60'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-53'>#</a>
+        <a class='octothorpe' href='#section-60'>#</a>
+      </div>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Write two functions to compute respectively the maximum and minimum degrees
+  of a degree sequence.</li>
+<li>Write two functions to compute respectively the maximum and minimum degrees
+  of a graph. Hint: it's not always necessary to loop over all nodes.</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-61'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-61'>#</a>
       </div>
       <p>Return a list of length order(graph)+2 of a node's degree probabilities.</p>
     </div>
@@ -809,10 +930,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-54'>
+  <div class='section' id='section-62'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-54'>#</a>
+        <a class='octothorpe' href='#section-62'>#</a>
       </div>
       <p>The n-th element is the probability of a node having degree n.</p>
     </div>
@@ -821,7 +942,7 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     <span class="n">max_degree</span> <span class="o">=</span> <span class="n">o</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">o</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">distribution</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">distribution</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
         <span class="n">distribution</span><span class="p">[</span><span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
@@ -834,10 +955,28 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-55'>
+  <div class='section' id='section-63'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-55'>#</a>
+        <a class='octothorpe' href='#section-63'>#</a>
+      </div>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Explain how <code>degree_distribution()</code> works.
+  Why is the list never longer than <code>order(graph) + 2</code>?</li>
+<li>Change <code>degree_distribution</code> so that trailing zeros are removed.</li>
+<li>Write a function to compute the degree distribution from a degree sequence.</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-64'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-64'>#</a>
       </div>
       <p>Return a graph's average degree.</p>
     </div>
@@ -846,10 +985,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-56'>
+  <div class='section' id='section-65'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-56'>#</a>
+        <a class='octothorpe' href='#section-65'>#</a>
       </div>
       
     </div>
@@ -857,7 +996,7 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
       <div class="highlight"><pre>    <span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
     <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
-        <span class="n">total</span> <span class="o">+=</span> <span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="n">total</span> <span class="o">+</span> <span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">order</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
 
 <span class="k">assert</span> <span class="n">mean_degree</span><span class="p">(</span><span class="n">N2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
@@ -865,24 +1004,26 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-57'>
+  <div class='section' id='section-66'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-57'>#</a>
+        <a class='octothorpe' href='#section-66'>#</a>
       </div>
-      <p>Exercise:
-Rewrite <code>mean_degree()</code> to make it far more efficient.
-Hint: each edge contributes 2 to the total degree count.</p>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Rewrite <code>mean_degree()</code> to make it much more efficient.
+  Hint: each edge contributes 2 to the total degree count.</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-58'>
+  <div class='section' id='section-67'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-58'>#</a>
+        <a class='octothorpe' href='#section-67'>#</a>
       </div>
       <p>A graph is <strong>k-regular</strong> if all its nodes have degree k.</p>
     </div>
@@ -891,10 +1032,10 @@ Hint: each edge contributes 2 to the total degree count.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-59'>
+  <div class='section' id='section-68'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-59'>#</a>
+        <a class='octothorpe' href='#section-68'>#</a>
       </div>
       <p>Return k if the graph is k-regular, otherwise return -1.</p>
     </div>
@@ -909,44 +1050,39 @@ Hint: each edge contributes 2 to the total degree count.</p>
 
 <span class="k">assert</span> <span class="n">k_regular</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
 <span class="k">assert</span> <span class="n">k_regular</span><span class="p">(</span><span class="n">N2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">assert</span> <span class="n">k_regular</span><span class="p">(</span><span class="n">LOOP</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
 <span class="k">assert</span> <span class="n">k_regular</span><span class="p">(</span><span class="n">C3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
 <span class="k">assert</span> <span class="n">k_regular</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-60'>
+  <div class='section' id='section-69'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-60'>#</a>
+        <a class='octothorpe' href='#section-69'>#</a>
       </div>
-      <p>In a <strong>regular</strong> graph all nodes have the same degree.</p>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Write a function to check whether a graph is <strong>regular</strong>,
+  i.e. whether all its nodes have the same degree.</li>
+<li>Write a function to check whether a degree sequence forms a regular graph.</li>
+<li>Write a function to check whether a graph is a null graph.</li>
+<li>Write a function to check whether a graph is a complete graph.
+  Hint: find a 2-regular graph with 3 nodes that is not K3, to see that
+  just using <code>k_regular</code> is not enough.</li>
+<li>Write a function to check whether a graph is a cycle graph.</li>
+<li>Write a function to check whether a graph is <strong>cubic</strong>, i.e. 3-regular.</li>
+</ul>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">regular</span><span class="p">(</span><span class="n">degrees</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-61'>
+  <div class='section' id='section-70'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-61'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">degrees</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">degrees</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">degrees</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">degrees</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-
-<span class="k">assert</span> <span class="n">regular</span><span class="p">(</span><span class="n">degree_sequence</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">))</span>
-<span class="k">assert</span> <span class="n">regular</span><span class="p">(</span><span class="n">degree_sequence</span><span class="p">(</span><span class="n">LOOP</span><span class="p">))</span>
-<span class="k">assert</span> <span class="n">regular</span><span class="p">(</span><span class="n">degree_sequence</span><span class="p">(</span><span class="n">K3</span><span class="p">))</span>
-<span class="k">assert</span> <span class="n">regular</span><span class="p">(</span><span class="n">degree_sequence</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">))</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-62'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-62'>#</a>
+        <a class='octothorpe' href='#section-70'>#</a>
       </div>
       <p>The <strong>neighbourhood</strong> of a node is the set of its adjacent nodes.</p>
     </div>
@@ -955,10 +1091,10 @@ Hint: each edge contributes 2 to the total degree count.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-63'>
+  <div class='section' id='section-71'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-63'>#</a>
+        <a class='octothorpe' href='#section-71'>#</a>
       </div>
       
     </div>
@@ -970,10 +1106,10 @@ Hint: each edge contributes 2 to the total degree count.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-64'>
+  <div class='section' id='section-72'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-64'>#</a>
+        <a class='octothorpe' href='#section-72'>#</a>
       </div>
       <p>Return the first shortest path found between the two nodes.</p>
     </div>
@@ -982,10 +1118,10 @@ Hint: each edge contributes 2 to the total degree count.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-65'>
+  <div class='section' id='section-73'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-65'>#</a>
+        <a class='octothorpe' href='#section-73'>#</a>
       </div>
       <p>A <strong>path</strong> is a sequence of nodes n_1, n_2, ... with n_i adjacent to n_i+1.
 If there is no path, return <code>[]</code>, otherwise return <code>[node1, ..., node2]</code>.
@@ -1012,10 +1148,25 @@ Return <code>[node1]</code> if node1 and node2 are the same.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-66'>
+  <div class='section' id='section-74'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-66'>#</a>
+        <a class='octothorpe' href='#section-74'>#</a>
+      </div>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Write a function to return <em>all</em> shortest paths between two nodes.</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-75'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-75'>#</a>
       </div>
       <p>The <strong>distance</strong> is the length of the shortest path from node1 to node2.</p>
     </div>
@@ -1024,10 +1175,10 @@ Return <code>[node1]</code> if node1 and node2 are the same.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-67'>
+  <div class='section' id='section-76'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-67'>#</a>
+        <a class='octothorpe' href='#section-76'>#</a>
       </div>
       <p>The length of a path is the number of its edges.
 If there's no path, return -1 to represent infinite distance.</p>
@@ -1042,10 +1193,10 @@ If there's no path, return -1 to represent infinite distance.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-68'>
+  <div class='section' id='section-77'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-68'>#</a>
+        <a class='octothorpe' href='#section-77'>#</a>
       </div>
       <p>A graph's <strong>diameter</strong> is the longest of all pairwise distances.</p>
     </div>
@@ -1054,15 +1205,15 @@ If there's no path, return -1 to represent infinite distance.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-69'>
+  <div class='section' id='section-78'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-69'>#</a>
+        <a class='octothorpe' href='#section-78'>#</a>
       </div>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">diameter</span> <span class="o">=</span> <span class="mi">0</span>
+      <div class="highlight"><pre>    <span class="n">diameter</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="k">for</span> <span class="n">node1</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">node2</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
             <span class="n">d</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span>
@@ -1072,28 +1223,33 @@ If there's no path, return -1 to represent infinite distance.</p>
                 <span class="n">diameter</span> <span class="o">=</span> <span class="n">d</span>
     <span class="k">return</span> <span class="n">diameter</span>
 
+<span class="k">assert</span> <span class="n">diameter</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
 <span class="k">assert</span> <span class="n">diameter</span><span class="p">(</span><span class="n">N2</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
 <span class="k">assert</span> <span class="n">diameter</span><span class="p">(</span><span class="n">K3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
 <span class="k">assert</span> <span class="n">diameter</span><span class="p">(</span><span class="n">C5</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-70'>
+  <div class='section' id='section-79'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-70'>#</a>
+        <a class='octothorpe' href='#section-79'>#</a>
       </div>
-      <p>Exercise: why is diameter initialised with zero?</p>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Rewrite <code>diameter()</code> to make it twice as fast.
+  Hint: the distance from A to B is the distance from B to A.</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-71'>
+  <div class='section' id='section-80'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-71'>#</a>
+        <a class='octothorpe' href='#section-80'>#</a>
       </div>
       <p>A network is <strong>connected</strong> if every node is reachable from any node.</p>
     </div>
@@ -1102,10 +1258,10 @@ If there's no path, return -1 to represent infinite distance.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-72'>
+  <div class='section' id='section-81'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-72'>#</a>
+        <a class='octothorpe' href='#section-81'>#</a>
       </div>
       
     </div>
@@ -1118,10 +1274,10 @@ If there's no path, return -1 to represent infinite distance.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-73'>
+  <div class='section' id='section-82'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-73'>#</a>
+        <a class='octothorpe' href='#section-82'>#</a>
       </div>
       <p>Import a random number generator with uniform distribution</p>
     </div>
@@ -1130,22 +1286,22 @@ If there's no path, return -1 to represent infinite distance.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-74'>
+  <div class='section' id='section-83'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-74'>#</a>
+        <a class='octothorpe' href='#section-83'>#</a>
       </div>
-      <p>Return a simple random graph with n nodes and edge probability p.</p>
+      <p>Return a simple <strong>random graph</strong> with n nodes and edge probability p.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">random</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-75'>
+  <div class='section' id='section-84'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-75'>#</a>
+        <a class='octothorpe' href='#section-84'>#</a>
       </div>
       
     </div>
@@ -1166,18 +1322,62 @@ If there's no path, return -1 to represent infinite distance.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-76'>
+  <div class='section' id='section-85'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-76'>#</a>
+        <a class='octothorpe' href='#section-85'>#</a>
+      </div>
+      <p><strong>EXERCISES:</strong></p>
+<ul>
+<li>Write a program that imports SINPLE, creates several random graphs,
+  collects their mean degrees and diameters, and checks whether the
+  empirical values match the expected theoretical values.
+  The expected mean degree is <code>n/p</code>.</li>
+<li>Write a function to create a simple random graph of given order and size.</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-86'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-86'>#</a>
       </div>
       <h3>Exercises</h3>
 <ol>
 <li>What is the mean degree of the empty graph?</li>
 <li>Write a program that imports SINPLE and reports various properties
    of the Arpanet network, e.g. the most connected nodes.</li>
-<li>Write a function to create a simple random graph of given order and size.</li>
 </ol>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-87'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-87'>#</a>
+      </div>
+      <p>Projects</p>
+<p>Extend SINPLE to support <strong>weighted edges</strong>,
+i.e. edges that have an associated number, called the edge's weight.
+By default the edge weight is 1, i.e. an unweighted network can be seen
+as a weighted network where each edge has weight 1.
+Learn about default parameter values in Python and change <code>edge()</code>.
+Add a function to return the weight of an edge.
+Modify <code>shortest_path()</code> to return the path with the smallest total weight.</p>
+<p>Check that ARPANET is robust to any communication link failing, i.e.
+the network remains connected if a single edge is removed, i.e.
+each edge belongs to a cycle.</p>
+<p>Check that KARATE has two highly connected members, the student founder and
+the instructor, who are not friends of each other,
+and that most members are not friends of both.
+This conflict led to the split into two rival clubs.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>

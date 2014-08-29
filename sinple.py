@@ -75,6 +75,11 @@ def edge(node1, node2):
 
 assert edge(1, 2) == edge(2, 1)
 
+# **EXERCISES:**
+#
+# - Consult the Python documentation about sets.
+#   Why is an edge represented by a frozen (i.e. immutable) set?
+
 
 def endpoints(edge):
     """Return the edge's **endpoints**, i.e. the set of nodes it connects."""
@@ -85,17 +90,21 @@ assert endpoints(edge(1, 2)) == {1, 2}
 
 def null(n):
     """Return the **null graph** with nodes numbered 1 to *n* and no edges."""
+    assert n >= 0
     return ({x for x in range(1, n+1)}, set())
 
 assert nodes(null(0)) == set()
 assert edges(null(2)) == set()
 assert nodes(null(2)) == {1, 2}
 
+# **EXERCISES:**
+#
+# - Explain how `null()` works. Why is `set()` used instead of `{}`?
+
 
 def add_edges(edgeset, graph):
-    """Add the set of edges and their incident nodes to the graph.
-
-    Return a new graph.
+    """
+    Add a set of edges and their endpoints to a graph to create a new graph.
     """
     nodeset = set()
     for edge in edgeset:
@@ -104,15 +113,23 @@ def add_edges(edgeset, graph):
 
 assert add_edges({edge(1, 2)}, null(0)) == add_edges({edge(2, 1)}, null(2))
 
+# **EXERCISES:**
+#
+# - Explain how `add_edges()` works. Why isn't `edgseset` just named `edges`?
+
 
 def delete_edges(edgeset, graph):
-    """Remove the edge set, but not their incident nodes, from the graph.
-
-    Return a new graph.
-    """
+    """Remove a set of edges from a graph to create a new graph."""
     return (nodes(graph), edges(graph) - edgeset)
 
 assert delete_edges({edge(1, 2)}, add_edges({edge(2, 1)}, null(0))) == null(2)
+
+# **EXERCISES:**
+#
+# - Write a function to remove a set of nodes from a graph.
+# - Write a function `subgraph(nodeset, graph)` that returns the **subgraph**
+#   with the nodes of `graph` that are in `nodeset` and the edges of `graph`
+#   that connect those nodes.
 
 
 def network(edgeset):
@@ -121,7 +138,7 @@ def network(edgeset):
 
 # ### Example networks
 #
-# The example graphs are used in further unit tests.
+# These examples are used in further unit tests.
 
 # The **empty graph** has no nodes and hence no edges.
 EMPTY = null(0)
@@ -137,11 +154,24 @@ LOOP = network({edge(1, 1)})
 K2 = network({edge(1, 2)})
 K3 = network({edge(1, 2), edge(1, 3), edge(2, 3)})
 
+# **EXERCISES:**
+#
+# - Define K1.
+# - Write a function to create a complete graph, given the number of nodes.
+#   Don't forget to write a precondition and unit tests.
+#   Hint: compare the output to the 'manually' created K1, K2, K3.
+
 # A **cycle graph** C*n* has *n* nodes connected in a 'round-robin' fashion.
 # Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, etc.
 C3 = network({edge(1, 2), edge(2, 3), edge(3, 1)})
 C4 = add_edges({edge(3, 4), edge(4, 1)}, delete_edges({edge(3, 1)}, C3))
 C5 = add_edges({edge(4, 5), edge(5, 1)}, delete_edges({edge(4, 1)}, C4))
+
+# **EXERCISES:**
+#
+# - Define C2.
+# - Explain how C4 is constructed from C3.
+# - Write a function to create a cycle graph, given the number of nodes.
 
 # The **Petersen graph** is a (counter-)example of various graph concepts.
 PETERSEN = add_edges({
@@ -151,6 +181,10 @@ PETERSEN = add_edges({
     edge(1, 6), edge(2, 7), edge(3, 8), edge(4, 9), edge(5, 10)},
     # an outer pentagon (C5).
     C5)
+
+# **EXERCISES:**
+#
+# - Draw the Petersen graph on paper and label the nodes as in `PETERSEN`.
 
 # In December 1970, the Arpanet (the precursor of the Internet) had 13 nodes.
 # Source: http://som.csudh.edu/cis/lpress/history/arpamaps.
@@ -163,18 +197,6 @@ ARPANET = network({
     edge("Harvard", "Carnegie"), edge("Carnegie", "CASE"),
     edge("CASE", "Lincoln"), edge("Lincoln", "MIT")
     })
-
-# ### Exercises
-#
-# 1. Consult the Python documentation about sets.
-#    Explain why an edge is represented by a frozen (i.e. immutable) set.
-# 1. Explain how `null()` works. Why isn't `{}` used instead of `set()`?
-# 1. Explain how `add_edges()` works. Why isn't `edgseset` just named `edges`?
-# 1. Draw the Petersen graph on paper and label the nodes as in `PETERSEN`.
-# 1. Explain how C4 is constructed from C3.
-# 1. Define K1 and C2.
-# 1. Write a function that creates a cycle graph, given the number of nodes.
-# 1. Write a function that creates a complete graph, given the number of nodes.
 
 
 # Edge properties
@@ -220,11 +242,15 @@ assert degree(1, LOOP) == 2
 assert degree(1, C4) == 2
 assert degree(6, PETERSEN) == 3
 
+# **EXERCISES**:
+#
+# - Explain why all nodes in a cycle graph have degree 2.
+# - What is the degree of each node in K*n*? Write some unit tests to confirm.
+
 
 def adjacent(node1, node2, graph):
     """Two nodes are **adjacent** if an edge connects them."""
-    return edge(node1, node2) in edges(graph) \
-        or edge(node2, node1) in edges(graph)
+    return edge(node1, node2) in edges(graph)
 
 assert adjacent(1, 2, K2)
 assert adjacent(1, 4, C4)
@@ -234,24 +260,21 @@ assert not adjacent(1, 3, C4)
 
 
 def isolated(node, graph):
-    """A node is **isolated** if it is not adjacent to any other node."""
-    for node2 in nodes(graph):
-        if adjacent(node, node2, graph):
+    """A node is **isolated** if it is not incident to any edge."""
+    for edge in edges(graph):
+        if incident(edge, node):
             return False
     return True
 
 assert isolated(1, N1)
 assert not isolated(1, K2)
 
-# ### Exercises
+# **EXERCISES:**
 #
-# 1. Make `adjacent()` more efficient, searching the edge set once.
-# 1. Is every node adjacent to itself?
-#    Does that depend on the existence of a loop?
-#    Look for answers on the internet, modify `adjacent()` if needed,
-#    and create further unit tests.
-# 1. Rewrite `isolated()` without using `adjacent()`.
-#    Which version is more efficient?
+# - Rewrite `isolated()` using `adjacent()`.
+# - Rewrite `isolated()` using `degree()`.
+# - Which of the 3 versions is more efficient?
+
 
 # Graph properties
 # ----------------
@@ -301,6 +324,13 @@ assert degree_sequence(N2) == [0, 0]
 assert degree_sequence(K3) == [2, 2, 2]
 assert degree_sequence(ARPANET) == [4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2]
 
+# **EXERCISES:**
+#
+# - Write two functions to compute respectively the maximum and minimum degrees
+#   of a degree sequence.
+# - Write two functions to compute respectively the maximum and minimum degrees
+#   of a graph. Hint: it's not always necessary to loop over all nodes.
+
 
 def degree_distribution(graph):
     """Return a list of length order(graph)+2 of a node's degree probabilities.
@@ -311,7 +341,7 @@ def degree_distribution(graph):
     max_degree = o + 1
     if o == 0:
         return [0, 0]
-    distribution = [0 for i in range(max_degree + 1)]
+    distribution = [0 for d in range(max_degree + 1)]
     for node in nodes(graph):
         distribution[degree(node, graph)] += 1
     for d in range(max_degree + 1):
@@ -322,21 +352,29 @@ assert degree_distribution(EMPTY) == [0, 0]
 assert degree_distribution(N2) == [1, 0, 0, 0]
 assert degree_distribution(LOOP) == [0, 0, 1]
 
+# **EXERCISES:**
+#
+# - Explain how `degree_distribution()` works.
+#   Why is the list never longer than `order(graph) + 2`?
+# - Change `degree_distribution` so that trailing zeros are removed.
+# - Write a function to compute the degree distribution from a degree sequence.
+
 
 def mean_degree(graph):
     """Return a graph's average degree."""
     assert order(graph) > 0
     total = 0
     for node in nodes(graph):
-        total += degree(node, graph)
+        total = total + degree(node, graph)
     return total / order(graph)
 
 assert mean_degree(N2) == 0
 assert mean_degree(C3) == 2
 
-# Exercise:
-# Rewrite `mean_degree()` to make it far more efficient.
-# Hint: each edge contributes 2 to the total degree count.
+# **EXERCISES:**
+#
+# - Rewrite `mean_degree()` to make it much more efficient.
+#   Hint: each edge contributes 2 to the total degree count.
 
 
 def k_regular(graph):
@@ -354,18 +392,21 @@ def k_regular(graph):
 
 assert k_regular(EMPTY) == -1
 assert k_regular(N2) == 0
+assert k_regular(LOOP) == 2
 assert k_regular(C3) == 2
 assert k_regular(PETERSEN) == 3
 
-
-def regular(degrees):
-    """In a **regular** graph all nodes have the same degree."""
-    return len(degrees) == 0 or degrees[0] == degrees[len(degrees) - 1]
-
-assert regular(degree_sequence(EMPTY))
-assert regular(degree_sequence(LOOP))
-assert regular(degree_sequence(K3))
-assert regular(degree_sequence(PETERSEN))
+# **EXERCISES:**
+#
+# - Write a function to check whether a graph is **regular**,
+#   i.e. whether all its nodes have the same degree.
+# - Write a function to check whether a degree sequence forms a regular graph.
+# - Write a function to check whether a graph is a null graph.
+# - Write a function to check whether a graph is a complete graph.
+#   Hint: find a 2-regular graph with 3 nodes that is not K3, to see that
+#   just using `k_regular` is not enough.
+# - Write a function to check whether a graph is a cycle graph.
+# - Write a function to check whether a graph is **cubic**, i.e. 3-regular.
 
 
 def neighbourhood(node, graph):
@@ -401,6 +442,10 @@ assert shortest_path(1, 1, LOOP) == [1]
 assert shortest_path(3, 1, K3) == [3, 1]
 assert shortest_path(1, 4, C5) == [1, 5, 4]
 
+# **EXERCISES:**
+#
+# - Write a function to return *all* shortest paths between two nodes.
+
 
 def distance(node1, node2, graph):
     """The **distance** is the length of the shortest path from node1 to node2.
@@ -418,7 +463,7 @@ assert distance(1, 5, K3) == -1
 
 def diameter(graph):
     """A graph's **diameter** is the longest of all pairwise distances."""
-    diameter = 0
+    diameter = -1
     for node1 in nodes(graph):
         for node2 in nodes(graph):
             d = distance(node1, node2, graph)
@@ -428,11 +473,15 @@ def diameter(graph):
                 diameter = d
     return diameter
 
+assert diameter(EMPTY) == -1
 assert diameter(N2) == -1
 assert diameter(K3) == 1
 assert diameter(C5) == 2
 
-# Exercise: why is diameter initialised with zero?
+# **EXERCISES:**
+#
+# - Rewrite `diameter()` to make it twice as fast.
+#   Hint: the distance from A to B is the distance from B to A.
 
 
 def connected(graph):
@@ -449,7 +498,7 @@ from random import uniform
 
 
 def random(n, p):
-    """Return a simple random graph with n nodes and edge probability p."""
+    """Return a simple **random graph** with n nodes and edge probability p."""
     assert n >= 0
     assert 0 <= p and p <= 1
     graph = null(n)
@@ -464,9 +513,35 @@ assert size(random(4, 0)) == 0
 assert size(random(4, 1)) == 6
 assert simple(random(4, 0.5))
 
+# **EXERCISES:**
+#
+# - Write a program that imports SINPLE, creates several random graphs,
+#   collects their mean degrees and diameters, and checks whether the
+#   empirical values match the expected theoretical values.
+#   The expected mean degree is `n/p`.
+# - Write a function to create a simple random graph of given order and size.
+
 # ### Exercises
 #
 # 1. What is the mean degree of the empty graph?
 # 1. Write a program that imports SINPLE and reports various properties
 #    of the Arpanet network, e.g. the most connected nodes.
-# 1. Write a function to create a simple random graph of given order and size.
+
+# Projects
+#
+# Extend SINPLE to support **weighted edges**,
+# i.e. edges that have an associated number, called the edge's weight.
+# By default the edge weight is 1, i.e. an unweighted network can be seen
+# as a weighted network where each edge has weight 1.
+# Learn about default parameter values in Python and change `edge()`.
+# Add a function to return the weight of an edge.
+# Modify `shortest_path()` to return the path with the smallest total weight.
+#
+# Check that ARPANET is robust to any communication link failing, i.e.
+# the network remains connected if a single edge is removed, i.e.
+# each edge belongs to a cycle.
+#
+# Check that KARATE has two highly connected members, the student founder and
+# the instructor, who are not friends of each other,
+# and that most members are not friends of both.
+# This conflict led to the split into two rival clubs.
