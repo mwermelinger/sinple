@@ -17,8 +17,8 @@
       <div class='octowrap'>
         <a class='octothorpe' href='#section-0'>#</a>
       </div>
-      <p>SImple Network Python Library for Education (SINPLE), version 0.1</p>
-<p>Michel Wermelinger, 15 August 2014</p>
+      <p>SImple Network Python Library for Education (SINPLE)</p>
+<p>Michel Wermelinger</p>
 <p>Many systems can be represented as networks, e.g. transport connections,
 gene regulation, social interactions, the World Wide Web.
 <a href="http://en.wikipedia.org/wiki/Network_science">Network science</a> is an
@@ -79,8 +79,11 @@ A node may be connected to itself.</p>
 <p>SINPLE represents a network by a pair <code>(nodes, edges)</code>,
 where <code>nodes</code> is a Python set of node names (e.g. integers or strings)
 and <code>edges</code> is a Python set of edges.
-Each edge is represented by a pair of node names <code>(node1, node2)</code>.
-The order of the two nodes does not matter.</p>
+Each edge is represented by a Python immutable set of node names
+<code>frozenset(node1, node2)</code>.
+It is a set, because the edge has no direction,
+i.e. the order of the two nodes doesn't matter.
+It is an immutable set so that <code>edges</code> can be a set of sets.</p>
 <p>The functions in this and the next section encapsulate this representation
 from the rest of the library.</p>
     </div>
@@ -159,7 +162,9 @@ from the rest of the library.</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">return</span> <span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="nb">frozenset</span><span class="p">({</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">})</span>
+
+<span class="k">assert</span> <span class="n">edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="n">edge</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -168,7 +173,7 @@ from the rest of the library.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-9'>#</a>
       </div>
-      <p>Return the <strong>endpoints</strong> of the edge, i.e. the nodes it connects.</p>
+      <p>Return the edge's <strong>endpoints</strong>, i.e. the set of nodes it connects.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">endpoints</span><span class="p">(</span><span class="n">edge</span><span class="p">):</span></pre></div>
@@ -183,8 +188,9 @@ from the rest of the library.</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)</span> <span class="o">=</span> <span class="n">edge</span>
-    <span class="k">return</span> <span class="p">{</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">}</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">edge</span>
+
+<span class="k">assert</span> <span class="n">endpoints</span><span class="p">(</span><span class="n">edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">==</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">}</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -210,9 +216,9 @@ from the rest of the library.</p>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">return</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">endpoints</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
 
-<span class="k">assert</span><span class="p">(</span><span class="n">incident</span><span class="p">(</span><span class="n">edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">incident</span><span class="p">(</span><span class="n">edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="n">incident</span><span class="p">(</span><span class="n">edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span></pre></div>
+<span class="k">assert</span> <span class="n">incident</span><span class="p">(</span><span class="n">edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">incident</span><span class="p">(</span><span class="n">edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">incident</span><span class="p">(</span><span class="n">edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -238,8 +244,8 @@ from the rest of the library.</p>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">endpoints</span><span class="p">(</span><span class="n">edge</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span>
 
-<span class="k">assert</span><span class="p">(</span><span class="n">is_loop</span><span class="p">(</span><span class="n">edge</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">,</span> <span class="s">&quot;A&quot;</span><span class="p">)))</span>
-<span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="n">is_loop</span><span class="p">(</span><span class="n">edge</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">,</span> <span class="s">&quot;B&quot;</span><span class="p">)))</span></pre></div>
+<span class="k">assert</span> <span class="n">is_loop</span><span class="p">(</span><span class="n">edge</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">,</span> <span class="s">&quot;A&quot;</span><span class="p">))</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">is_loop</span><span class="p">(</span><span class="n">edge</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">,</span> <span class="s">&quot;B&quot;</span><span class="p">))</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -311,7 +317,7 @@ The example graphs are used in further unit tests.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-20'>#</a>
       </div>
-      <p>Add the edge set and their incident nodes to the graph.</p>
+      <p>Add the set of edges and their incident nodes to the graph.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">add_edges</span><span class="p">(</span><span class="n">edgeset</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
@@ -323,13 +329,15 @@ The example graphs are used in further unit tests.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-21'>#</a>
       </div>
-      
+      <p>Return a new graph.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre>    <span class="n">nodeset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">edgeset</span><span class="p">:</span>
         <span class="n">nodeset</span> <span class="o">=</span> <span class="n">nodeset</span> <span class="o">|</span> <span class="n">endpoints</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="o">|</span> <span class="n">nodeset</span><span class="p">,</span> <span class="n">edges</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="o">|</span> <span class="n">edgeset</span><span class="p">)</span></pre></div>
+    <span class="k">return</span> <span class="p">(</span><span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="o">|</span> <span class="n">nodeset</span><span class="p">,</span> <span class="n">edges</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="o">|</span> <span class="n">edgeset</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">add_edges</span><span class="p">({</span><span class="n">edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)},</span> <span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="n">add_edges</span><span class="p">({</span><span class="n">edge</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)},</span> <span class="n">N2</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -338,10 +346,10 @@ The example graphs are used in further unit tests.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-22'>#</a>
       </div>
-      <p>Create a network from the given edges.</p>
+      <p>Create a network from the given set of edges.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">network</span><span class="p">(</span><span class="n">edges</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">network</span><span class="p">(</span><span class="n">edgeset</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -353,7 +361,7 @@ The example graphs are used in further unit tests.</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">add_edges</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">EMPTY</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">add_edges</span><span class="p">(</span><span class="n">edgeset</span><span class="p">,</span> <span class="n">EMPTY</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -402,7 +410,9 @@ The example graphs are used in further unit tests.</p>
       
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="k">return</span> <span class="p">(</span><span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">),</span> <span class="n">edges</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="o">-</span> <span class="n">edgeset</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="p">(</span><span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">),</span> <span class="n">edges</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="o">-</span> <span class="n">edgeset</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">delete_edges</span><span class="p">({</span><span class="n">edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)},</span> <span class="n">K2</span><span class="p">)</span> <span class="o">==</span> <span class="n">N2</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -482,7 +492,7 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     <span class="n">edge</span><span class="p">(</span><span class="s">&quot;SRI&quot;</span><span class="p">,</span> <span class="s">&quot;Stanford&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;SRI&quot;</span><span class="p">,</span> <span class="s">&quot;UCSB&quot;</span><span class="p">),</span>
     <span class="n">edge</span><span class="p">(</span><span class="s">&quot;SRI&quot;</span><span class="p">,</span> <span class="s">&quot;UCLA&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;SRI&quot;</span><span class="p">,</span> <span class="s">&quot;Utah&quot;</span><span class="p">),</span>
     <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Stanford&quot;</span><span class="p">,</span> <span class="s">&quot;UCLA&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;UCLA&quot;</span><span class="p">,</span> <span class="s">&quot;UCSB&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;UCLA&quot;</span><span class="p">,</span> <span class="s">&quot;RAND&quot;</span><span class="p">),</span>
-    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;RAND&quot;</span><span class="p">,</span> <span class="s">&quot;SDC&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;SDC&quot;</span><span class="p">,</span> <span class="s">&quot;Utah&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;UTAH&quot;</span><span class="p">,</span> <span class="s">&quot;MIT&quot;</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;RAND&quot;</span><span class="p">,</span> <span class="s">&quot;SDC&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;SDC&quot;</span><span class="p">,</span> <span class="s">&quot;Utah&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Utah&quot;</span><span class="p">,</span> <span class="s">&quot;MIT&quot;</span><span class="p">),</span>
     <span class="n">edge</span><span class="p">(</span><span class="s">&quot;RAND&quot;</span><span class="p">,</span> <span class="s">&quot;BBN&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;MIT&quot;</span><span class="p">,</span> <span class="s">&quot;BBN&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;BBN&quot;</span><span class="p">,</span> <span class="s">&quot;Harvard&quot;</span><span class="p">),</span>
     <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Harvard&quot;</span><span class="p">,</span> <span class="s">&quot;Carnegie&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Carnegie&quot;</span><span class="p">,</span> <span class="s">&quot;CASE&quot;</span><span class="p">),</span>
     <span class="n">edge</span><span class="p">(</span><span class="s">&quot;CASE&quot;</span><span class="p">,</span> <span class="s">&quot;Lincoln&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Lincoln&quot;</span><span class="p">,</span> <span class="s">&quot;MIT&quot;</span><span class="p">)</span>
@@ -503,6 +513,8 @@ Explain how <code>null()</code> works, and why <code>{}</code> wasn't used inste
 <li>Draw the Petersen graph on paper and label the nodes as in <code>PETERSEN</code>.</li>
 <li>Explain how C4 is constructed from C3.</li>
 <li>Define K1 and C2.</li>
+<li>Write a function that creates a cycle graph, given the number of nodes.</li>
+<li>Write a function that creates a complete graph, given the number of nodes.</li>
 </ol>
     </div>
     <div class='code'>
@@ -550,10 +562,10 @@ Explain how <code>null()</code> works, and why <code>{}</code> wasn't used inste
                 <span class="n">degree</span> <span class="o">=</span> <span class="n">degree</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="n">degree</span>
 
-<span class="k">assert</span><span class="p">(</span><span class="n">degree</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">degree</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">LOOP</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">degree</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">C4</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">degree</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span></pre></div>
+<span class="k">assert</span> <span class="n">degree</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">assert</span> <span class="n">degree</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">LOOP</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="k">assert</span> <span class="n">degree</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">C4</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="k">assert</span> <span class="n">degree</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -580,11 +592,11 @@ Explain how <code>null()</code> works, and why <code>{}</code> wasn't used inste
       <div class="highlight"><pre>    <span class="k">return</span> <span class="n">edge</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> \
         <span class="ow">or</span> <span class="n">edge</span><span class="p">(</span><span class="n">node2</span><span class="p">,</span> <span class="n">node1</span><span class="p">)</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
 
-<span class="k">assert</span><span class="p">(</span><span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">K2</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">C4</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">LOOP</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">K2</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">C4</span><span class="p">))</span></pre></div>
+<span class="k">assert</span> <span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">K2</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">C4</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">LOOP</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">K2</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">adjacent</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">C4</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -613,8 +625,8 @@ Explain how <code>null()</code> works, and why <code>{}</code> wasn't used inste
             <span class="k">return</span> <span class="bp">False</span>
     <span class="k">return</span> <span class="bp">True</span>
 
-<span class="k">assert</span><span class="p">(</span><span class="n">isolated</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N1</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="n">isolated</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">K2</span><span class="p">))</span></pre></div>
+<span class="k">assert</span> <span class="n">isolated</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">isolated</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">K2</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -673,10 +685,10 @@ Explain how <code>null()</code> works, and why <code>{}</code> wasn't used inste
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">edges</span><span class="p">(</span><span class="n">graph</span><span class="p">))</span>
 
-<span class="k">assert</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">N1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">C3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">15</span><span class="p">)</span></pre></div>
+<span class="k">assert</span> <span class="n">size</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">assert</span> <span class="n">size</span><span class="p">(</span><span class="n">N1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">assert</span> <span class="n">size</span><span class="p">(</span><span class="n">C3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="k">assert</span> <span class="n">size</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">15</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -702,10 +714,10 @@ Explain how <code>null()</code> works, and why <code>{}</code> wasn't used inste
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">))</span>
 
-<span class="k">assert</span><span class="p">(</span><span class="n">order</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">order</span><span class="p">(</span><span class="n">N1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">order</span><span class="p">(</span><span class="n">C3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">order</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span><span class="p">)</span></pre></div>
+<span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">N1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">C3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -734,12 +746,399 @@ Explain how <code>null()</code> works, and why <code>{}</code> wasn't used inste
             <span class="k">return</span> <span class="bp">False</span>
     <span class="k">return</span> <span class="bp">True</span>
 
-<span class="k">assert</span><span class="p">(</span><span class="n">simple</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">simple</span><span class="p">(</span><span class="n">N1</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="n">simple</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">))</span>
-<span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="n">simple</span><span class="p">(</span><span class="n">LOOP</span><span class="p">))</span>
+<span class="k">assert</span> <span class="n">simple</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">simple</span><span class="p">(</span><span class="n">N1</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">simple</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">)</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">simple</span><span class="p">(</span><span class="n">LOOP</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-50'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-50'>#</a>
+      </div>
+      <p>A graph's <strong>degree sequence</strong> is a descending list of nodes' degrees.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">degree_sequence</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-51'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-51'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">degrees</span> <span class="o">=</span> <span class="p">[</span><span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">)]</span>
+    <span class="n">degrees</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">degrees</span>
 
-</pre></div>
+<span class="k">assert</span> <span class="n">degree_sequence</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="p">[]</span>
+<span class="k">assert</span> <span class="n">degree_sequence</span><span class="p">(</span><span class="n">N2</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">degree_sequence</span><span class="p">(</span><span class="n">K3</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">degree_sequence</span><span class="p">(</span><span class="n">ARPANET</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-52'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-52'>#</a>
+      </div>
+      <p>Return a list of length order(graph)+2 of a node's degree probabilities.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">degree_distribution</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-53'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-53'>#</a>
+      </div>
+      <p>The n-th element is the probability of a node having degree n.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">o</span> <span class="o">=</span> <span class="n">order</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+    <span class="n">max_degree</span> <span class="o">=</span> <span class="n">o</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">o</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">distribution</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+        <span class="n">distribution</span><span class="p">[</span><span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_degree</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">distribution</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">/=</span> <span class="n">o</span>
+    <span class="k">return</span> <span class="n">distribution</span>
+
+<span class="k">assert</span> <span class="n">degree_distribution</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">degree_distribution</span><span class="p">(</span><span class="n">N2</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="k">assert</span> <span class="n">degree_distribution</span><span class="p">(</span><span class="n">LOOP</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-54'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-54'>#</a>
+      </div>
+      <p>Return a graph's average degree.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">mean_degree</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-55'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-55'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+        <span class="n">total</span> <span class="o">+=</span> <span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">total</span> <span class="o">/</span> <span class="n">order</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+
+<span class="k">assert</span> <span class="n">mean_degree</span><span class="p">(</span><span class="n">N2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">assert</span> <span class="n">mean_degree</span><span class="p">(</span><span class="n">C3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-56'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-56'>#</a>
+      </div>
+      <p>Exercise:
+Rewrite <code>mean_degree()</code> to make it far more efficient.
+Hint: each edge contributes 2 to the total degree count.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-57'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-57'>#</a>
+      </div>
+      <p>A graph is <strong>k-regular</strong> if all its nodes have degree k.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">k_regular</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-58'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-58'>#</a>
+      </div>
+      <p>Return k if the graph is k-regular, otherwise return -1.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">k</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">k</span> <span class="o">!=</span> <span class="n">degree</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">return</span> <span class="n">k</span>
+
+<span class="k">assert</span> <span class="n">k_regular</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+<span class="k">assert</span> <span class="n">k_regular</span><span class="p">(</span><span class="n">N2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">assert</span> <span class="n">k_regular</span><span class="p">(</span><span class="n">C3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="k">assert</span> <span class="n">k_regular</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-59'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-59'>#</a>
+      </div>
+      <p>In a <strong>regular</strong> graph all nodes have the same degree.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">regular</span><span class="p">(</span><span class="n">degrees</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-60'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-60'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">degrees</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">degrees</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">degrees</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">degrees</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="k">assert</span> <span class="n">regular</span><span class="p">(</span><span class="n">degree_sequence</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">))</span>
+<span class="k">assert</span> <span class="n">regular</span><span class="p">(</span><span class="n">degree_sequence</span><span class="p">(</span><span class="n">LOOP</span><span class="p">))</span>
+<span class="k">assert</span> <span class="n">regular</span><span class="p">(</span><span class="n">degree_sequence</span><span class="p">(</span><span class="n">K3</span><span class="p">))</span>
+<span class="k">assert</span> <span class="n">regular</span><span class="p">(</span><span class="n">degree_sequence</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-61'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-61'>#</a>
+      </div>
+      <p>The <strong>neighbourhood</strong> of a node is the set of its adjacent nodes.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">neighbourhood</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-62'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-62'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="p">{</span><span class="n">node2</span> <span class="k">for</span> <span class="n">node2</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="k">if</span> <span class="n">adjacent</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">graph</span><span class="p">)}</span>
+
+<span class="k">assert</span> <span class="n">neighbourhood</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">LOOP</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span>
+<span class="k">assert</span> <span class="n">neighbourhood</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="p">{</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-63'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-63'>#</a>
+      </div>
+      <p>The <strong>distance</strong> is the length of the shortest path from node1 to node2.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-64'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-64'>#</a>
+      </div>
+      <p>The length of a path is the number of its edges.
+If there's no path, return -1 to represent infinite distance.</p>
+<p>Keep a list of nodes to visit and their distance from node1</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">to_visit</span> <span class="o">=</span> <span class="p">[(</span><span class="n">node1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-65'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-65'>#</a>
+      </div>
+      <p>Keep a list of nodes already visited to avoid going in cycles</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">visited</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">while</span> <span class="n">to_visit</span> <span class="o">!=</span> <span class="p">[]:</span>
+        <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span> <span class="o">=</span> <span class="n">to_visit</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">visited</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="n">node2</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">distance</span>
+        <span class="k">for</span> <span class="n">neighbour</span> <span class="ow">in</span> <span class="n">neighbourhood</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">neighbour</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">visited</span><span class="p">:</span>
+                <span class="n">to_visit</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">neighbour</span><span class="p">,</span> <span class="n">distance</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+<span class="k">assert</span> <span class="n">distance</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">LOOP</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">assert</span> <span class="n">distance</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">C4</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+<span class="k">assert</span> <span class="n">distance</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">K3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="k">assert</span> <span class="n">distance</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">K3</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-66'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-66'>#</a>
+      </div>
+      <p>A graph's <strong>diameter</strong> is the longest of all pairwise distances.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">diameter</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-67'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-67'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">diameter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">node1</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">node2</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">distance</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">d</span>
+            <span class="k">elif</span> <span class="n">d</span> <span class="o">&gt;</span> <span class="n">diameter</span><span class="p">:</span>
+                <span class="n">diameter</span> <span class="o">=</span> <span class="n">d</span>
+    <span class="k">return</span> <span class="n">diameter</span>
+
+<span class="k">assert</span> <span class="n">diameter</span><span class="p">(</span><span class="n">N2</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
+<span class="k">assert</span> <span class="n">diameter</span><span class="p">(</span><span class="n">K3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="k">assert</span> <span class="n">diameter</span><span class="p">(</span><span class="n">C5</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-68'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-68'>#</a>
+      </div>
+      <p>Exercise: why is diameter initialised with zero?</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-69'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-69'>#</a>
+      </div>
+      <p>A network is <strong>connected</strong> if every node is reachable from any node.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">connected</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-70'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-70'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">for</span> <span class="n">node1</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">node2</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">distance</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="bp">True</span>
+
+
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">uniform</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-71'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-71'>#</a>
+      </div>
+      <p>Return a simple random graph with n nodes and edge probability p.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">random</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-72'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-72'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">assert</span> <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">p</span> <span class="ow">and</span> <span class="n">p</span> <span class="o">&lt;=</span> <span class="mi">1</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">null</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">node1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">node2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">node1</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">p</span><span class="p">:</span>
+                <span class="n">graph</span> <span class="o">=</span> <span class="n">add_edges</span><span class="p">({</span><span class="n">edge</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)},</span> <span class="n">graph</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">graph</span>
+
+<span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">random</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">==</span> <span class="mi">4</span>
+<span class="k">assert</span> <span class="n">size</span><span class="p">(</span><span class="n">random</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span>
+<span class="k">assert</span> <span class="n">size</span><span class="p">(</span><span class="n">random</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">==</span> <span class="mi">6</span>
+<span class="k">assert</span> <span class="n">simple</span><span class="p">(</span><span class="n">random</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-73'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-73'>#</a>
+      </div>
+      <h3>Exercises</h3>
+<ol>
+<li>What is the mean degree of the empty graph?</li>
+<li>Write a program that imports SINPLE and reports various properties
+   of the Arpanet network, e.g. the most connected nodes.</li>
+<li>Write a function to create a simple random graph of given order and size.</li>
+</ol>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
