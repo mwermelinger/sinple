@@ -35,8 +35,8 @@ The latest version of SINPLE can be found on http://tiny.cc/sinple.
 # Functions named with nouns return network entities or metrics.
 # The code passes the [PEP8 style checker](https://github.com/jcrocholl/pep8).
 
-# Network representation
-# ----------------------
+# Network representation and creation
+# -----------------------------------
 # The mathematical basis of network science is graph theory.
 # Graph terminology varies among authors.
 # We will mostly follow the Wikipedia [glossary of graph
@@ -50,13 +50,10 @@ The latest version of SINPLE can be found on http://tiny.cc/sinple.
 # SINPLE represents a network by a pair `(nodes, edges)`,
 # where `nodes` is a Python set of node names (e.g. integers or strings)
 # and `edges` is a Python set of edges.
-# Each edge is represented by a Python immutable set of node names
-# `frozenset(node1, node2)`.
-# It is a set, because the edge has no direction,
-# i.e. the order of the two nodes doesn't matter.
-# It is an immutable set so that `edges` can be a set of sets.
+# Each edge is represented by a Python set of node names `{node1, node2}`,
+# because the edge has no direction.
 #
-# The functions in this and the next section encapsulate this representation
+# The functions in this section encapsulate this representation
 # from the rest of the library.
 
 
@@ -86,39 +83,13 @@ def endpoints(edge):
 assert endpoints(edge(1, 2)) == {1, 2}
 
 
-def incident(edge, node):
-    """An edge is **incident** to the nodes it connects, and vice-versa."""
-    return node in endpoints(edge)
-
-assert incident(edge(1, 2), 1)
-assert incident(edge(1, 2), 2)
-assert not incident(edge(1, 2), 3)
-
-
-def is_loop(edge):
-    """An edge is a **loop** if it connects a node to itself."""
-    return len(endpoints(edge)) == 1
-
-assert is_loop(edge("A", "A"))
-assert not is_loop(edge("A", "B"))
-
-
-# ### Network creation and example networks
-#
-# The following functions construct new graphs.
-# The example graphs are used in further unit tests.
-
-
 def null(n):
     """Return the **null graph** with nodes numbered 1 to *n* and no edges."""
     return ({x for x in range(1, n+1)}, set())
 
-# The **empty graph** has no nodes and hence no edges.
-EMPTY = null(0)
-
-# The **trivial graph** has a single node and no edges.
-N1 = null(1)
-N2 = null(2)
+assert nodes(null(0)) == set()
+assert edges(null(2)) == set()
+assert nodes(null(2)) == {1, 2}
 
 
 def add_edges(edgeset, graph):
@@ -131,12 +102,33 @@ def add_edges(edgeset, graph):
         nodeset = nodeset | endpoints(edge)
     return (nodes(graph) | nodeset, edges(graph) | edgeset)
 
-assert add_edges({edge(1, 2)}, EMPTY) == add_edges({edge(2, 1)}, N2)
+assert add_edges({edge(1, 2)}, null(0)) == add_edges({edge(2, 1)}, null(2))
+
+
+def delete_edges(edgeset, graph):
+    """Remove the edge set, but not their incident nodes, from the graph.
+
+    Return a new graph.
+    """
+    return (nodes(graph), edges(graph) - edgeset)
+
+assert delete_edges({edge(1, 2)}, add_edges({edge(2, 1)}, null(0))) == null(2)
 
 
 def network(edgeset):
     """Create a network from the given set of edges."""
-    return add_edges(edgeset, EMPTY)
+    return add_edges(edgeset, null(0))
+
+# ### Example networks
+#
+# The example graphs are used in further unit tests.
+
+# The **empty graph** has no nodes and hence no edges.
+EMPTY = null(0)
+
+# The **trivial graph** has a single node and no edges.
+N1 = null(1)
+N2 = null(2)
 
 # The smallest non-simple graph has a single loop.
 LOOP = network({edge(1, 1)})
@@ -144,13 +136,6 @@ LOOP = network({edge(1, 1)})
 # A **complete graph** K*n* connects each node to all other *n-1* nodes.
 K2 = network({edge(1, 2)})
 K3 = network({edge(1, 2), edge(1, 3), edge(2, 3)})
-
-
-def delete_edges(edgeset, graph):
-    """Remove the edge set, but not their incident nodes, from the graph."""
-    return (nodes(graph), edges(graph) - edgeset)
-
-assert delete_edges({edge(1, 2)}, K2) == N2
 
 # A **cycle graph** C*n* has *n* nodes connected in a 'round-robin' fashion.
 # Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, etc.
@@ -182,13 +167,36 @@ ARPANET = network({
 # ### Exercises
 #
 # 1. Consult the Python documentation about sets.
-# Explain how `null()` works, and why `{}` wasn't used instead of `set()`.
+#    Explain why an edge is represented by a frozen (i.e. immutable) set.
+# 1. Explain how `null()` works. Why isn't `{}` used instead of `set()`?
 # 1. Explain how `add_edges()` works. Why isn't `edgseset` just named `edges`?
 # 1. Draw the Petersen graph on paper and label the nodes as in `PETERSEN`.
 # 1. Explain how C4 is constructed from C3.
 # 1. Define K1 and C2.
 # 1. Write a function that creates a cycle graph, given the number of nodes.
 # 1. Write a function that creates a complete graph, given the number of nodes.
+
+
+# Edge properties
+# ---------------
+
+
+def incident(edge, node):
+    """An edge is **incident** to the nodes it connects, and vice-versa."""
+    return node in endpoints(edge)
+
+assert incident(edge(1, 2), 1)
+assert incident(edge(1, 2), 2)
+assert not incident(edge(1, 2), 3)
+
+
+def is_loop(edge):
+    """An edge is a **loop** if it connects a node to itself."""
+    return len(endpoints(edge)) == 1
+
+assert is_loop(edge("A", "A"))
+assert not is_loop(edge("A", "B"))
+
 
 # Node properties
 # ---------------
@@ -368,25 +376,39 @@ assert neighbourhood(1, LOOP) == {1}
 assert neighbourhood(1, PETERSEN) == {2, 5, 6}
 
 
+def shortest_path(node1, node2, graph):
+    """Return the first shortest path found between the two nodes.
+
+    A **path** is a sequence of nodes n_1, n_2, ... with n_i adjacent to n_i+1.
+    If there is no path, return `[]`, otherwise return `[node1, ..., node2]`.
+    Return `[node1]` if node1 and node2 are the same.
+    """
+    paths = [[node1]]
+    visited = []
+    while paths != []:
+        path = paths.pop(0)
+        last = path[-1]
+        visited.append(last)
+        if last == node2:
+            return path
+        for neighbour in neighbourhood(last, graph):
+            if neighbour not in visited:
+                paths.append(path + [neighbour])
+    return []
+
+assert shortest_path(1, 2, N2) == []
+assert shortest_path(1, 1, LOOP) == [1]
+assert shortest_path(3, 1, K3) == [3, 1]
+assert shortest_path(1, 4, C5) == [1, 5, 4]
+
+
 def distance(node1, node2, graph):
     """The **distance** is the length of the shortest path from node1 to node2.
 
     The length of a path is the number of its edges.
     If there's no path, return -1 to represent infinite distance.
     """
-    # Keep a list of nodes to visit and their distance from node1
-    to_visit = [(node1, 0)]
-    # Keep a list of nodes already visited to avoid going in cycles
-    visited = []
-    while to_visit != []:
-        (node, distance) = to_visit.pop(0)
-        visited.append(node)
-        if node == node2:
-            return distance
-        for neighbour in neighbourhood(node, graph):
-            if neighbour not in visited:
-                to_visit.append((neighbour, distance + 1))
-    return -1
+    return len(shortest_path(node1, node2, graph)) - 1
 
 assert distance(1, 1, LOOP) == 0
 assert distance(2, 4, C4) == 2
@@ -422,6 +444,7 @@ def connected(graph):
     return True
 
 
+# Import a random number generator with uniform distribution
 from random import uniform
 
 
