@@ -22,6 +22,8 @@ Instead SINPLE's aims are pedagogical:
 - it is extensively documented in a simple [literate
 programming](http://en.wikipedia.org/wiki/Literate_programming) style.
 
+SINPLE is written for Python 3.
+
 Running [Pycco](http://fitzgen.github.io/pycco/) on the source code
 (`pycco -d . sinple.py`) generates `sinple.html`,
 a side-by-side view of documentation and code.
@@ -152,9 +154,6 @@ def network(edgeset):
     """Create a network from the given set of edges."""
     return add_edges(edgeset, null(0))
 
-# - Write a function `subgraph(nodeset, graph)` that returns the **subgraph**
-#   with the nodes of `graph` that are in `nodeset` and the edges of `graph`
-#   that connect those nodes.
 
 # ### Example networks
 #
@@ -290,6 +289,23 @@ assert not isolated(1, K2)
 # - Rewrite `isolated()` using `degree()`.
 # - Which of the 3 versions is more efficient?
 
+# Further graph construction
+# --------------------------
+
+
+def subgraph(nodeset, graph):
+    """
+    Return the graph's **subgraph induced** by nodeset.
+
+    It includes those edges of graph that connect nodeset.
+    """
+    edgeset = {edge(n1, n2) for n1 in nodeset for n2 in nodeset}
+    return (nodeset & nodes(graph), edgeset & edges(graph))
+
+assert subgraph({1, 3}, N2) == N1
+assert subgraph({1, 2, 3, 4, 5}, PETERSEN) == C5
+
+# - Explain how `subgraph()` works.
 
 # Graph properties
 # ----------------
@@ -334,7 +350,7 @@ def density(graph):
     it's its size divided by the size of a complete graph of the same order.
     """
     o = order(graph)
-    return size(graph) / (o * (o - 1) / 2.0)
+    return size(graph) / (o * (o - 1) / 2)
 
 # Every null graph has density 0.
 assert density(N2) == 0
@@ -344,7 +360,6 @@ assert density(K3) == 1
 assert density(add_edges({edge(1, 1)}, K3)) > 1
 
 # - What is `density(EMPTY)`? Should it be any particular value?
-# - Explain why 2.0 is used instead of 2. Hint: look up 'division in Python'.
 
 
 def degree_sequence(graph):
@@ -443,6 +458,18 @@ assert neighbourhood(1, LOOP) == {1}
 assert neighbourhood(1, PETERSEN) == {2, 5, 6}
 
 
+def clustering_coefficient(node, graph):
+    """
+    Return the node's **local clustering coefficient**.
+
+    It is the density of its neighbourhood.
+    """
+    return density(subgraph(neighbourhood(node, graph), graph))
+
+assert clustering_coefficient(1, K3) == 1
+assert clustering_coefficient(3, PETERSEN) == 0
+
+
 def shortest_path(node1, node2, graph):
     """Return the first shortest path found between the two nodes.
 
@@ -522,7 +549,7 @@ def connected(graph):
 assert connected(N1)
 assert not connected(N2)
 
-# - Make `connected()` more efficient for the case the graph is connected.
+# - Make `connected()` more efficient.
 # - Add a function to check if a network is resilient to single edge failure,
 #   i.e. if it remains connected after any one edge is removed.
 #   Write a unit test showing that ARPANET is resilient.
@@ -566,7 +593,7 @@ def giant_component(graph):
     """
     o = order(graph)
     for component in components(graph):
-        if order(component) > o / 2.0:
+        if order(component) > o / 2:
             return component
     return None
 
@@ -605,6 +632,8 @@ assert simple(random(4, 0.5))
 #    of the Arpanet network, e.g. the most connected nodes.
 
 # Projects
+#
+# Make SINPLE work with Python 2.7.
 #
 # Extend SINPLE to support **weighted edges**,
 # i.e. edges that have an associated number, called the edge's weight.
