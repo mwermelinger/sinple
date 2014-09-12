@@ -1,5 +1,5 @@
 all:
-	python sinple.py
+	python3 sinple.py
 	pep8 sinple.py
-	pydoc sinple > sinple.txt
+	pydoc3 sinple > sinple.txt
 	pycco -d . sinple.py

@@ -54,12 +54,14 @@ The latest version of SINPLE can be found on http://tiny.cc/sinple.
 # Some exercises ask to change existing functions, others to add new code.
 # When writing a new function, think about its name and parameters,
 # any preconditions, and add the corresponding unit tests.
+#
+# Please don't share exercise solutions publicly.
 
 # Network representation and creation
 # -----------------------------------
 # The mathematical basis of network science is graph theory.
 # Graph terminology varies among authors.
-# We will mostly follow the Wikipedia [glossary of graph
+# We mostly follow the Wikipedia [glossary of graph
 # theory](http://en.wikipedia.org/wiki/Glossary_of_graph_theory).
 #
 # In SINPLE, a **network** (also called a **graph**)
@@ -103,12 +105,13 @@ def endpoints(edge):
     """Return the edge's **endpoints**, i.e. the set of nodes it connects."""
     return edge
 
-assert endpoints(edge(1, 2)) == {1, 2}
+assert endpoints(edge(2, 1)) == {1, 2}
+assert endpoints(edge(1, 1)) == {1}
+assert endpoints(edge('me', 'my friend')) == {'my friend', 'me'}
 
 
 def null(n):
     """Return the **null graph** with nodes numbered 1 to *n* and no edges."""
-    assert n >= 0
     return ({x for x in range(1, n+1)}, set())
 
 assert nodes(null(0)) == set()
@@ -116,15 +119,6 @@ assert edges(null(2)) == set()
 assert nodes(null(2)) == {1, 2}
 
 # - Explain how `null()` works. Why is `set()` used instead of `{}`?
-
-
-def add_nodes(nodeset, graph):
-    """Add a set of nodes to graph to create a new graph."""
-    return (nodes(graph) | nodeset, edges(graph) | set())
-
-assert add_nodes({3, 2, 1}, null(0)) == null(3)
-
-# - What does the `|` operator do? Why is the empty set added?
 
 
 def add_edges(edgeset, graph):
@@ -150,9 +144,12 @@ assert delete_edges({edge(1, 2)}, add_edges({edge(2, 1)}, null(0))) == null(2)
 # - Write a function to remove a set of nodes from a graph.
 
 
-def network(edgeset):
-    """Create a network from the given set of edges."""
-    return add_edges(edgeset, null(0))
+def network(edgeset, nodeset=set()):
+    """Create a network from the given sets of edges and nodes.
+
+    All nodes incident to the given edges are automatically added.
+    """
+    return add_edges(edgeset, (nodeset, set()))
 
 
 # ### Example networks
@@ -300,12 +297,15 @@ def subgraph(nodeset, graph):
     It includes those edges of graph that connect nodeset.
     """
     edgeset = {edge(n1, n2) for n1 in nodeset for n2 in nodeset}
-    return (nodeset & nodes(graph), edgeset & edges(graph))
+    return network(edgeset & edges(graph), nodeset & nodes(graph))
 
 assert subgraph({1, 3}, N2) == N1
 assert subgraph({1, 2, 3, 4, 5}, PETERSEN) == C5
 
 # - Explain how `subgraph()` works.
+# - Make it more efficient.
+# - Write a function to check if *g1* is a *subgraph* of *g2*,
+#   i.e. if the nodes and edges of *g1* are included in those of *g2*.
 
 # Graph properties
 # ----------------
@@ -348,18 +348,18 @@ def density(graph):
     """
     A graph's **density** is the ratio of its actual and potential edges:
     it's its size divided by the size of a complete graph of the same order.
+    The density of an empty graph is set to zero.
     """
     o = order(graph)
-    return size(graph) / (o * (o - 1) / 2)
+    return size(graph) / (o * (o - 1) / 2) if o > 0 else 0
 
+assert density(EMPTY) == 0
 # Every null graph has density 0.
 assert density(N2) == 0
 # Every complete graph has density 1.
 assert density(K3) == 1
 # A graph with loops can have density > 1.
 assert density(add_edges({edge(1, 1)}, K3)) > 1
-
-# - What is `density(EMPTY)`? Should it be any particular value?
 
 
 def degree_sequence(graph):
@@ -457,6 +457,8 @@ def neighbourhood(node, graph):
 assert neighbourhood(1, LOOP) == {1}
 assert neighbourhood(1, PETERSEN) == {2, 5, 6}
 
+# - Rewrite `isolated()` using `neighbourhood()`.
+
 
 def clustering_coefficient(node, graph):
     """
@@ -548,11 +550,16 @@ def connected(graph):
 
 assert connected(N1)
 assert not connected(N2)
+assert connected(C5)
 
 # - Make `connected()` more efficient.
 # - Add a function to check if a network is resilient to single edge failure,
 #   i.e. if it remains connected after any one edge is removed.
 #   Write a unit test showing that ARPANET is resilient.
+# - Add a function to check if a network is resilient to single node failure,
+#   i.e. if after removing any one node, the remaining graph is connected.
+#   Show that ARPANET is also resilient in this sense.
+#   Hint: first implement node removal; see earlier exercise.
 
 
 def components(graph):
@@ -563,18 +570,16 @@ def components(graph):
     components = []
     visited = set()
     for node in nodes(graph):
-        component = null(0)
-        to_visit = [node]
-        while to_visit != []:
-            node = to_visit.pop(0)
+        component = set()
+        to_visit = {node}
+        while to_visit:
+            node = to_visit.pop()
             if node not in visited:
                 visited.add(node)
-                component = add_nodes({node}, component)
-                for neighbour in neighbourhood(node, graph):
-                    component = add_edges({edge(node, neighbour)}, component)
-                    to_visit.append(neighbour)
-        if order(component) > 0:
-            components.append(component)
+                component.add(node)
+                to_visit = to_visit | neighbourhood(node, graph)
+        if component:
+            components.append(subgraph(component, graph))
     return components
 
 assert components(K3) == [K3]
@@ -582,7 +587,6 @@ assert [order(c) for c in components(N2)] == [1, 1]
 assert [size(c) for c in components(N2)] == [0, 0]
 
 # - Explain how `components()` works. Explain its unit tests.
-# - Rewrite `components()` using the `subgraph()` function an earlier exercise.
 # - Rewrite `connected()` using `components()`.
 
 
@@ -627,7 +631,6 @@ assert simple(random(4, 0.5))
 #   empirical values match the expected theoretical values.
 #   The expected mean degree is `n/p`.
 
-# 1. What is the mean degree of the empty graph?
 # 1. Write a program that imports SINPLE and reports various properties
 #    of the Arpanet network, e.g. the most connected nodes.
 
