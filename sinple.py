@@ -90,7 +90,7 @@ assert edge(1, 2) == edge(2, 1)
 
 
 def endpoints(edge):
-    """Return the edge's **endpoints**, i.e. the set of nodes it connects."""
+    """Return the set of the edge's **endpoints** (the nodes it connects)."""
     return set(edge)
 
 assert endpoints(edge(2, 1)) == {1, 2}
@@ -99,7 +99,7 @@ assert endpoints(edge("me", "my friend")) == {"my friend", "me"}
 
 
 def edges(graph):
-    """Return the set of the graph's edges"""
+    """Return the set of the graph's edges."""
     (nodes, edges) = graph
     return edges
 
@@ -112,7 +112,7 @@ def nodes(graph):
 
 def add_edges(edgeset, graph):
     """
-    Add a set of edges and their endpoints to a graph to create a new graph.
+    Create a new graph by adding the set of edges and their endpoints to graph.
     """
     nodeset = set()
     for edge in edgeset:
@@ -123,17 +123,14 @@ def add_edges(edgeset, graph):
 
 
 def network(edgeset, nodeset=set()):
-    """Create a network from the given sets of edges and nodes.
-
-    All nodes incident to the given edges are automatically added.
-    """
+    """Create a graph with the given nodes, edges, and their endpoints."""
     return add_edges(edgeset, (nodeset, set()))
 
 assert network({edge(1, 2)}) == network({edge(2, 1)}, {1, 2})
 
 
 def delete_edges(edgeset, graph):
-    """Remove a set of edges from a graph to create a new graph."""
+    """Create a new graph by removing the set of edges from graph."""
     return (nodes(graph), edges(graph) - edgeset)
 
 assert delete_edges({edge(1, 2)}, network({edge(2, 1)})) \
@@ -148,7 +145,7 @@ assert delete_edges({edge(1, 2)}, network({edge(2, 1)})) \
 
 
 def null(n):
-    """Return the **null graph** with nodes numbered 1 to n and no edges."""
+    """Create a **null graph** with n nodes numbered 1 to n and no edges."""
     return network(set(), {x for x in range(1, n+1)})
 
 # The **empty graph** has no nodes and hence no edges.
@@ -193,8 +190,10 @@ PETERSEN = add_edges({
 
 # The [utility graph](http://en.wikipedia.org/wiki/Water,_gas,_and_electricity)
 # connects 3 houses to 3 utilities.
-UTILITY = network({edge(house, utility) for house in [1, 2, 3]
-                   for utility in ["gas", "water", "power"]})
+UTILITY = network({
+    edge(house, utility)
+    for house in [1, 2, 3] for utility in ["gas", "water", "power"]
+    })
 
 # In December 1970, the Arpanet (the precursor of the Internet) had 13 nodes.
 # Source: http://som.csudh.edu/cis/lpress/history/arpamaps.
@@ -214,7 +213,7 @@ ARPANET = network({
 
 
 def incident(edge, node):
-    """An edge is **incident** to the nodes it connects, and vice-versa."""
+    """Check if the edge is **incident** to (i.e. connects) the node."""
     return node in endpoints(edge)
 
 assert incident(edge(1, 2), 1)
@@ -223,7 +222,7 @@ assert not incident(edge(1, 2), 3)
 
 
 def is_loop(edge):
-    """An edge is a **loop** if it connects a node to itself."""
+    """Check if edge is a **loop** (connects a node to itself)."""
     return len(endpoints(edge)) == 1
 
 assert is_loop(edge("A", "A"))
@@ -235,7 +234,7 @@ assert not is_loop(edge("A", "B"))
 
 
 def degree(node, graph):
-    """A node's **degree** is the number of incident edge tips.
+    """Return the node's **degree** (number of incident edge tips).
 
     Loops count twice, so that each edge contributes 2 to the degree sum.
     """
@@ -262,7 +261,7 @@ assert degree(6, PETERSEN) == 3
 
 
 def adjacent(node1, node2, graph):
-    """Two nodes are **adjacent** if an edge connects them."""
+    """Check if the nodes are **adjacent** (an edge connects them)."""
     return edge(node1, node2) in edges(graph)
 
 assert adjacent(1, 2, K2)
@@ -271,19 +270,9 @@ assert adjacent(1, 1, LOOP)
 assert not adjacent(1, 1, K2)
 assert not adjacent(1, 3, C4)
 
-
-def isolated(node, graph):
-    """A node is **isolated** if it is not incident to any edge."""
-    for edge in edges(graph):
-        if incident(edge, node):
-            return False
-    return True
-
-assert isolated(1, N1)
-assert not isolated(1, K2)
-
-# - Rewrite `isolated()` using `adjacent()`.
-# - Rewrite `isolated()` using `degree()`.
+# - Write a function to check if a node is **isolated**
+#   (not connected to any node).
+#   Implement 3 versions, using `incident()`, `adjacent()`, and `degree()`.
 # - Which of the 3 versions is more efficient?
 
 
@@ -293,9 +282,9 @@ assert not isolated(1, K2)
 
 def subgraph(nodeset, graph):
     """
-    Return the graph's **subgraph induced** by nodeset.
+    Return the graph's **subgraph induced** by the set of nodes.
 
-    It includes those edges of graph that connect nodeset.
+    It includes those edges of graph that connect the given nodes.
     """
     edgeset = {edge(n1, n2) for n1 in nodeset for n2 in nodeset}
     return network(edgeset & edges(graph), nodeset & nodes(graph))
@@ -310,7 +299,7 @@ assert subgraph({1, 2, 3, 4, 5}, PETERSEN) == C5
 
 
 def renumber(graph, n=1):
-    """Return the same graph but with nodes numbered n, n+1, n+2, etc."""
+    """Create a new graph by renaming the graph's nodes as n, n+1, n+2, etc."""
     number = n
     map = {}
     for node in nodes(graph):
@@ -330,7 +319,7 @@ assert renumber(network({edge("A", "B")})) == network({edge(1, 2)})
 
 
 def gml(graph):
-    """Returns a string representing the graph in GML format.
+    """Return a string representing the graph in GML format.
 
     The nodes of the graph must be represented by integers.
     """
@@ -368,7 +357,7 @@ graph [
 
 
 def size(graph):
-    """The graph's **size** is the number of its edges."""
+    """Return the graph's **size** (number of edges)."""
     return len(edges(graph))
 
 assert size(EMPTY) == 0
@@ -378,7 +367,7 @@ assert size(PETERSEN) == 15
 
 
 def order(graph):
-    """The graph's **order** is the number of its nodes."""
+    """Return the graph's **order** (number of nodes)."""
     return len(nodes(graph))
 
 assert order(EMPTY) == 0
@@ -388,7 +377,7 @@ assert order(PETERSEN) == 10
 
 
 def simple(graph):
-    """A graph is **simple** if it has no loops."""
+    """Check if the graph is **simple** (has no loops)."""
     for edge in edges(graph):
         if is_loop(edge):
             return False
@@ -402,9 +391,10 @@ assert not simple(LOOP)
 
 def density(graph):
     """
-    A graph's **density** is the ratio of its actual and potential edges:
-    it's its size divided by the size of a complete graph of the same order.
-    The density of an empty graph is set to zero.
+    Return the graph's **density** (ratio of actual to potential edges).
+
+    It's the size divided by the size of a complete graph of the same order.
+    The density of the empty graph is set to zero.
     """
     o = order(graph)
     return size(graph) / (o * (o - 1) / 2) if o > 0 else 0
@@ -419,7 +409,9 @@ assert density(add_edges({edge(1, 1)}, K3)) > 1
 
 
 def degree_sequence(graph):
-    """A graph's **degree sequence** is a descending list of nodes' degrees."""
+    """
+    Return the graph's **degree sequence** (descending list of node degrees).
+    """
     degrees = [degree(node, graph) for node in nodes(graph)]
     degrees.sort(reverse=True)
     return degrees
@@ -462,13 +454,11 @@ assert degree_distribution(LOOP) == [0, 0, 1]
 
 
 def mean_degree(graph):
-    """Return a graph's average degree."""
-    assert order(graph) > 0
-    total = 0
-    for node in nodes(graph):
-        total = total + degree(node, graph)
-    return total / order(graph)
+    """Return the graph's **average degree** (mean of all node degrees)."""
+    o = order(graph)
+    return sum(degree_sequence(graph)) / o if o > 0 else 0
 
+assert mean_degree(EMPTY) == 0
 assert mean_degree(N2) == 0
 assert mean_degree(C3) == 2
 
@@ -477,9 +467,8 @@ assert mean_degree(C3) == 2
 
 
 def k_regular(graph):
-    """A graph is **k-regular** if all its nodes have degree k.
-
-    Return k if the graph is k-regular, otherwise return -1.
+    """
+    Return k if graph is **k-regular** (all nodes have degree k), otherwise -1.
     """
     k = -1
     for node in nodes(graph):
@@ -507,7 +496,7 @@ assert k_regular(C3) == 2
 
 
 def neighbourhood(node, graph):
-    """The **neighbourhood** of a node is the set of its adjacent nodes."""
+    """Return a set with the node's **neighbourhood** (adjacent nodes)."""
     return {node2 for node2 in nodes(graph) if adjacent(node, node2, graph)}
 
 assert neighbourhood(1, LOOP) == {1}
@@ -518,9 +507,7 @@ assert neighbourhood(1, PETERSEN) == {2, 5, 6}
 
 def clustering_coefficient(node, graph):
     """
-    Return the node's **local clustering coefficient**.
-
-    It is the density of its neighbourhood.
+    Return node's **local clustering coefficient** (density of neighbourhood).
     """
     return density(subgraph(neighbourhood(node, graph), graph))
 
@@ -529,11 +516,11 @@ assert clustering_coefficient(3, PETERSEN) == 0
 
 
 def shortest_path(node1, node2, graph):
-    """Return the first shortest path found between the two nodes.
+    """
+    Return a shortest path [node1, ..., node2] between the two nodes.
 
-    A **path** is a sequence of nodes n_1, n_2, ... with n_i adjacent to n_i+1.
-    If there is no path, return `[]`, otherwise return `[node1, ..., node2]`.
-    Return `[node1]` if node1 and node2 are the same.
+    A **path** is a node sequence n_1, n_2, ... with n_i adjacent to n_i+1.
+    Return [] if there is no path. Return [node1] if both nodes are the same.
     """
     paths = [[node1]]
     visited = []
@@ -558,7 +545,7 @@ assert shortest_path(1, 4, C5) == [1, 5, 4]
 
 
 def distance(node1, node2, graph):
-    """The **distance** is the length of the shortest path from node1 to node2.
+    """Return the **distance** (length of shortest path) between the nodes.
 
     The length of a path is the number of its edges.
     If there's no path, the distance is infinite.
@@ -576,7 +563,7 @@ assert distance(1, 2, N2) == float("infinity")
 
 
 def diameter(graph):
-    """A graph's **diameter** is the longest of all pairwise distances."""
+    """Return the graph's **diameter** (longest of all pairwise distances)."""
     INFINITY = float("infinity")
     diameter = -INFINITY
     for node1 in nodes(graph):
@@ -597,7 +584,7 @@ assert diameter(C5) == 2
 
 
 def connected(graph):
-    """A network is **connected** if every node is reachable from any node."""
+    """Check if graph is **connected** (all nodes reachable from any node)."""
     for node1 in nodes(graph):
         for node2 in nodes(graph):
             if distance(node1, node2, graph) == float("infinity"):
@@ -619,9 +606,8 @@ assert connected(C5)
 
 
 def components(graph):
-    """A **component** is a maximal connected subgraph.
-
-    Return a list of the graph's components, in no particular order.
+    """
+    Return a list of the graph's **components** (maximal connected subgraphs).
     """
     components = []
     visited = set()
@@ -647,18 +633,19 @@ assert [size(c) for c in components(N2)] == [0, 0]
 
 
 def giant_component(graph):
-    """A **giant component** is a component with the majority of nodes.
+    """
+    Return the **giant component** (component with majority of nodes).
 
-    Return the giant component if there is one, otherwise None.
+    Return the empty graph if there is no giant component.
     """
     o = order(graph)
     for component in components(graph):
         if order(component) > o / 2:
             return component
-    return None
+    return null(0)
 
 assert giant_component(C3) == C3
-assert giant_component(N2) is None
+assert giant_component(N2) == null(0)
 
 
 # Import a random number generator with uniform distribution
@@ -682,16 +669,18 @@ assert size(random(4, 1)) == 6
 assert simple(random(4, 0.5))
 
 # - Write a function to create a simple random graph of given order and size.
-# - Write a program that imports SINPLE, creates several random graphs,
-#   collects their mean degrees and diameters, and checks if the
-#   empirical values match the expected theoretical values.
-#   The expected mean degree is `n/p`.
 
 
 # Projects
+# --------
 #
 # Write a program that imports SINPLE and reports various properties
 # of the Arpanet network, e.g. the most connected nodes.
+#
+# Write a program that imports SINPLE, creates several random graphs,
+# collects their mean degrees and diameters, and checks if the
+# empirical values match the expected theoretical values.
+# The expected mean degree is `n/p`.
 #
 # Make SINPLE work with Python 2.7.
 #
