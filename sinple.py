@@ -4,11 +4,10 @@ SImple Network Python Library for Education (SINPLE)
 Michel Wermelinger
 
 Many systems can be represented as networks, e.g. transport connections,
-gene regulation, social interactions, the World Wide Web.
-[Network science](http://en.wikipedia.org/wiki/Network_science) is an
+gene regulation, social interactions, the World Wide Web. Network science is an
 important field to analyse and predict the behaviour of such systems.
 
-SINPLE does *not* support analysis of large networks;
+SINPLE does not support analysis of very large networks;
 there are various state-of-the-art libraries for that.
 Instead SINPLE's aims are pedagogical:
 
@@ -79,6 +78,26 @@ The latest version of SINPLE can be found on http://tiny.cc/sinple.
 # from the rest of the library.
 
 
+def edge(node1, node2):
+    """Create an edge connecting the two nodes."""
+    return frozenset({node1, node2})
+
+assert edge(1, 2) == edge(2, 1)
+
+# - Consult the Python documentation about sets.
+#   Why is an edge represented by a frozen (i.e. immutable) set?
+#   Hint: read again the definition of graph at the start of this section.
+
+
+def endpoints(edge):
+    """Return the edge's **endpoints**, i.e. the set of nodes it connects."""
+    return set(edge)
+
+assert endpoints(edge(2, 1)) == {1, 2}
+assert endpoints(edge(1, 1)) == {1}
+assert endpoints(edge("me", "my friend")) == {"my friend", "me"}
+
+
 def edges(graph):
     """Return the set of the graph's edges"""
     (nodes, edges) = graph
@@ -91,36 +110,6 @@ def nodes(graph):
     return nodes
 
 
-def edge(node1, node2):
-    """Create an edge connecting the two nodes."""
-    return frozenset({node1, node2})
-
-assert edge(1, 2) == edge(2, 1)
-
-# - Consult the Python documentation about sets.
-#   Why is an edge represented by a frozen (i.e. immutable) set?
-
-
-def endpoints(edge):
-    """Return the edge's **endpoints**, i.e. the set of nodes it connects."""
-    return edge
-
-assert endpoints(edge(2, 1)) == {1, 2}
-assert endpoints(edge(1, 1)) == {1}
-assert endpoints(edge('me', 'my friend')) == {'my friend', 'me'}
-
-
-def null(n):
-    """Return the **null graph** with nodes numbered 1 to *n* and no edges."""
-    return ({x for x in range(1, n+1)}, set())
-
-assert nodes(null(0)) == set()
-assert edges(null(2)) == set()
-assert nodes(null(2)) == {1, 2}
-
-# - Explain how `null()` works. Why is `set()` used instead of `{}`?
-
-
 def add_edges(edgeset, graph):
     """
     Add a set of edges and their endpoints to a graph to create a new graph.
@@ -130,18 +119,7 @@ def add_edges(edgeset, graph):
         nodeset = nodeset | endpoints(edge)
     return (nodes(graph) | nodeset, edges(graph) | edgeset)
 
-assert add_edges({edge(1, 2)}, null(0)) == add_edges({edge(2, 1)}, null(2))
-
-# - Explain how `add_edges()` works.
-
-
-def delete_edges(edgeset, graph):
-    """Remove a set of edges from a graph to create a new graph."""
-    return (nodes(graph), edges(graph) - edgeset)
-
-assert delete_edges({edge(1, 2)}, add_edges({edge(2, 1)}, null(0))) == null(2)
-
-# - Write a function to remove a set of nodes from a graph.
+# - Explain how `add_edges()` works. Why is `set()` used instead of `{}`?
 
 
 def network(edgeset, nodeset=set()):
@@ -151,10 +129,27 @@ def network(edgeset, nodeset=set()):
     """
     return add_edges(edgeset, (nodeset, set()))
 
+assert network({edge(1, 2)}) == network({edge(2, 1)}, {1, 2})
+
+
+def delete_edges(edgeset, graph):
+    """Remove a set of edges from a graph to create a new graph."""
+    return (nodes(graph), edges(graph) - edgeset)
+
+assert delete_edges({edge(1, 2)}, network({edge(2, 1)})) \
+    == network(set(), {1, 2})
+
+# - Write a function to remove a set of nodes from a graph.
+
 
 # ### Example networks
 #
-# These examples are used in further unit tests.
+# These networks are used in further unit tests.
+
+
+def null(n):
+    """Return the **null graph** with nodes numbered 1 to n and no edges."""
+    return network(set(), {x for x in range(1, n+1)})
 
 # The **empty graph** has no nodes and hence no edges.
 EMPTY = null(0)
@@ -195,6 +190,11 @@ PETERSEN = add_edges({
     C5)
 
 # - Draw the Petersen graph on paper and label the nodes as in `PETERSEN`.
+
+# The [utility graph](http://en.wikipedia.org/wiki/Water,_gas,_and_electricity)
+# connects 3 houses to 3 utilities.
+UTILITY = network({edge(house, utility) for house in [1, 2, 3]
+                   for utility in ["gas", "water", "power"]})
 
 # In December 1970, the Arpanet (the precursor of the Internet) had 13 nodes.
 # Source: http://som.csudh.edu/cis/lpress/history/arpamaps.
@@ -286,6 +286,7 @@ assert not isolated(1, K2)
 # - Rewrite `isolated()` using `degree()`.
 # - Which of the 3 versions is more efficient?
 
+
 # Further graph construction
 # --------------------------
 
@@ -304,8 +305,63 @@ assert subgraph({1, 2, 3, 4, 5}, PETERSEN) == C5
 
 # - Explain how `subgraph()` works.
 # - Make it more efficient.
-# - Write a function to check if *g1* is a *subgraph* of *g2*,
+# - Write a function to check if *g1* is a **subgraph** of *g2*,
 #   i.e. if the nodes and edges of *g1* are included in those of *g2*.
+
+
+def renumber(graph, n=1):
+    """Return the same graph but with nodes numbered n, n+1, n+2, etc."""
+    number = n
+    map = {}
+    for node in nodes(graph):
+        map[node] = number
+        number = number + 1
+    new_graph = network(set(), set(range(n, number)))
+    for e in edges(graph):
+        nodeset = endpoints(e)
+        node1 = map[nodeset.pop()]
+        node2 = map[nodeset.pop()] if nodeset else node1
+        new_graph = add_edges({edge(node1, node2)}, new_graph)
+    return new_graph
+
+assert renumber(EMPTY, -1) == EMPTY
+assert renumber(N2, 5) == network(set(), {5, 6})
+assert renumber(network({edge("A", "B")})) == network({edge(1, 2)})
+
+
+def gml(graph):
+    """Returns a string representing the graph in GML format.
+
+    The nodes of the graph must be represented by integers.
+    """
+    # Concatenating many strings is slow; join a list of strings instead.
+    lines = ["graph [", "  directed 0"]  # in GML, 0 means false
+    for node in nodes(graph):
+        lines.append("  node [id {}]".format(node))
+    for edge in edges(graph):
+        nodeset = endpoints(edge)
+        # Take one of the nodes as the edge's source.
+        source = nodeset.pop()
+        # Take the other as target, unless set is now empty (edge is a loop).
+        target = nodeset.pop() if nodeset else source
+        lines.append("  edge [source {} target {}]".format(source, target))
+    lines.append("]")
+    # Join the lines, separated by newlines.
+    return "\n".join(lines)
+
+assert gml(LOOP) == """\
+graph [
+  directed 0
+  node [id 1]
+  edge [source 1 target 1]
+]"""
+assert gml(N2) == """\
+graph [
+  directed 0
+  node [id 1]
+  node [id 2]
+]"""
+
 
 # Graph properties
 # ----------------
@@ -631,12 +687,15 @@ assert simple(random(4, 0.5))
 #   empirical values match the expected theoretical values.
 #   The expected mean degree is `n/p`.
 
-# 1. Write a program that imports SINPLE and reports various properties
-#    of the Arpanet network, e.g. the most connected nodes.
 
 # Projects
 #
+# Write a program that imports SINPLE and reports various properties
+# of the Arpanet network, e.g. the most connected nodes.
+#
 # Make SINPLE work with Python 2.7.
+#
+# Write an object-oriented version of SINPLE.
 #
 # Extend SINPLE to support **weighted edges**,
 # i.e. edges that have an associated number, called the edge's weight.
@@ -645,8 +704,3 @@ assert simple(random(4, 0.5))
 # Learn about default parameter values in Python and change `edge()`.
 # Add a function to return the weight of an edge.
 # Modify `shortest_path()` to return the path with the smallest total weight.
-#
-# Check that KARATE has two highly connected members, the student founder and
-# the instructor, who are not friends of each other,
-# and that most members are not friends of both.
-# This conflict led to the split into two rival clubs.

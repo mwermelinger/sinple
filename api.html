@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module sinple</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>sinple</strong></big></big></font></td
+><td align=right valign=bottom
+></td></tr></table>
+    <p><tt>SImple&nbsp;Network&nbsp;Python&nbsp;Library&nbsp;for&nbsp;Education&nbsp;(SINPLE)<br>
+&nbsp;<br>
+Michel&nbsp;Wermelinger<br>
+&nbsp;<br>
+Many&nbsp;systems&nbsp;can&nbsp;be&nbsp;represented&nbsp;as&nbsp;networks,&nbsp;e.g.&nbsp;transport&nbsp;connections,<br>
+gene&nbsp;regulation,&nbsp;social&nbsp;interactions,&nbsp;the&nbsp;World&nbsp;Wide&nbsp;Web.&nbsp;Network&nbsp;science&nbsp;is&nbsp;an<br>
+important&nbsp;field&nbsp;to&nbsp;analyse&nbsp;and&nbsp;predict&nbsp;the&nbsp;behaviour&nbsp;of&nbsp;such&nbsp;systems.<br>
+&nbsp;<br>
+SINPLE&nbsp;does&nbsp;not&nbsp;support&nbsp;analysis&nbsp;of&nbsp;very&nbsp;large&nbsp;networks;<br>
+there&nbsp;are&nbsp;various&nbsp;state-of-the-art&nbsp;libraries&nbsp;for&nbsp;that.<br>
+Instead&nbsp;SINPLE's&nbsp;aims&nbsp;are&nbsp;pedagogical:<br>
+&nbsp;<br>
+-&nbsp;it&nbsp;illustrates&nbsp;basic&nbsp;Python&nbsp;constructs:&nbsp;loops,&nbsp;functions,&nbsp;tuples,&nbsp;sets,&nbsp;etc;<br>
+-&nbsp;it&nbsp;illustrates&nbsp;simple&nbsp;forms&nbsp;of<br>
+[unit&nbsp;testing](<a href="http://en.wikipedia.org/wiki/Unit_testing">http://en.wikipedia.org/wiki/Unit_testing</a>)&nbsp;and<br>
+[preconditions](<a href="http://en.wikipedia.org/wiki/Precondition">http://en.wikipedia.org/wiki/Precondition</a>)&nbsp;using&nbsp;assertions;<br>
+-&nbsp;it&nbsp;explains&nbsp;basic&nbsp;network&nbsp;concepts&nbsp;through&nbsp;executable&nbsp;definitions<br>
+(the&nbsp;functions)&nbsp;and&nbsp;concrete&nbsp;examples&nbsp;(the&nbsp;unit&nbsp;tests);<br>
+-&nbsp;it&nbsp;includes&nbsp;small&nbsp;exercises&nbsp;and&nbsp;larger&nbsp;projects;<br>
+-&nbsp;it&nbsp;is&nbsp;extensively&nbsp;documented&nbsp;in&nbsp;a&nbsp;simple&nbsp;[literate<br>
+programming](<a href="http://en.wikipedia.org/wiki/Literate_programming">http://en.wikipedia.org/wiki/Literate_programming</a>)&nbsp;style.<br>
+&nbsp;<br>
+SINPLE&nbsp;is&nbsp;written&nbsp;for&nbsp;Python&nbsp;3.<br>
+&nbsp;<br>
+Running&nbsp;[Pycco](<a href="http://fitzgen.github.io/pycco/">http://fitzgen.github.io/pycco/</a>)&nbsp;on&nbsp;the&nbsp;source&nbsp;code<br>
+(`pycco&nbsp;-d&nbsp;.&nbsp;sinple.py`)&nbsp;generates&nbsp;`sinple.html`,<br>
+a&nbsp;side-by-side&nbsp;view&nbsp;of&nbsp;documentation&nbsp;and&nbsp;code.<br>
+&nbsp;<br>
+The&nbsp;latest&nbsp;version&nbsp;of&nbsp;SINPLE&nbsp;can&nbsp;be&nbsp;found&nbsp;on&nbsp;<a href="http://tiny.cc/sinple">http://tiny.cc/sinple</a>.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-add_edges"><strong>add_edges</strong></a>(edgeset, graph)</dt><dd><tt>Add&nbsp;a&nbsp;set&nbsp;of&nbsp;edges&nbsp;and&nbsp;their&nbsp;endpoints&nbsp;to&nbsp;a&nbsp;graph&nbsp;to&nbsp;create&nbsp;a&nbsp;new&nbsp;graph.</tt></dd></dl>
+ <dl><dt><a name="-adjacent"><strong>adjacent</strong></a>(node1, node2, graph)</dt><dd><tt>Two&nbsp;nodes&nbsp;are&nbsp;**adjacent**&nbsp;if&nbsp;an&nbsp;edge&nbsp;connects&nbsp;them.</tt></dd></dl>
+ <dl><dt><a name="-clustering_coefficient"><strong>clustering_coefficient</strong></a>(node, graph)</dt><dd><tt>Return&nbsp;the&nbsp;node's&nbsp;**local&nbsp;clustering&nbsp;coefficient**.<br>
+&nbsp;<br>
+It&nbsp;is&nbsp;the&nbsp;density&nbsp;of&nbsp;its&nbsp;neighbourhood.</tt></dd></dl>
+ <dl><dt><a name="-components"><strong>components</strong></a>(graph)</dt><dd><tt>A&nbsp;**component**&nbsp;is&nbsp;a&nbsp;maximal&nbsp;connected&nbsp;subgraph.<br>
+&nbsp;<br>
+Return&nbsp;a&nbsp;list&nbsp;of&nbsp;the&nbsp;graph's&nbsp;components,&nbsp;in&nbsp;no&nbsp;particular&nbsp;order.</tt></dd></dl>
+ <dl><dt><a name="-connected"><strong>connected</strong></a>(graph)</dt><dd><tt>A&nbsp;network&nbsp;is&nbsp;**connected**&nbsp;if&nbsp;every&nbsp;node&nbsp;is&nbsp;reachable&nbsp;from&nbsp;any&nbsp;node.</tt></dd></dl>
+ <dl><dt><a name="-degree"><strong>degree</strong></a>(node, graph)</dt><dd><tt>A&nbsp;node's&nbsp;**degree**&nbsp;is&nbsp;the&nbsp;number&nbsp;of&nbsp;incident&nbsp;edge&nbsp;tips.<br>
+&nbsp;<br>
+Loops&nbsp;count&nbsp;twice,&nbsp;so&nbsp;that&nbsp;each&nbsp;edge&nbsp;contributes&nbsp;2&nbsp;to&nbsp;the&nbsp;degree&nbsp;sum.</tt></dd></dl>
+ <dl><dt><a name="-degree_distribution"><strong>degree_distribution</strong></a>(graph)</dt><dd><tt>Return&nbsp;a&nbsp;list&nbsp;of&nbsp;length&nbsp;<a href="#-order">order</a>(graph)+2&nbsp;of&nbsp;a&nbsp;node's&nbsp;degree&nbsp;probabilities.<br>
+&nbsp;<br>
+The&nbsp;n-th&nbsp;element&nbsp;is&nbsp;the&nbsp;probability&nbsp;of&nbsp;a&nbsp;node&nbsp;having&nbsp;degree&nbsp;n.</tt></dd></dl>
+ <dl><dt><a name="-degree_sequence"><strong>degree_sequence</strong></a>(graph)</dt><dd><tt>A&nbsp;graph's&nbsp;**degree&nbsp;sequence**&nbsp;is&nbsp;a&nbsp;descending&nbsp;list&nbsp;of&nbsp;nodes'&nbsp;degrees.</tt></dd></dl>
+ <dl><dt><a name="-delete_edges"><strong>delete_edges</strong></a>(edgeset, graph)</dt><dd><tt>Remove&nbsp;a&nbsp;set&nbsp;of&nbsp;edges&nbsp;from&nbsp;a&nbsp;graph&nbsp;to&nbsp;create&nbsp;a&nbsp;new&nbsp;graph.</tt></dd></dl>
+ <dl><dt><a name="-density"><strong>density</strong></a>(graph)</dt><dd><tt>A&nbsp;graph's&nbsp;**density**&nbsp;is&nbsp;the&nbsp;ratio&nbsp;of&nbsp;its&nbsp;actual&nbsp;and&nbsp;potential&nbsp;edges:<br>
+it's&nbsp;its&nbsp;size&nbsp;divided&nbsp;by&nbsp;the&nbsp;size&nbsp;of&nbsp;a&nbsp;complete&nbsp;graph&nbsp;of&nbsp;the&nbsp;same&nbsp;order.<br>
+The&nbsp;density&nbsp;of&nbsp;an&nbsp;empty&nbsp;graph&nbsp;is&nbsp;set&nbsp;to&nbsp;zero.</tt></dd></dl>
+ <dl><dt><a name="-diameter"><strong>diameter</strong></a>(graph)</dt><dd><tt>A&nbsp;graph's&nbsp;**diameter**&nbsp;is&nbsp;the&nbsp;longest&nbsp;of&nbsp;all&nbsp;pairwise&nbsp;distances.</tt></dd></dl>
+ <dl><dt><a name="-distance"><strong>distance</strong></a>(node1, node2, graph)</dt><dd><tt>The&nbsp;**distance**&nbsp;is&nbsp;the&nbsp;length&nbsp;of&nbsp;the&nbsp;shortest&nbsp;path&nbsp;from&nbsp;node1&nbsp;to&nbsp;node2.<br>
+&nbsp;<br>
+The&nbsp;length&nbsp;of&nbsp;a&nbsp;path&nbsp;is&nbsp;the&nbsp;number&nbsp;of&nbsp;its&nbsp;edges.<br>
+If&nbsp;there's&nbsp;no&nbsp;path,&nbsp;the&nbsp;distance&nbsp;is&nbsp;infinite.</tt></dd></dl>
+ <dl><dt><a name="-edge"><strong>edge</strong></a>(node1, node2)</dt><dd><tt>Create&nbsp;an&nbsp;edge&nbsp;connecting&nbsp;the&nbsp;two&nbsp;nodes.</tt></dd></dl>
+ <dl><dt><a name="-edges"><strong>edges</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;set&nbsp;of&nbsp;the&nbsp;graph's&nbsp;edges</tt></dd></dl>
+ <dl><dt><a name="-endpoints"><strong>endpoints</strong></a>(edge)</dt><dd><tt>Return&nbsp;the&nbsp;edge's&nbsp;**endpoints**,&nbsp;i.e.&nbsp;the&nbsp;set&nbsp;of&nbsp;nodes&nbsp;it&nbsp;connects.</tt></dd></dl>
+ <dl><dt><a name="-giant_component"><strong>giant_component</strong></a>(graph)</dt><dd><tt>A&nbsp;**giant&nbsp;component**&nbsp;is&nbsp;a&nbsp;component&nbsp;with&nbsp;the&nbsp;majority&nbsp;of&nbsp;nodes.<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;giant&nbsp;component&nbsp;if&nbsp;there&nbsp;is&nbsp;one,&nbsp;otherwise&nbsp;None.</tt></dd></dl>
+ <dl><dt><a name="-gml"><strong>gml</strong></a>(graph)</dt><dd><tt>Returns&nbsp;a&nbsp;string&nbsp;representing&nbsp;the&nbsp;graph&nbsp;in&nbsp;GML&nbsp;format.<br>
+&nbsp;<br>
+The&nbsp;nodes&nbsp;of&nbsp;the&nbsp;graph&nbsp;must&nbsp;be&nbsp;represented&nbsp;by&nbsp;integers.</tt></dd></dl>
+ <dl><dt><a name="-incident"><strong>incident</strong></a>(edge, node)</dt><dd><tt>An&nbsp;edge&nbsp;is&nbsp;**incident**&nbsp;to&nbsp;the&nbsp;nodes&nbsp;it&nbsp;connects,&nbsp;and&nbsp;vice-versa.</tt></dd></dl>
+ <dl><dt><a name="-is_loop"><strong>is_loop</strong></a>(edge)</dt><dd><tt>An&nbsp;edge&nbsp;is&nbsp;a&nbsp;**loop**&nbsp;if&nbsp;it&nbsp;connects&nbsp;a&nbsp;node&nbsp;to&nbsp;itself.</tt></dd></dl>
+ <dl><dt><a name="-isolated"><strong>isolated</strong></a>(node, graph)</dt><dd><tt>A&nbsp;node&nbsp;is&nbsp;**isolated**&nbsp;if&nbsp;it&nbsp;is&nbsp;not&nbsp;incident&nbsp;to&nbsp;any&nbsp;edge.</tt></dd></dl>
+ <dl><dt><a name="-k_regular"><strong>k_regular</strong></a>(graph)</dt><dd><tt>A&nbsp;graph&nbsp;is&nbsp;**k-regular**&nbsp;if&nbsp;all&nbsp;its&nbsp;nodes&nbsp;have&nbsp;degree&nbsp;k.<br>
+&nbsp;<br>
+Return&nbsp;k&nbsp;if&nbsp;the&nbsp;graph&nbsp;is&nbsp;k-regular,&nbsp;otherwise&nbsp;return&nbsp;-1.</tt></dd></dl>
+ <dl><dt><a name="-mean_degree"><strong>mean_degree</strong></a>(graph)</dt><dd><tt>Return&nbsp;a&nbsp;graph's&nbsp;average&nbsp;degree.</tt></dd></dl>
+ <dl><dt><a name="-neighbourhood"><strong>neighbourhood</strong></a>(node, graph)</dt><dd><tt>The&nbsp;**neighbourhood**&nbsp;of&nbsp;a&nbsp;node&nbsp;is&nbsp;the&nbsp;set&nbsp;of&nbsp;its&nbsp;adjacent&nbsp;nodes.</tt></dd></dl>
+ <dl><dt><a name="-network"><strong>network</strong></a>(edgeset, nodeset=set())</dt><dd><tt>Create&nbsp;a&nbsp;network&nbsp;from&nbsp;the&nbsp;given&nbsp;sets&nbsp;of&nbsp;edges&nbsp;and&nbsp;nodes.<br>
+&nbsp;<br>
+All&nbsp;nodes&nbsp;incident&nbsp;to&nbsp;the&nbsp;given&nbsp;edges&nbsp;are&nbsp;automatically&nbsp;added.</tt></dd></dl>
+ <dl><dt><a name="-nodes"><strong>nodes</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;set&nbsp;of&nbsp;the&nbsp;graph's&nbsp;nodes.</tt></dd></dl>
+ <dl><dt><a name="-null"><strong>null</strong></a>(n)</dt><dd><tt>Return&nbsp;the&nbsp;**null&nbsp;graph**&nbsp;with&nbsp;nodes&nbsp;numbered&nbsp;1&nbsp;to&nbsp;n&nbsp;and&nbsp;no&nbsp;edges.</tt></dd></dl>
+ <dl><dt><a name="-order"><strong>order</strong></a>(graph)</dt><dd><tt>The&nbsp;graph's&nbsp;**order**&nbsp;is&nbsp;the&nbsp;number&nbsp;of&nbsp;its&nbsp;nodes.</tt></dd></dl>
+ <dl><dt><a name="-random"><strong>random</strong></a>(n, p)</dt><dd><tt>Return&nbsp;a&nbsp;simple&nbsp;**random&nbsp;graph**&nbsp;with&nbsp;n&nbsp;nodes&nbsp;and&nbsp;edge&nbsp;probability&nbsp;p.</tt></dd></dl>
+ <dl><dt><a name="-renumber"><strong>renumber</strong></a>(graph, n=1)</dt><dd><tt>Return&nbsp;the&nbsp;same&nbsp;graph&nbsp;but&nbsp;with&nbsp;nodes&nbsp;numbered&nbsp;n,&nbsp;n+1,&nbsp;n+2,&nbsp;etc.</tt></dd></dl>
+ <dl><dt><a name="-shortest_path"><strong>shortest_path</strong></a>(node1, node2, graph)</dt><dd><tt>Return&nbsp;the&nbsp;first&nbsp;shortest&nbsp;path&nbsp;found&nbsp;between&nbsp;the&nbsp;two&nbsp;nodes.<br>
+&nbsp;<br>
+A&nbsp;**path**&nbsp;is&nbsp;a&nbsp;sequence&nbsp;of&nbsp;nodes&nbsp;n_1,&nbsp;n_2,&nbsp;...&nbsp;with&nbsp;n_i&nbsp;adjacent&nbsp;to&nbsp;n_i+1.<br>
+If&nbsp;there&nbsp;is&nbsp;no&nbsp;path,&nbsp;return&nbsp;`[]`,&nbsp;otherwise&nbsp;return&nbsp;`[node1,&nbsp;...,&nbsp;node2]`.<br>
+Return&nbsp;`[node1]`&nbsp;if&nbsp;node1&nbsp;and&nbsp;node2&nbsp;are&nbsp;the&nbsp;same.</tt></dd></dl>
+ <dl><dt><a name="-simple"><strong>simple</strong></a>(graph)</dt><dd><tt>A&nbsp;graph&nbsp;is&nbsp;**simple**&nbsp;if&nbsp;it&nbsp;has&nbsp;no&nbsp;loops.</tt></dd></dl>
+ <dl><dt><a name="-size"><strong>size</strong></a>(graph)</dt><dd><tt>The&nbsp;graph's&nbsp;**size**&nbsp;is&nbsp;the&nbsp;number&nbsp;of&nbsp;its&nbsp;edges.</tt></dd></dl>
+ <dl><dt><a name="-subgraph"><strong>subgraph</strong></a>(nodeset, graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**subgraph&nbsp;induced**&nbsp;by&nbsp;nodeset.<br>
+&nbsp;<br>
+It&nbsp;includes&nbsp;those&nbsp;edges&nbsp;of&nbsp;graph&nbsp;that&nbsp;connect&nbsp;nodeset.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['SRI', 'Utah']), frozenset(['RAND', 'UCLA']), frozenset(['SRI', 'UCSB']), frozenset(['Carnegie', 'Harvard']), frozenset(['CASE', 'Carnegie']), frozenset(['Stanford', 'UCLA']), ...]))<br>
+<strong>C3</strong> = (set([1, 2, 3]), set([frozenset([1, 3]), frozenset([1, 2]), frozenset([2, 3])]))<br>
+<strong>C4</strong> = (set([1, 2, 3, 4]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 4])]))<br>
+<strong>C5</strong> = (set([1, 2, 3, 4, 5]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 5]), frozenset([4, 5])]))<br>
+<strong>EMPTY</strong> = (set([]), set([]))<br>
+<strong>K2</strong> = (set([1, 2]), set([frozenset([1, 2])]))<br>
+<strong>K3</strong> = (set([1, 2, 3]), set([frozenset([1, 3]), frozenset([1, 2]), frozenset([2, 3])]))<br>
+<strong>LOOP</strong> = (set([1]), set([frozenset([1])]))<br>
+<strong>N1</strong> = (set([1]), set([]))<br>
+<strong>N2</strong> = (set([1, 2]), set([]))<br>
+<strong>PETERSEN</strong> = (set([1, 2, 3, 4, 5, 6, ...]), set([frozenset([2, 7]), frozenset([4, 9]), frozenset([7, 10]), frozenset([1, 2]), frozenset([1, 5]), frozenset([6, 9]), ...]))<br>
+<strong>UTILITY</strong> = (set([1, 2, 3, 'water', 'gas', 'power']), set([frozenset(['power', 3]), frozenset([2, 'gas']), frozenset(['power', 2]), frozenset([2, 'water']), frozenset(['power', 1]), frozenset([1, 'water']), ...]))</td></tr></table>
+</body></html>
