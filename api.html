@@ -21,13 +21,12 @@ SINPLE&nbsp;does&nbsp;not&nbsp;support&nbsp;analysis&nbsp;of&nbsp;very&nbsp;larg
 there&nbsp;are&nbsp;various&nbsp;state-of-the-art&nbsp;libraries&nbsp;for&nbsp;that.<br>
 Instead&nbsp;SINPLE's&nbsp;aims&nbsp;are&nbsp;pedagogical:<br>
 &nbsp;<br>
--&nbsp;it&nbsp;illustrates&nbsp;basic&nbsp;Python&nbsp;constructs:&nbsp;loops,&nbsp;functions,&nbsp;tuples,&nbsp;sets,&nbsp;etc;<br>
+-&nbsp;it&nbsp;illustrates&nbsp;sets,&nbsp;comprehensions,&nbsp;string&nbsp;formatting,&nbsp;default&nbsp;parameters;<br>
 -&nbsp;it&nbsp;illustrates&nbsp;simple&nbsp;forms&nbsp;of<br>
-[unit&nbsp;testing](<a href="http://en.wikipedia.org/wiki/Unit_testing">http://en.wikipedia.org/wiki/Unit_testing</a>)&nbsp;and<br>
-[preconditions](<a href="http://en.wikipedia.org/wiki/Precondition">http://en.wikipedia.org/wiki/Precondition</a>)&nbsp;using&nbsp;assertions;<br>
+[unit&nbsp;testing](<a href="http://en.wikipedia.org/wiki/Unit_testing">http://en.wikipedia.org/wiki/Unit_testing</a>)&nbsp;using&nbsp;assertions;<br>
 -&nbsp;it&nbsp;explains&nbsp;basic&nbsp;network&nbsp;concepts&nbsp;through&nbsp;executable&nbsp;definitions<br>
 (the&nbsp;functions)&nbsp;and&nbsp;concrete&nbsp;examples&nbsp;(the&nbsp;unit&nbsp;tests);<br>
--&nbsp;it&nbsp;includes&nbsp;over&nbsp;40&nbsp;exercises;<br>
+-&nbsp;it&nbsp;includes&nbsp;over&nbsp;40&nbsp;short&nbsp;exercises&nbsp;and&nbsp;larger&nbsp;projects;<br>
 -&nbsp;it&nbsp;is&nbsp;extensively&nbsp;documented&nbsp;in&nbsp;a&nbsp;simple&nbsp;[literate<br>
 programming](<a href="http://en.wikipedia.org/wiki/Literate_programming">http://en.wikipedia.org/wiki/Literate_programming</a>)&nbsp;style.<br>
 &nbsp;<br>
@@ -52,9 +51,7 @@ The&nbsp;latest&nbsp;version&nbsp;of&nbsp;SINPLE&nbsp;can&nbsp;be&nbsp;found&nbs
  <dl><dt><a name="-degree"><strong>degree</strong></a>(node, graph)</dt><dd><tt>Return&nbsp;the&nbsp;node's&nbsp;**degree**&nbsp;(number&nbsp;of&nbsp;incident&nbsp;edge&nbsp;tips).<br>
 &nbsp;<br>
 Loops&nbsp;count&nbsp;twice,&nbsp;so&nbsp;that&nbsp;each&nbsp;edge&nbsp;contributes&nbsp;2&nbsp;to&nbsp;the&nbsp;degree&nbsp;sum.</tt></dd></dl>
- <dl><dt><a name="-degree_distribution"><strong>degree_distribution</strong></a>(graph)</dt><dd><tt>Return&nbsp;a&nbsp;list&nbsp;of&nbsp;length&nbsp;<a href="#-order">order</a>(graph)+2&nbsp;of&nbsp;a&nbsp;node's&nbsp;degree&nbsp;probabilities.<br>
-&nbsp;<br>
-The&nbsp;n-th&nbsp;element&nbsp;is&nbsp;the&nbsp;probability&nbsp;of&nbsp;a&nbsp;node&nbsp;having&nbsp;degree&nbsp;n.</tt></dd></dl>
+ <dl><dt><a name="-degree_distribution"><strong>degree_distribution</strong></a>(graph)</dt><dd><tt>Return&nbsp;a&nbsp;list:&nbsp;the&nbsp;n-th&nbsp;value&nbsp;is&nbsp;the&nbsp;probability&nbsp;that&nbsp;a&nbsp;node&nbsp;has&nbsp;degree&nbsp;n.</tt></dd></dl>
  <dl><dt><a name="-degree_sequence"><strong>degree_sequence</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**degree&nbsp;sequence**&nbsp;(descending&nbsp;list&nbsp;of&nbsp;node&nbsp;degrees).</tt></dd></dl>
  <dl><dt><a name="-delete_edges"><strong>delete_edges</strong></a>(edges, graph)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;graph&nbsp;by&nbsp;removing&nbsp;the&nbsp;set&nbsp;of&nbsp;edges&nbsp;from&nbsp;graph.</tt></dd></dl>
  <dl><dt><a name="-density"><strong>density</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**density**&nbsp;(ratio&nbsp;of&nbsp;actual&nbsp;to&nbsp;potential&nbsp;edges).<br>
@@ -106,7 +103,7 @@ It&nbsp;includes&nbsp;those&nbsp;edges&nbsp;of&nbsp;graph&nbsp;that&nbsp;connect
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['BBN', 'Harvard']), frozenset(['SRI', 'Stanford']), frozenset(['UCLA', 'UCSB']), frozenset(['SRI', 'UCSB']), frozenset(['BBN', 'RAND']), frozenset(['Lincoln', 'MIT']), ...]))<br>
+<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['RAND', 'UCLA']), frozenset(['SRI', 'Stanford']), frozenset(['SRI', 'UCSB']), frozenset(['Lincoln', 'MIT']), frozenset(['CASE', 'Carnegie']), frozenset(['MIT', 'Utah']), ...]))<br>
 <strong>C3</strong> = (set([1, 2, 3]), set([frozenset([1, 3]), frozenset([1, 2]), frozenset([2, 3])]))<br>
 <strong>C4</strong> = (set([1, 2, 3, 4]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 4])]))<br>
 <strong>C5</strong> = (set([1, 2, 3, 4, 5]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 5]), frozenset([4, 5])]))<br>
@@ -117,5 +114,5 @@ It&nbsp;includes&nbsp;those&nbsp;edges&nbsp;of&nbsp;graph&nbsp;that&nbsp;connect
 <strong>N1</strong> = (set([1]), set([]))<br>
 <strong>N2</strong> = (set([1, 2]), set([]))<br>
 <strong>PETERSEN</strong> = (set([1, 2, 3, 4, 5, 6, ...]), set([frozenset([2, 7]), frozenset([4, 9]), frozenset([7, 10]), frozenset([1, 2]), frozenset([1, 5]), frozenset([6, 9]), ...]))<br>
-<strong>UTILITY</strong> = (set([1, 2, 3, 'power', 'gas', 'water']), set([frozenset([1, 'gas']), frozenset([1, 'water']), frozenset([3, 'power']), frozenset([2, 'power']), frozenset([2, 'gas']), frozenset([3, 'water']), ...]))</td></tr></table>
+<strong>UTILITY</strong> = (set([1, 2, 'power', 3, 'gas', 'water']), set([frozenset(['water', 2]), frozenset(['power', 3]), frozenset(['water', 1]), frozenset([1, 'gas']), frozenset(['power', 2]), frozenset(['water', 3]), ...]))</td></tr></table>
 </body></html>

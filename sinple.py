@@ -11,13 +11,12 @@ SINPLE does not support analysis of very large networks;
 there are various state-of-the-art libraries for that.
 Instead SINPLE's aims are pedagogical:
 
-- it illustrates basic Python constructs: loops, functions, tuples, sets, etc;
+- it illustrates sets, comprehensions, string formatting, default parameters;
 - it illustrates simple forms of
-[unit testing](http://en.wikipedia.org/wiki/Unit_testing) and
-[preconditions](http://en.wikipedia.org/wiki/Precondition) using assertions;
+[unit testing](http://en.wikipedia.org/wiki/Unit_testing) using assertions;
 - it explains basic network concepts through executable definitions
 (the functions) and concrete examples (the unit tests);
-- it includes over 40 exercises;
+- it includes over 40 short exercises and larger projects;
 - it is extensively documented in a simple [literate
 programming](http://en.wikipedia.org/wiki/Literate_programming) style.
 
@@ -57,8 +56,8 @@ The latest version of SINPLE can be found on http://tiny.cc/sinple.
 #
 # Please don't share exercise solutions publicly.
 
-# Network representation and creation
-# -----------------------------------
+# Network representation
+# ----------------------
 # The mathematical basis of network science is graph theory.
 # Graph terminology varies among authors.
 # We follow the Wikipedia [glossary of graph
@@ -76,8 +75,10 @@ The latest version of SINPLE can be found on http://tiny.cc/sinple.
 # and `edges` is a Python set of edges.
 # Each edge is represented by a Python set of node names `{node1, node2}`,
 # because the edge has no direction.
-#
-# The functions in this section encapsulate this representation
+
+# Core functions
+# --------------
+# These functions encapsulate the network representation
 # from the rest of the library.
 
 
@@ -146,15 +147,11 @@ assert delete_edges({edge(1, 2)}, network({edge(2, 1)})) \
 #
 # These networks are used in further unit tests.
 
-
-def null(n):
-    """Create a **null graph** with n nodes numbered 1 to n and no edges."""
-    return network(set(), {x for x in range(1, n+1)})
-
 # The **empty graph** has no nodes and hence no edges.
-EMPTY = null(0)
-N1 = null(1)
-N2 = null(2)
+EMPTY = network(set())
+# A **null graph** has no edges.
+N1 = network(set(), {1})
+N2 = network(set(), {1, 2})
 
 # The smallest non-simple graph has a single loop.
 LOOP = network({edge(1, 1)})
@@ -208,19 +205,28 @@ ARPANET = network({
     })
 
 
-# Edge properties
-# ---------------
+# Basics
+# ------
 
 
-def incident(edge, node):
-    """
-    Check if edge and node are **incident** to each other (edge connects node).
-    """
-    return node in endpoints(edge)
+def size(graph):
+    """Return the graph's **size** (number of edges)."""
+    return len(edge_set(graph))
 
-assert incident(edge(1, 2), 1)
-assert incident(edge(1, 2), 2)
-assert not incident(edge(1, 2), 3)
+assert size(EMPTY) == 0
+assert size(N1) == 0
+assert size(C3) == 3
+assert size(PETERSEN) == 15
+
+
+def order(graph):
+    """Return the graph's **order** (number of nodes)."""
+    return len(node_set(graph))
+
+assert order(EMPTY) == 0
+assert order(N1) == 1
+assert order(C3) == 3
+assert order(PETERSEN) == 10
 
 
 def is_loop(edge):
@@ -231,8 +237,120 @@ assert is_loop(edge("A", "A"))
 assert not is_loop(edge("A", "B"))
 
 
-# Node properties
-# ---------------
+def simple(graph):
+    """Check if the graph is **simple** (has no loops)."""
+    for edge in edge_set(graph):
+        if is_loop(edge):
+            return False
+    return True
+
+assert simple(EMPTY)
+assert simple(N1)
+# Any complete graph is simple.
+assert simple(K3)
+assert simple(PETERSEN)
+assert not simple(LOOP)
+
+
+def density(graph):
+    """
+    Return the graph's **density** (ratio of actual to potential edges).
+
+    It's the size divided by the size of a complete graph of the same order.
+    The density of the empty graph is set to zero.
+    """
+    o = order(graph)
+    return size(graph) / (o * (o - 1) / 2) if o > 0 else 0
+
+assert density(EMPTY) == 0
+# Every null graph has density 0.
+assert density(N2) == 0
+# Every complete graph has density 1.
+assert density(K3) == 1
+# A graph with loops can have density > 1.
+assert density(add_edges({edge(1, 1)}, K3)) > 1
+
+
+# Further graph construction
+# --------------------------
+
+
+def null(n):
+    """Create a **null graph** with n nodes numbered 1 to n and no edges."""
+    return network(set(), {x for x in range(1, n+1)})
+
+assert null(0) == EMPTY
+assert null(2) == N2
+
+
+def renumber(graph, n=1):
+    """Create a new graph by renaming the graph's nodes as n, n+1, n+2, etc."""
+    number = n
+    map = {}
+    for node in node_set(graph):
+        map[node] = number
+        number = number + 1
+    new_graph = network(set(), set(range(n, number)))
+    for e in edge_set(graph):
+        nodes = endpoints(e)
+        node1 = map[nodes.pop()]
+        node2 = map[nodes.pop()] if nodes else node1
+        new_graph = add_edges({edge(node1, node2)}, new_graph)
+    return new_graph
+
+assert renumber(EMPTY, -1) == EMPTY
+assert renumber(N2, 5) == network(set(), {5, 6})
+assert renumber(network({edge("A", "B")})) == network({edge(1, 2)})
+
+
+def subgraph(nodes, graph):
+    """
+    Return the graph's **subgraph induced** by the set of nodes.
+
+    It includes those edges of graph that connect the given nodes.
+    """
+    edges = {edge(n1, n2) for n1 in nodes for n2 in nodes}
+    return network(edges & edge_set(graph), nodes)
+
+assert subgraph({1}, N2) == N1
+assert subgraph({1, 2, 3, 4, 5}, PETERSEN) == C5
+
+# - Explain how `subgraph()` works.
+# - Write a function to check if *g1* is a **subgraph** of *g2*,
+#   i.e. if the nodes and edges of *g1* are included in those of *g2*.
+
+
+# Import a random number generator with uniform distribution
+from random import uniform
+
+
+def random(n, p):
+    """
+    Return a simple **random graph** with n nodes and edge probability p.
+
+    The two numbers can't be negative, and p can't be larger than 1.
+    """
+    graph = null(n)
+    for node1 in range(1, n+1):
+        for node2 in range(node1+1, n+1):
+            if uniform(0, 1) < p:
+                graph = add_edges({edge(node1, node2)}, graph)
+    return graph
+
+assert random(0, 1) == EMPTY
+assert random(1, 1) == N1
+assert random(3, 1) == K3
+assert order(random(4, 0)) == 4
+assert size(random(4, 0)) == 0
+assert size(random(4, 1)) == 6
+assert simple(random(4, 0.5))
+
+# - Write a function to create a simple random graph of given order and size.
+
+
+# Adjacency
+# ---------
+# These functions relate to immediate adjacency.
 
 
 def adjacent(node1, node2, graph):
@@ -244,6 +362,17 @@ assert adjacent(1, 4, C4)
 assert adjacent(1, 1, LOOP)
 assert not adjacent(1, 1, K2)
 assert not adjacent(1, 3, C4)
+
+
+def incident(edge, node):
+    """
+    Check if edge and node are **incident** to each other (edge connects node).
+    """
+    return node in endpoints(edge)
+
+assert incident(edge(1, 2), 1)
+assert incident(edge(1, 2), 2)
+assert not incident(edge(1, 2), 3)
 
 
 def degree(node, graph):
@@ -268,227 +397,6 @@ assert degree(6, PETERSEN) == 3
 # - What is the degree of each node in K*n*? Write some unit tests to confirm.
 
 
-def neighbours(node, graph):
-    """Return the set of the node's **neighbours** (adjacent nodes)."""
-    return {node2 for node2 in node_set(graph) if adjacent(node, node2, graph)}
-
-assert neighbours(1, LOOP) == {1}
-assert neighbours(1, PETERSEN) == {2, 5, 6}
-
-# - Write a function to check if a node is **isolated**
-#   (not connected to any node). Implement 4 versions,
-#   using `incident()`, `adjacent()`, `degree()`, and `neighbours()`.
-# - Which version is the most efficient?
-
-
-# Further graph construction
-# --------------------------
-
-
-def subgraph(nodes, graph):
-    """
-    Return the graph's **subgraph induced** by the set of nodes.
-
-    It includes those edges of graph that connect the given nodes.
-    """
-    edges = {edge(n1, n2) for n1 in nodes for n2 in nodes}
-    return network(edges & edge_set(graph), nodes)
-
-assert subgraph({1}, N2) == N1
-assert subgraph({1, 2, 3, 4, 5}, PETERSEN) == C5
-
-# - Explain how `subgraph()` works.
-# - Make it more efficient.
-# - Write a function to check if *g1* is a **subgraph** of *g2*,
-#   i.e. if the nodes and edges of *g1* are included in those of *g2*.
-
-
-def neighbourhood(node, graph):
-    """
-    Return the node's **open neighbourhood** (subgraph induced by neighbours).
-    """
-    return subgraph(neighbours(node, graph), graph)
-
-assert neighbourhood(1, N2) == EMPTY
-assert neighbourhood(3, K3) == K2
-
-# - Write a function that returns a node's **closed neighbourhood**,
-#   which includes the node itself.
-
-
-def renumber(graph, n=1):
-    """Create a new graph by renaming the graph's nodes as n, n+1, n+2, etc."""
-    number = n
-    map = {}
-    for node in node_set(graph):
-        map[node] = number
-        number = number + 1
-    new_graph = network(set(), set(range(n, number)))
-    for e in edge_set(graph):
-        nodes = endpoints(e)
-        node1 = map[nodes.pop()]
-        node2 = map[nodes.pop()] if nodes else node1
-        new_graph = add_edges({edge(node1, node2)}, new_graph)
-    return new_graph
-
-assert renumber(EMPTY, -1) == EMPTY
-assert renumber(N2, 5) == network(set(), {5, 6})
-assert renumber(network({edge("A", "B")})) == network({edge(1, 2)})
-
-
-def gml(graph):
-    """Return a string representing the graph in GML format.
-
-    The nodes of the graph must be represented by integers.
-    """
-    # Concatenating many strings is slow; join a list of strings instead.
-    lines = ["graph [", "  directed 0"]  # in GML, 0 means false
-    for node in node_set(graph):
-        lines.append("  node [id {}]".format(node))
-    for edge in edge_set(graph):
-        nodes = endpoints(edge)
-        # Take one of the nodes as the edge's source.
-        source = nodes.pop()
-        # Take the other as target, unless set is now empty (edge is a loop).
-        target = nodes.pop() if nodes else source
-        lines.append("  edge [source {} target {}]".format(source, target))
-    lines.append("]")
-    # Join the lines, separated by newlines.
-    return "\n".join(lines)
-
-assert gml(LOOP) == """\
-graph [
-  directed 0
-  node [id 1]
-  edge [source 1 target 1]
-]"""
-assert gml(N2) == """\
-graph [
-  directed 0
-  node [id 1]
-  node [id 2]
-]"""
-
-# - Write a function that given a file name and a graph,
-#   writes the graph in GML format to that file.
-
-
-# Graph properties
-# ----------------
-
-
-def size(graph):
-    """Return the graph's **size** (number of edges)."""
-    return len(edge_set(graph))
-
-assert size(EMPTY) == 0
-assert size(N1) == 0
-assert size(C3) == 3
-assert size(PETERSEN) == 15
-
-
-def order(graph):
-    """Return the graph's **order** (number of nodes)."""
-    return len(node_set(graph))
-
-assert order(EMPTY) == 0
-assert order(N1) == 1
-assert order(C3) == 3
-assert order(PETERSEN) == 10
-
-
-def simple(graph):
-    """Check if the graph is **simple** (has no loops)."""
-    for edge in edge_set(graph):
-        if is_loop(edge):
-            return False
-    return True
-
-assert simple(EMPTY)
-assert simple(N1)
-# Any complete graph is simple.
-assert simple(K3)
-assert simple(PETERSEN)
-assert not simple(LOOP)
-
-# - Write a function to check if a graph is **bipartite**, i.e.
-#   its nodes can be separated into two parts so that each edge
-#   connects nodes in different parts.
-#   Include a unit test showing that the utility graph is bipartite.
-
-
-def density(graph):
-    """
-    Return the graph's **density** (ratio of actual to potential edges).
-
-    It's the size divided by the size of a complete graph of the same order.
-    The density of the empty graph is set to zero.
-    """
-    o = order(graph)
-    return size(graph) / (o * (o - 1) / 2) if o > 0 else 0
-
-assert density(EMPTY) == 0
-# Every null graph has density 0.
-assert density(N2) == 0
-# Every complete graph has density 1.
-assert density(K3) == 1
-# A graph with loops can have density > 1.
-assert density(add_edges({edge(1, 1)}, K3)) > 1
-
-
-def degree_sequence(graph):
-    """
-    Return the graph's **degree sequence** (descending list of node degrees).
-    """
-    degrees = [degree(node, graph) for node in node_set(graph)]
-    degrees.sort(reverse=True)
-    return degrees
-
-assert degree_sequence(EMPTY) == []
-assert degree_sequence(N2) == [0, 0]
-assert degree_sequence(K3) == [2, 2, 2]
-assert degree_sequence(ARPANET) == [4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2]
-
-
-def degree_distribution(graph):
-    """Return a list of length order(graph)+2 of a node's degree probabilities.
-
-    The n-th element is the probability of a node having degree n.
-    """
-    o = order(graph)
-    max_degree = o + 1
-    if o == 0:
-        return [0, 0]
-    distribution = [0 for d in range(max_degree + 1)]
-    for node in node_set(graph):
-        distribution[degree(node, graph)] += 1
-    for d in range(max_degree + 1):
-        distribution[d] /= o
-    return distribution
-
-assert degree_distribution(EMPTY) == [0, 0]
-assert degree_distribution(N2) == [1, 0, 0, 0]
-assert degree_distribution(LOOP) == [0, 0, 1]
-
-# - Explain how `degree_distribution()` works.
-#   Why is the list never longer than `order(graph) + 2`?
-# - Change `degree_distribution()` so that the list has no trailing zeros.
-# - Write a function to compute the degree distribution from a degree sequence.
-
-
-def mean_degree(graph):
-    """Return the graph's **average degree** (mean of all node degrees)."""
-    degrees = degree_sequence(graph)
-    return sum(degrees) / len(degrees) if degrees else 0
-
-assert mean_degree(EMPTY) == 0
-assert mean_degree(N2) == 0
-assert mean_degree(C3) == 2
-
-# - Rewrite `mean_degree()` to make it much more efficient.
-#   Hint: each edge contributes 2 to the total degree count.
-
-
 def k_regular(graph):
     """
     Return k if graph is **k-regular** (all nodes have degree k), otherwise -1.
@@ -506,16 +414,80 @@ assert k_regular(N2) == 0
 assert k_regular(LOOP) == 2
 assert k_regular(C3) == 2
 
-# - Write a function to check if a graph is **regular**,
-#   i.e. if all its nodes have the same degree.
-# - Write a function to check if a degree sequence forms a regular graph.
 # - Write a function to check if a graph is a null graph.
 # - Write a function to check if a graph is **cubic**, i.e. 3-regular.
 #   Include a unit test showing that the Petersen graph is cubic.
-# - Write a function to check if a graph is a complete graph.
-#   Include a unit test with a 2-regular graph of order 3 that is not K3.
-# - Write a function to check if a graph is a cycle graph.
-#   Include a unit test with a 2-regular graph of order 2 that is not C2.
+
+
+def degree_sequence(graph):
+    """
+    Return the graph's **degree sequence** (descending list of node degrees).
+    """
+    degrees = [degree(node, graph) for node in node_set(graph)]
+    degrees.sort(reverse=True)
+    return degrees
+
+assert degree_sequence(EMPTY) == []
+assert degree_sequence(N2) == [0, 0]
+assert degree_sequence(K3) == [2, 2, 2]
+assert degree_sequence(ARPANET) == [4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2]
+
+# - Write a function to check if a graph is **regular**,
+#   i.e. if all its nodes have the same degree. Implement 2 versions,
+#   using `k_regular()` and `degree_sequence()`.
+
+
+def degree_distribution(graph):
+    """
+    Return a list: the n-th value is the probability that a node has degree n.
+    """
+    degrees = degree_sequence(graph)
+    if degrees:
+        order = len(degrees)
+        # n-th value is number of nodes with degree n by total number of nodes
+        return [degrees.count(n) / order for n in range(max(degrees)+1)]
+    else:
+        return []
+
+assert degree_distribution(EMPTY) == []
+assert degree_distribution(N2) == [1]
+assert degree_distribution(LOOP) == [0, 0, 1]
+
+# - Rewrite `degree_distribution()` to make it more efficient.
+
+
+def mean_degree(graph):
+    """Return the graph's **average degree** (mean of all node degrees)."""
+    degrees = degree_sequence(graph)
+    return sum(degrees) / len(degrees) if degrees else 0
+
+assert mean_degree(EMPTY) == 0
+assert mean_degree(N2) == 0
+assert mean_degree(C3) == 2
+
+# - Rewrite `mean_degree()` to make it much more efficient.
+#   Hint: each edge contributes 2 to the total degree count.
+
+
+def neighbours(node, graph):
+    """Return the set of the node's **neighbours** (adjacent nodes)."""
+    return {node2 for node2 in node_set(graph) if adjacent(node, node2, graph)}
+
+assert neighbours(1, LOOP) == {1}
+assert neighbours(1, PETERSEN) == {2, 5, 6}
+
+
+def neighbourhood(node, graph):
+    """
+    Return the node's **open neighbourhood** (subgraph induced by neighbours).
+    """
+    return subgraph(neighbours(node, graph), graph)
+
+assert neighbourhood(1, N2) == EMPTY
+assert neighbourhood(3, K3) == K2
+
+# - Write a function that returns a node's **closed neighbourhood**,
+#   which includes the node itself.
 
 
 def local_clustering_coefficient(node, graph):
@@ -526,6 +498,25 @@ def local_clustering_coefficient(node, graph):
 
 assert local_clustering_coefficient(1, K3) == 1
 assert local_clustering_coefficient(3, PETERSEN) == 0
+
+
+# Independence
+# ------------
+# These functions relate to non-adjacency.
+
+# - Write a function to check if a node is **isolated**
+#   (not connected to any node). Implement 4 versions,
+#   using `incident()`, `adjacent()`, `degree()`, and `neighbours()`.
+# - Which version is the most efficient?
+# - Write a function to check if a graph is **bipartite**, i.e.
+#   if its nodes can be separated into two parts so that each edge
+#   connects nodes in different parts.
+#   Include a unit test showing that the utility graph is bipartite.
+
+
+# Paths and distances
+# -------------------
+# These functions relate to paths within the graph and their distances.
 
 
 def shortest_path(node1, node2, graph):
@@ -586,8 +577,18 @@ assert diameter(K3) == 1
 assert diameter(C5) == 2
 
 # - Explain how `diameter()` works.
-# - Rewrite `diameter()` to make it twice as fast.
+# - Make `diameter()` more efficient.
 #   Hint: the distance from A to B is the distance from B to A.
+# - Write a function to return a node's **eccentricity**, i.e.
+#   its maximum distance to any other node.
+# - Rewrite `diameter()` using `eccentricity()`.
+# - Write a function to return a graph's **center**, the set of
+#   nodes with minimum eccentricity.
+
+
+# Connectivity
+# ------------
+# These functions relate to connectivity, which extends adjacency.
 
 
 def connected(graph):
@@ -612,6 +613,10 @@ assert connected(C5)
 #   i.e. if after removing any one node, the remaining graph is connected.
 #   Show that ARPANET is also resilient in this sense.
 #   Hint: first complete the earlier node removal exercise.
+# - Write a function to check if a graph is a complete graph.
+#   Include a unit test with a 2-regular graph of order 3 that is not K3.
+# - Write a function to check if a graph is a cycle graph.
+#   Include a unit test with a 2-regular graph of order 2 that is not C2.
 
 
 def components(graph):
@@ -638,7 +643,7 @@ assert [order(c) for c in components(N2)] == [1, 1]
 assert [size(c) for c in components(N2)] == [0, 0]
 
 # - Explain how `components()` works. Explain its unit tests.
-# - Rewrite `connected()` using `components()`.
+# - Rewrite `connected()` using `components()`. Which is more efficient?
 
 
 def giant_component(graph):
@@ -656,30 +661,47 @@ def giant_component(graph):
 assert giant_component(C3) == C3
 assert giant_component(N2) == null(0)
 
-
-# Import a random number generator with uniform distribution
-from random import uniform
+# - Rewrite `giant_component()` to return the largest component (most nodes).
 
 
-def random(n, p):
+# Input / Output
+# --------------
+# These functions help read and write graphs from files.
+
+def gml(graph):
+    """Return a string representing the graph in GML format.
+
+    The nodes of the graph must be represented by integers.
     """
-    Return a simple **random graph** with n nodes and edge probability p.
+    # Concatenating many strings is slow; join a list of strings instead.
+    lines = ["graph [", "  directed 0"]  # in GML, 0 means false
+    for node in node_set(graph):
+        lines.append("  node [id {}]".format(node))
+    for edge in edge_set(graph):
+        nodes = endpoints(edge)
+        # Take any of the endpoints as the edge's source.
+        source = nodes.pop()
+        # Take the other as target, unless set is now empty (edge is a loop).
+        target = nodes.pop() if nodes else source
+        lines.append("  edge [source {} target {}]".format(source, target))
+    lines.append("]")
+    # Join the lines, separated by newlines.
+    return "\n".join(lines)
 
-    The two numbers can't be negative, and p can't be larger than 1.
-    """
-    graph = null(n)
-    for node1 in range(1, n+1):
-        for node2 in range(node1+1, n+1):
-            if uniform(0, 1) < p:
-                graph = add_edges({edge(node1, node2)}, graph)
-    return graph
+assert gml(LOOP) == """\
+graph [
+  directed 0
+  node [id 1]
+  edge [source 1 target 1]
+]"""
+assert gml(N2) == """\
+graph [
+  directed 0
+  node [id 1]
+  node [id 2]
+]"""
 
-assert order(random(4, 0)) == 4
-assert size(random(4, 0)) == 0
-assert size(random(4, 1)) == 6
-assert simple(random(4, 0.5))
-
-# - Write a function to create a simple random graph of given order and size.
+# - Write a function that writes a given graph to a file with the given name.
 
 
 # Projects
@@ -696,16 +718,16 @@ assert simple(random(4, 0.5))
 # of the Arpanet network, e.g. the most highly connected nodes.
 #
 # - Write a program that imports SINPLE, creates several random graphs
-# with fixed `n` but increasing `p`, and reports their properties.
+# with fixed `n` and increasing `p`, and reports their properties.
 # Check if the mean degree is the theoretical expected value `p*(n-1)`.
 # Check if a giant component emerges when `p > 1/n`.
 # Check if the network becomes connected when `p > math.log(n) / n`.
 #
 # - Extend SINPLE to support **weighted edges**,
-# i.e. edges that have an associated number, called the edge's weight.
+# i.e. edges with an associated number called the edge's weight.
 # An unweighted network can be seen
 # as a weighted network where each edge has the default weight 1.
-# Add a default parameter to `edge()`.
+# Hints: Add a default parameter to `edge()`.
 # Add a function to return the weight of an edge.
 # Modify `shortest_path()` to return the path with the smallest total weight.
 #
