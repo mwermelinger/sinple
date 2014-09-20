@@ -60,8 +60,10 @@ The latest version of SINPLE can be found on http://tiny.cc/sinple.
 # -----------------------------------
 # The mathematical basis of network science is graph theory.
 # Graph terminology varies among authors.
-# We mostly follow the Wikipedia [glossary of graph
+# We follow the Wikipedia [glossary of graph
 # theory](http://en.wikipedia.org/wiki/Glossary_of_graph_theory).
+# except in using 'node' instead of 'vertex'.
+# If a term has multiple meanings in the literature, we chose one of them.
 #
 # In SINPLE, a **network** (also called a **graph**)
 # is a set of **nodes** connected by a set of undirected **edges**.
@@ -98,40 +100,40 @@ assert endpoints(edge(1, 1)) == {1}
 assert endpoints(edge("me", "my friend")) == {"my friend", "me"}
 
 
-def edges(graph):
+def edge_set(graph):
     """Return the set of the graph's edges."""
     (nodes, edges) = graph
     return edges
 
 
-def nodes(graph):
+def node_set(graph):
     """Return the set of the graph's nodes."""
     (nodes, edges) = graph
     return nodes
 
 
-def add_edges(edgeset, graph):
+def add_edges(edges, graph):
     """
     Create a new graph by adding the set of edges and their endpoints to graph.
     """
-    nodeset = set()
-    for edge in edgeset:
-        nodeset = nodeset | endpoints(edge)
-    return (nodes(graph) | nodeset, edges(graph) | edgeset)
+    nodes = set()
+    for edge in edges:
+        nodes = nodes | endpoints(edge)
+    return (node_set(graph) | nodes, edge_set(graph) | edges)
 
 # - Explain how `add_edges()` works. Why is `set()` used instead of `{}`?
 
 
-def network(edgeset, nodeset=set()):
+def network(edges, nodes=set()):
     """Create a graph with the given nodes, edges, and their endpoints."""
-    return add_edges(edgeset, (nodeset, set()))
+    return add_edges(edges, (nodes, set()))
 
 assert network({edge(1, 2)}) == network({edge(2, 1)}, {1, 2})
 
 
-def delete_edges(edgeset, graph):
+def delete_edges(edges, graph):
     """Create a new graph by removing the set of edges from graph."""
-    return (nodes(graph), edges(graph) - edgeset)
+    return (node_set(graph), edge_set(graph) - edges)
 
 assert delete_edges({edge(1, 2)}, network({edge(2, 1)})) \
     == network(set(), {1, 2})
@@ -213,7 +215,9 @@ ARPANET = network({
 
 
 def incident(edge, node):
-    """Check if the edge is **incident** to (i.e. connects) the node."""
+    """
+    Check if edge and node are **incident** to each other (edge connects node).
+    """
     return node in endpoints(edge)
 
 assert incident(edge(1, 2), 1)
@@ -233,13 +237,24 @@ assert not is_loop(edge("A", "B"))
 # ---------------
 
 
+def adjacent(node1, node2, graph):
+    """Check if the nodes are **adjacent** (an edge connects them)."""
+    return edge(node1, node2) in edge_set(graph)
+
+assert adjacent(1, 2, K2)
+assert adjacent(1, 4, C4)
+assert adjacent(1, 1, LOOP)
+assert not adjacent(1, 1, K2)
+assert not adjacent(1, 3, C4)
+
+
 def degree(node, graph):
     """Return the node's **degree** (number of incident edge tips).
 
     Loops count twice, so that each edge contributes 2 to the degree sum.
     """
     degree = 0
-    for edge in edges(graph):
+    for edge in edge_set(graph):
         if incident(edge, node):
             degree = degree + 1
             if is_loop(edge):
@@ -260,34 +275,31 @@ assert degree(6, PETERSEN) == 3
 #   and change them if necessary.
 
 
-def adjacent(node1, node2, graph):
-    """Check if the nodes are **adjacent** (an edge connects them)."""
-    return edge(node1, node2) in edges(graph)
+def neighbours(node, graph):
+    """Return the set of the node's **neighbours** (adjacent nodes)."""
+    return {node2 for node2 in node_set(graph) if adjacent(node, node2, graph)}
 
-assert adjacent(1, 2, K2)
-assert adjacent(1, 4, C4)
-assert adjacent(1, 1, LOOP)
-assert not adjacent(1, 1, K2)
-assert not adjacent(1, 3, C4)
+assert neighbours(1, LOOP) == {1}
+assert neighbours(1, PETERSEN) == {2, 5, 6}
 
 # - Write a function to check if a node is **isolated**
-#   (not connected to any node).
-#   Implement 3 versions, using `incident()`, `adjacent()`, and `degree()`.
-# - Which of the 3 versions is more efficient?
+#   (not connected to any node). Implement 4 versions,
+#   using `incident()`, `adjacent()`, `degree()`, and `neighbours()`.
+# - Which version is the most efficient?
 
 
 # Further graph construction
 # --------------------------
 
 
-def subgraph(nodeset, graph):
+def subgraph(nodes, graph):
     """
     Return the graph's **subgraph induced** by the set of nodes.
 
     It includes those edges of graph that connect the given nodes.
     """
-    edgeset = {edge(n1, n2) for n1 in nodeset for n2 in nodeset}
-    return network(edgeset & edges(graph), nodeset & nodes(graph))
+    edges = {edge(n1, n2) for n1 in nodes for n2 in nodes}
+    return network(edges & edge_set(graph), nodes & node_set(graph))
 
 assert subgraph({1, 3}, N2) == N1
 assert subgraph({1, 2, 3, 4, 5}, PETERSEN) == C5
@@ -298,18 +310,28 @@ assert subgraph({1, 2, 3, 4, 5}, PETERSEN) == C5
 #   i.e. if the nodes and edges of *g1* are included in those of *g2*.
 
 
+def neighbourhood(node, graph):
+    """
+    Return the node's **open neighbourhood** (subgraph induced by neighbours).
+    """
+    return subgraph(neighbours(node, graph), graph)
+
+assert neighbourhood(1, N2) == EMPTY
+assert neighbourhood(3, K3) == K2
+
+
 def renumber(graph, n=1):
     """Create a new graph by renaming the graph's nodes as n, n+1, n+2, etc."""
     number = n
     map = {}
-    for node in nodes(graph):
+    for node in node_set(graph):
         map[node] = number
         number = number + 1
     new_graph = network(set(), set(range(n, number)))
-    for e in edges(graph):
-        nodeset = endpoints(e)
-        node1 = map[nodeset.pop()]
-        node2 = map[nodeset.pop()] if nodeset else node1
+    for e in edge_set(graph):
+        nodes = endpoints(e)
+        node1 = map[nodes.pop()]
+        node2 = map[nodes.pop()] if nodes else node1
         new_graph = add_edges({edge(node1, node2)}, new_graph)
     return new_graph
 
@@ -325,14 +347,14 @@ def gml(graph):
     """
     # Concatenating many strings is slow; join a list of strings instead.
     lines = ["graph [", "  directed 0"]  # in GML, 0 means false
-    for node in nodes(graph):
+    for node in node_set(graph):
         lines.append("  node [id {}]".format(node))
-    for edge in edges(graph):
-        nodeset = endpoints(edge)
+    for edge in edge_set(graph):
+        nodes = endpoints(edge)
         # Take one of the nodes as the edge's source.
-        source = nodeset.pop()
+        source = nodes.pop()
         # Take the other as target, unless set is now empty (edge is a loop).
-        target = nodeset.pop() if nodeset else source
+        target = nodes.pop() if nodes else source
         lines.append("  edge [source {} target {}]".format(source, target))
     lines.append("]")
     # Join the lines, separated by newlines.
@@ -358,7 +380,7 @@ graph [
 
 def size(graph):
     """Return the graph's **size** (number of edges)."""
-    return len(edges(graph))
+    return len(edge_set(graph))
 
 assert size(EMPTY) == 0
 assert size(N1) == 0
@@ -368,7 +390,7 @@ assert size(PETERSEN) == 15
 
 def order(graph):
     """Return the graph's **order** (number of nodes)."""
-    return len(nodes(graph))
+    return len(node_set(graph))
 
 assert order(EMPTY) == 0
 assert order(N1) == 1
@@ -378,13 +400,15 @@ assert order(PETERSEN) == 10
 
 def simple(graph):
     """Check if the graph is **simple** (has no loops)."""
-    for edge in edges(graph):
+    for edge in edge_set(graph):
         if is_loop(edge):
             return False
     return True
 
 assert simple(EMPTY)
 assert simple(N1)
+# Any complete graph is simple.
+assert simple(K3)
 assert simple(PETERSEN)
 assert not simple(LOOP)
 
@@ -412,7 +436,7 @@ def degree_sequence(graph):
     """
     Return the graph's **degree sequence** (descending list of node degrees).
     """
-    degrees = [degree(node, graph) for node in nodes(graph)]
+    degrees = [degree(node, graph) for node in node_set(graph)]
     degrees.sort(reverse=True)
     return degrees
 
@@ -437,7 +461,7 @@ def degree_distribution(graph):
     if o == 0:
         return [0, 0]
     distribution = [0 for d in range(max_degree + 1)]
-    for node in nodes(graph):
+    for node in node_set(graph):
         distribution[degree(node, graph)] += 1
     for d in range(max_degree + 1):
         distribution[d] /= o
@@ -471,7 +495,7 @@ def k_regular(graph):
     Return k if graph is **k-regular** (all nodes have degree k), otherwise -1.
     """
     k = -1
-    for node in nodes(graph):
+    for node in node_set(graph):
         if k == -1:
             k = degree(node, graph)
         elif k != degree(node, graph):
@@ -495,21 +519,11 @@ assert k_regular(C3) == 2
 #   Include a unit test with a 2-regular graph of order 2 that is not C2.
 
 
-def neighbourhood(node, graph):
-    """Return a set with the node's **neighbourhood** (adjacent nodes)."""
-    return {node2 for node2 in nodes(graph) if adjacent(node, node2, graph)}
-
-assert neighbourhood(1, LOOP) == {1}
-assert neighbourhood(1, PETERSEN) == {2, 5, 6}
-
-# - Rewrite `isolated()` using `neighbourhood()`.
-
-
 def clustering_coefficient(node, graph):
     """
     Return node's **local clustering coefficient** (density of neighbourhood).
     """
-    return density(subgraph(neighbourhood(node, graph), graph))
+    return density(neighbourhood(node, graph))
 
 assert clustering_coefficient(1, K3) == 1
 assert clustering_coefficient(3, PETERSEN) == 0
@@ -530,7 +544,7 @@ def shortest_path(node1, node2, graph):
         visited.append(last)
         if last == node2:
             return path
-        for neighbour in neighbourhood(last, graph):
+        for neighbour in neighbours(last, graph):
             if neighbour not in visited:
                 paths.append(path + [neighbour])
     return []
@@ -545,7 +559,8 @@ assert shortest_path(1, 4, C5) == [1, 5, 4]
 
 
 def distance(node1, node2, graph):
-    """Return the **distance** (length of shortest path) between the nodes.
+    """
+    Return the **distance** (length of shortest path) between the nodes.
 
     The length of a path is the number of its edges.
     If there's no path, the distance is infinite.
@@ -564,14 +579,9 @@ assert distance(1, 2, N2) == float("infinity")
 
 def diameter(graph):
     """Return the graph's **diameter** (longest of all pairwise distances)."""
-    INFINITY = float("infinity")
-    diameter = -INFINITY
-    for node1 in nodes(graph):
-        for node2 in nodes(graph):
-            d = distance(node1, node2, graph)
-            if d > diameter:
-                diameter = d
-    return diameter if diameter >= 0 else INFINITY
+    nodes = node_set(graph)
+    distances = [distance(n1, n2, graph) for n1 in nodes for n2 in nodes]
+    return max(distances) if distances else float("infinity")
 
 assert diameter(EMPTY) == float("infinity")
 assert diameter(N2) == float("infinity")
@@ -585,8 +595,8 @@ assert diameter(C5) == 2
 
 def connected(graph):
     """Check if graph is **connected** (all nodes reachable from any node)."""
-    for node1 in nodes(graph):
-        for node2 in nodes(graph):
+    for node1 in node_set(graph):
+        for node2 in node_set(graph):
             if distance(node1, node2, graph) == float("infinity"):
                 return False
     return True
@@ -611,7 +621,7 @@ def components(graph):
     """
     components = []
     visited = set()
-    for node in nodes(graph):
+    for node in node_set(graph):
         component = set()
         to_visit = {node}
         while to_visit:
@@ -619,7 +629,7 @@ def components(graph):
             if node not in visited:
                 visited.add(node)
                 component.add(node)
-                to_visit = to_visit | neighbourhood(node, graph)
+                to_visit = to_visit | neighbours(node, graph)
         if component:
             components.append(subgraph(component, graph))
     return components
@@ -634,13 +644,13 @@ assert [size(c) for c in components(N2)] == [0, 0]
 
 def giant_component(graph):
     """
-    Return the **giant component** (component with majority of nodes).
+    Return the **giant component** (component with majority of graph's nodes).
 
     Return the empty graph if there is no giant component.
     """
-    o = order(graph)
+    half = order(graph) / 2
     for component in components(graph):
-        if order(component) > o / 2:
+        if order(component) > half:
             return component
     return null(0)
 
