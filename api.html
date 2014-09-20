@@ -65,7 +65,7 @@ The&nbsp;length&nbsp;of&nbsp;a&nbsp;path&nbsp;is&nbsp;the&nbsp;number&nbsp;of&nb
 If&nbsp;there's&nbsp;no&nbsp;path,&nbsp;the&nbsp;distance&nbsp;is&nbsp;infinite.</tt></dd></dl>
  <dl><dt><a name="-edge"><strong>edge</strong></a>(node1, node2)</dt><dd><tt>Create&nbsp;an&nbsp;edge&nbsp;connecting&nbsp;the&nbsp;two&nbsp;nodes.</tt></dd></dl>
  <dl><dt><a name="-edge_set"><strong>edge_set</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;set&nbsp;of&nbsp;the&nbsp;graph's&nbsp;edges.</tt></dd></dl>
- <dl><dt><a name="-endpoints"><strong>endpoints</strong></a>(edge)</dt><dd><tt>Return&nbsp;the&nbsp;set&nbsp;of&nbsp;the&nbsp;edge's&nbsp;**endpoints**&nbsp;(the&nbsp;nodes&nbsp;it&nbsp;connects).</tt></dd></dl>
+ <dl><dt><a name="-endpoints"><strong>endpoints</strong></a>(edge)</dt><dd><tt>Return&nbsp;a&nbsp;pair&nbsp;with&nbsp;the&nbsp;edge's&nbsp;**endpoints**&nbsp;(the&nbsp;nodes&nbsp;it&nbsp;connects).</tt></dd></dl>
  <dl><dt><a name="-giant_component"><strong>giant_component</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;**giant&nbsp;component**&nbsp;(component&nbsp;with&nbsp;majority&nbsp;of&nbsp;graph's&nbsp;nodes).<br>
 &nbsp;<br>
 Return&nbsp;the&nbsp;empty&nbsp;graph&nbsp;if&nbsp;there&nbsp;is&nbsp;no&nbsp;giant&nbsp;component.</tt></dd></dl>
@@ -103,7 +103,7 @@ It&nbsp;includes&nbsp;those&nbsp;edges&nbsp;of&nbsp;graph&nbsp;that&nbsp;connect
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['RAND', 'UCLA']), frozenset(['SRI', 'Stanford']), frozenset(['SRI', 'UCSB']), frozenset(['Lincoln', 'MIT']), frozenset(['CASE', 'Carnegie']), frozenset(['MIT', 'Utah']), ...]))<br>
+<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['MIT', 'Utah']), frozenset(['BBN', 'Harvard']), frozenset(['Stanford', 'UCLA']), frozenset(['UCLA', 'UCSB']), frozenset(['SRI', 'UCLA']), frozenset(['Lincoln', 'MIT']), ...]))<br>
 <strong>C3</strong> = (set([1, 2, 3]), set([frozenset([1, 3]), frozenset([1, 2]), frozenset([2, 3])]))<br>
 <strong>C4</strong> = (set([1, 2, 3, 4]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 4])]))<br>
 <strong>C5</strong> = (set([1, 2, 3, 4, 5]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 5]), frozenset([4, 5])]))<br>
@@ -114,5 +114,5 @@ It&nbsp;includes&nbsp;those&nbsp;edges&nbsp;of&nbsp;graph&nbsp;that&nbsp;connect
 <strong>N1</strong> = (set([1]), set([]))<br>
 <strong>N2</strong> = (set([1, 2]), set([]))<br>
 <strong>PETERSEN</strong> = (set([1, 2, 3, 4, 5, 6, ...]), set([frozenset([2, 7]), frozenset([4, 9]), frozenset([7, 10]), frozenset([1, 2]), frozenset([1, 5]), frozenset([6, 9]), ...]))<br>
-<strong>UTILITY</strong> = (set([1, 2, 'power', 3, 'gas', 'water']), set([frozenset(['water', 2]), frozenset(['power', 3]), frozenset(['water', 1]), frozenset([1, 'gas']), frozenset(['power', 2]), frozenset(['water', 3]), ...]))</td></tr></table>
+<strong>UTILITY</strong> = (set(['water', 1, 2, 3, 'power', 'gas']), set([frozenset(['water', 2]), frozenset(['gas', 3]), frozenset([1, 'power']), frozenset(['water', 3]), frozenset(['water', 1]), frozenset([1, 'gas']), ...]))</td></tr></table>
 </body></html>

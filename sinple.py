@@ -94,12 +94,16 @@ assert edge(1, 2) == edge(2, 1)
 
 
 def endpoints(edge):
-    """Return the set of the edge's **endpoints** (the nodes it connects)."""
-    return set(edge)
+    """
+    Return a pair with the edge's **endpoints** (the nodes it connects).
+    """
+    if len(edge) == 2:
+        return tuple(edge)
+    else:
+        return tuple(edge) + tuple(edge)
 
-assert endpoints(edge(2, 1)) == {1, 2}
-assert endpoints(edge(1, 1)) == {1}
-assert endpoints(edge("me", "my friend")) == {"my friend", "me"}
+assert endpoints(edge(2, 1)) == (2, 1) or endpoints(edge(2, 1)) == (1, 2)
+assert endpoints(edge(1, 1)) == (1, 1)
 
 
 def edge_set(graph):
@@ -120,7 +124,7 @@ def add_edges(edges, graph):
     """
     nodes = set()
     for edge in edges:
-        nodes = nodes | endpoints(edge)
+        nodes.update(endpoints(edge))
     return (node_set(graph) | nodes, edge_set(graph) | edges)
 
 # - Explain how `add_edges()` works. Why is `set()` used instead of `{}`?
@@ -131,6 +135,8 @@ def network(edges, nodes=set()):
     return add_edges(edges, (nodes, set()))
 
 assert network({edge(1, 2)}) == network({edge(2, 1)}, {1, 2})
+
+# - Change `network()` to also accept lists of nodes and edges.
 
 
 def delete_edges(edges, graph):
@@ -231,7 +237,8 @@ assert order(PETERSEN) == 10
 
 def is_loop(edge):
     """Check if edge is a **loop** (connects a node to itself)."""
-    return len(endpoints(edge)) == 1
+    (node1, node2) = endpoints(edge)
+    return node1 == node2
 
 assert is_loop(edge("A", "A"))
 assert not is_loop(edge("A", "B"))
@@ -290,13 +297,12 @@ def renumber(graph, n=1):
     for node in node_set(graph):
         map[node] = number
         number = number + 1
-    new_graph = network(set(), set(range(n, number)))
+    nodeset = set(range(n, number))
+    edgeset = set()
     for e in edge_set(graph):
-        nodes = endpoints(e)
-        node1 = map[nodes.pop()]
-        node2 = map[nodes.pop()] if nodes else node1
-        new_graph = add_edges({edge(node1, node2)}, new_graph)
-    return new_graph
+        (node1, node2) = endpoints(e)
+        edgeset.add(edge(map[node1], map[node2]))
+    return network(edgeset, nodeset)
 
 assert renumber(EMPTY, -1) == EMPTY
 assert renumber(N2, 5) == network(set(), {5, 6})
@@ -330,12 +336,12 @@ def random(n, p):
 
     The two numbers can't be negative, and p can't be larger than 1.
     """
-    graph = null(n)
+    edgeset = set()
     for node1 in range(1, n+1):
         for node2 in range(node1+1, n+1):
             if uniform(0, 1) < p:
-                graph = add_edges({edge(node1, node2)}, graph)
-    return graph
+                edgeset.add(edge(node1, node2))
+    return add_edges(edgeset, null(n))
 
 assert random(0, 1) == EMPTY
 assert random(1, 1) == N1
@@ -528,7 +534,7 @@ def shortest_path(node1, node2, graph):
     """
     paths = [[node1]]
     visited = []
-    while paths != []:
+    while paths:
         path = paths.pop(0)
         last = path[-1]
         visited.append(last)
@@ -597,7 +603,7 @@ def connected(graph):
     """
     for node1 in node_set(graph):
         for node2 in node_set(graph):
-            if shortest_path(node1, node2, graph) == []:
+            if not shortest_path(node1, node2, graph):
                 return False
     return True
 
@@ -678,12 +684,8 @@ def gml(graph):
     for node in node_set(graph):
         lines.append("  node [id {}]".format(node))
     for edge in edge_set(graph):
-        nodes = endpoints(edge)
-        # Take any of the endpoints as the edge's source.
-        source = nodes.pop()
-        # Take the other as target, unless set is now empty (edge is a loop).
-        target = nodes.pop() if nodes else source
-        lines.append("  edge [source {} target {}]".format(source, target))
+        (node1, node2) = endpoints(edge)
+        lines.append("  edge [source {} target {}]".format(node1, node2))
     lines.append("]")
     # Join the lines, separated by newlines.
     return "\n".join(lines)
