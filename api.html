@@ -27,7 +27,7 @@ Instead&nbsp;SINPLE's&nbsp;aims&nbsp;are&nbsp;pedagogical:<br>
 [preconditions](<a href="http://en.wikipedia.org/wiki/Precondition">http://en.wikipedia.org/wiki/Precondition</a>)&nbsp;using&nbsp;assertions;<br>
 -&nbsp;it&nbsp;explains&nbsp;basic&nbsp;network&nbsp;concepts&nbsp;through&nbsp;executable&nbsp;definitions<br>
 (the&nbsp;functions)&nbsp;and&nbsp;concrete&nbsp;examples&nbsp;(the&nbsp;unit&nbsp;tests);<br>
--&nbsp;it&nbsp;includes&nbsp;small&nbsp;exercises&nbsp;and&nbsp;larger&nbsp;projects;<br>
+-&nbsp;it&nbsp;includes&nbsp;over&nbsp;40&nbsp;exercises;<br>
 -&nbsp;it&nbsp;is&nbsp;extensively&nbsp;documented&nbsp;in&nbsp;a&nbsp;simple&nbsp;[literate<br>
 programming](<a href="http://en.wikipedia.org/wiki/Literate_programming">http://en.wikipedia.org/wiki/Literate_programming</a>)&nbsp;style.<br>
 &nbsp;<br>
@@ -47,9 +47,8 @@ The&nbsp;latest&nbsp;version&nbsp;of&nbsp;SINPLE&nbsp;can&nbsp;be&nbsp;found&nbs
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><dl><dt><a name="-add_edges"><strong>add_edges</strong></a>(edges, graph)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;graph&nbsp;by&nbsp;adding&nbsp;the&nbsp;set&nbsp;of&nbsp;edges&nbsp;and&nbsp;their&nbsp;endpoints&nbsp;to&nbsp;graph.</tt></dd></dl>
  <dl><dt><a name="-adjacent"><strong>adjacent</strong></a>(node1, node2, graph)</dt><dd><tt>Check&nbsp;if&nbsp;the&nbsp;nodes&nbsp;are&nbsp;**adjacent**&nbsp;(an&nbsp;edge&nbsp;connects&nbsp;them).</tt></dd></dl>
- <dl><dt><a name="-clustering_coefficient"><strong>clustering_coefficient</strong></a>(node, graph)</dt><dd><tt>Return&nbsp;node's&nbsp;**local&nbsp;clustering&nbsp;coefficient**&nbsp;(density&nbsp;of&nbsp;neighbourhood).</tt></dd></dl>
  <dl><dt><a name="-components"><strong>components</strong></a>(graph)</dt><dd><tt>Return&nbsp;a&nbsp;list&nbsp;of&nbsp;the&nbsp;graph's&nbsp;**components**&nbsp;(maximal&nbsp;connected&nbsp;subgraphs).</tt></dd></dl>
- <dl><dt><a name="-connected"><strong>connected</strong></a>(graph)</dt><dd><tt>Check&nbsp;if&nbsp;graph&nbsp;is&nbsp;**connected**&nbsp;(all&nbsp;nodes&nbsp;reachable&nbsp;from&nbsp;any&nbsp;node).</tt></dd></dl>
+ <dl><dt><a name="-connected"><strong>connected</strong></a>(graph)</dt><dd><tt>Check&nbsp;if&nbsp;graph&nbsp;is&nbsp;**connected**&nbsp;(there's&nbsp;a&nbsp;path&nbsp;between&nbsp;any&nbsp;pair&nbsp;of&nbsp;nodes).</tt></dd></dl>
  <dl><dt><a name="-degree"><strong>degree</strong></a>(node, graph)</dt><dd><tt>Return&nbsp;the&nbsp;node's&nbsp;**degree**&nbsp;(number&nbsp;of&nbsp;incident&nbsp;edge&nbsp;tips).<br>
 &nbsp;<br>
 Loops&nbsp;count&nbsp;twice,&nbsp;so&nbsp;that&nbsp;each&nbsp;edge&nbsp;contributes&nbsp;2&nbsp;to&nbsp;the&nbsp;degree&nbsp;sum.</tt></dd></dl>
@@ -79,6 +78,7 @@ The&nbsp;nodes&nbsp;of&nbsp;the&nbsp;graph&nbsp;must&nbsp;be&nbsp;represented&nb
  <dl><dt><a name="-incident"><strong>incident</strong></a>(edge, node)</dt><dd><tt>Check&nbsp;if&nbsp;edge&nbsp;and&nbsp;node&nbsp;are&nbsp;**incident**&nbsp;to&nbsp;each&nbsp;other&nbsp;(edge&nbsp;connects&nbsp;node).</tt></dd></dl>
  <dl><dt><a name="-is_loop"><strong>is_loop</strong></a>(edge)</dt><dd><tt>Check&nbsp;if&nbsp;edge&nbsp;is&nbsp;a&nbsp;**loop**&nbsp;(connects&nbsp;a&nbsp;node&nbsp;to&nbsp;itself).</tt></dd></dl>
  <dl><dt><a name="-k_regular"><strong>k_regular</strong></a>(graph)</dt><dd><tt>Return&nbsp;k&nbsp;if&nbsp;graph&nbsp;is&nbsp;**k-regular**&nbsp;(all&nbsp;nodes&nbsp;have&nbsp;degree&nbsp;k),&nbsp;otherwise&nbsp;-1.</tt></dd></dl>
+ <dl><dt><a name="-local_clustering_coefficient"><strong>local_clustering_coefficient</strong></a>(node, graph)</dt><dd><tt>Return&nbsp;node's&nbsp;**local&nbsp;clustering&nbsp;coefficient**&nbsp;(density&nbsp;of&nbsp;neighbourhood).</tt></dd></dl>
  <dl><dt><a name="-mean_degree"><strong>mean_degree</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**average&nbsp;degree**&nbsp;(mean&nbsp;of&nbsp;all&nbsp;node&nbsp;degrees).</tt></dd></dl>
  <dl><dt><a name="-neighbourhood"><strong>neighbourhood</strong></a>(node, graph)</dt><dd><tt>Return&nbsp;the&nbsp;node's&nbsp;**open&nbsp;neighbourhood**&nbsp;(subgraph&nbsp;induced&nbsp;by&nbsp;neighbours).</tt></dd></dl>
  <dl><dt><a name="-neighbours"><strong>neighbours</strong></a>(node, graph)</dt><dd><tt>Return&nbsp;the&nbsp;set&nbsp;of&nbsp;the&nbsp;node's&nbsp;**neighbours**&nbsp;(adjacent&nbsp;nodes).</tt></dd></dl>
@@ -86,7 +86,9 @@ The&nbsp;nodes&nbsp;of&nbsp;the&nbsp;graph&nbsp;must&nbsp;be&nbsp;represented&nb
  <dl><dt><a name="-node_set"><strong>node_set</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;set&nbsp;of&nbsp;the&nbsp;graph's&nbsp;nodes.</tt></dd></dl>
  <dl><dt><a name="-null"><strong>null</strong></a>(n)</dt><dd><tt>Create&nbsp;a&nbsp;**null&nbsp;graph**&nbsp;with&nbsp;n&nbsp;nodes&nbsp;numbered&nbsp;1&nbsp;to&nbsp;n&nbsp;and&nbsp;no&nbsp;edges.</tt></dd></dl>
  <dl><dt><a name="-order"><strong>order</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**order**&nbsp;(number&nbsp;of&nbsp;nodes).</tt></dd></dl>
- <dl><dt><a name="-random"><strong>random</strong></a>(n, p)</dt><dd><tt>Return&nbsp;a&nbsp;simple&nbsp;**random&nbsp;graph**&nbsp;with&nbsp;n&nbsp;nodes&nbsp;and&nbsp;edge&nbsp;probability&nbsp;p.</tt></dd></dl>
+ <dl><dt><a name="-random"><strong>random</strong></a>(n, p)</dt><dd><tt>Return&nbsp;a&nbsp;simple&nbsp;**random&nbsp;graph**&nbsp;with&nbsp;n&nbsp;nodes&nbsp;and&nbsp;edge&nbsp;probability&nbsp;p.<br>
+&nbsp;<br>
+The&nbsp;two&nbsp;numbers&nbsp;can't&nbsp;be&nbsp;negative,&nbsp;and&nbsp;p&nbsp;can't&nbsp;be&nbsp;larger&nbsp;than&nbsp;1.</tt></dd></dl>
  <dl><dt><a name="-renumber"><strong>renumber</strong></a>(graph, n=1)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;graph&nbsp;by&nbsp;renaming&nbsp;the&nbsp;graph's&nbsp;nodes&nbsp;as&nbsp;n,&nbsp;n+1,&nbsp;n+2,&nbsp;etc.</tt></dd></dl>
  <dl><dt><a name="-shortest_path"><strong>shortest_path</strong></a>(node1, node2, graph)</dt><dd><tt>Return&nbsp;a&nbsp;shortest&nbsp;path&nbsp;[node1,&nbsp;...,&nbsp;node2]&nbsp;between&nbsp;the&nbsp;two&nbsp;nodes.<br>
 &nbsp;<br>
@@ -104,7 +106,7 @@ It&nbsp;includes&nbsp;those&nbsp;edges&nbsp;of&nbsp;graph&nbsp;that&nbsp;connect
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['BBN', 'MIT']), frozenset(['SRI', 'UCSB']), frozenset(['SRI', 'Utah']), frozenset(['UCLA', 'UCSB']), frozenset(['SDC', 'Utah']), frozenset(['CASE', 'Carnegie']), ...]))<br>
+<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['BBN', 'Harvard']), frozenset(['SRI', 'Stanford']), frozenset(['UCLA', 'UCSB']), frozenset(['SRI', 'UCSB']), frozenset(['BBN', 'RAND']), frozenset(['Lincoln', 'MIT']), ...]))<br>
 <strong>C3</strong> = (set([1, 2, 3]), set([frozenset([1, 3]), frozenset([1, 2]), frozenset([2, 3])]))<br>
 <strong>C4</strong> = (set([1, 2, 3, 4]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 4])]))<br>
 <strong>C5</strong> = (set([1, 2, 3, 4, 5]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 5]), frozenset([4, 5])]))<br>
@@ -115,5 +117,5 @@ It&nbsp;includes&nbsp;those&nbsp;edges&nbsp;of&nbsp;graph&nbsp;that&nbsp;connect
 <strong>N1</strong> = (set([1]), set([]))<br>
 <strong>N2</strong> = (set([1, 2]), set([]))<br>
 <strong>PETERSEN</strong> = (set([1, 2, 3, 4, 5, 6, ...]), set([frozenset([2, 7]), frozenset([4, 9]), frozenset([7, 10]), frozenset([1, 2]), frozenset([1, 5]), frozenset([6, 9]), ...]))<br>
-<strong>UTILITY</strong> = (set([1, 2, 3, 'water', 'power', 'gas']), set([frozenset([2, 'water']), frozenset([3, 'gas']), frozenset([1, 'water']), frozenset([3, 'water']), frozenset([1, 'gas']), frozenset([2, 'power']), ...]))</td></tr></table>
+<strong>UTILITY</strong> = (set([1, 2, 3, 'power', 'gas', 'water']), set([frozenset([1, 'gas']), frozenset([1, 'water']), frozenset([3, 'power']), frozenset([2, 'power']), frozenset([2, 'gas']), frozenset([3, 'water']), ...]))</td></tr></table>
 </body></html>

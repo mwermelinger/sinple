@@ -17,7 +17,7 @@ Instead SINPLE's aims are pedagogical:
 [preconditions](http://en.wikipedia.org/wiki/Precondition) using assertions;
 - it explains basic network concepts through executable definitions
 (the functions) and concrete examples (the unit tests);
-- it includes small exercises and larger projects;
+- it includes over 40 exercises;
 - it is extensively documented in a simple [literate
 programming](http://en.wikipedia.org/wiki/Literate_programming) style.
 
@@ -52,7 +52,8 @@ The latest version of SINPLE can be found on http://tiny.cc/sinple.
 #
 # Some exercises ask to change existing functions, others to add new code.
 # When writing a new function, think about its name and parameters,
-# any preconditions, and add the corresponding unit tests.
+# any preconditions the user needs to know about,
+# and add the corresponding unit tests.
 #
 # Please don't share exercise solutions publicly.
 
@@ -87,7 +88,7 @@ def edge(node1, node2):
 assert edge(1, 2) == edge(2, 1)
 
 # - Consult the Python documentation about sets.
-#   Why is an edge represented by a frozen (i.e. immutable) set?
+#   Why is an edge represented by a frozen, i.e. immutable, set?
 #   Hint: read again the definition of graph at the start of this section.
 
 
@@ -152,8 +153,6 @@ def null(n):
 
 # The **empty graph** has no nodes and hence no edges.
 EMPTY = null(0)
-
-# The **trivial graph** has a single node and no edges.
 N1 = null(1)
 N2 = null(2)
 
@@ -166,8 +165,7 @@ K3 = network({edge(1, 2), edge(1, 3), edge(2, 3)})
 
 # - Define K1.
 # - Write a function to create a complete graph, given the number of nodes.
-#   Don't forget to write a precondition and unit tests.
-#   Hint: compare the output to the 'manually' created K1, K2, K3.
+#   Compare the output to the 'manually' created K1, K2, K3.
 
 # A **cycle graph** C*n* has *n* nodes connected in a 'round-robin' fashion.
 # Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, etc.
@@ -268,11 +266,6 @@ assert degree(6, PETERSEN) == 3
 
 # - Explain why all nodes in a cycle graph have degree 2.
 # - What is the degree of each node in K*n*? Write some unit tests to confirm.
-# - `degree(node, graph)` assumes that `node` is in `graph`.
-#   What happens if it isn't?
-#   Consider other behaviours, like preconditions and explicit exceptions.
-# - Search SINPLE for other functions that assume the node is in the graph,
-#   and change them if necessary.
 
 
 def neighbours(node, graph):
@@ -299,9 +292,9 @@ def subgraph(nodes, graph):
     It includes those edges of graph that connect the given nodes.
     """
     edges = {edge(n1, n2) for n1 in nodes for n2 in nodes}
-    return network(edges & edge_set(graph), nodes & node_set(graph))
+    return network(edges & edge_set(graph), nodes)
 
-assert subgraph({1, 3}, N2) == N1
+assert subgraph({1}, N2) == N1
 assert subgraph({1, 2, 3, 4, 5}, PETERSEN) == C5
 
 # - Explain how `subgraph()` works.
@@ -318,6 +311,9 @@ def neighbourhood(node, graph):
 
 assert neighbourhood(1, N2) == EMPTY
 assert neighbourhood(3, K3) == K2
+
+# - Write a function that returns a node's **closed neighbourhood**,
+#   which includes the node itself.
 
 
 def renumber(graph, n=1):
@@ -373,6 +369,9 @@ graph [
   node [id 2]
 ]"""
 
+# - Write a function that given a file name and a graph,
+#   writes the graph in GML format to that file.
+
 
 # Graph properties
 # ----------------
@@ -412,6 +411,11 @@ assert simple(K3)
 assert simple(PETERSEN)
 assert not simple(LOOP)
 
+# - Write a function to check if a graph is **bipartite**, i.e.
+#   its nodes can be separated into two parts so that each edge
+#   connects nodes in different parts.
+#   Include a unit test showing that the utility graph is bipartite.
+
 
 def density(graph):
     """
@@ -445,11 +449,6 @@ assert degree_sequence(N2) == [0, 0]
 assert degree_sequence(K3) == [2, 2, 2]
 assert degree_sequence(ARPANET) == [4, 4, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2]
 
-# - Write two functions to compute respectively the maximum and minimum degrees
-#   of a degree sequence.
-# - Write two functions to compute respectively the maximum and minimum degrees
-#   of a graph. Hint: it's not always necessary to loop over all nodes.
-
 
 def degree_distribution(graph):
     """Return a list of length order(graph)+2 of a node's degree probabilities.
@@ -473,14 +472,14 @@ assert degree_distribution(LOOP) == [0, 0, 1]
 
 # - Explain how `degree_distribution()` works.
 #   Why is the list never longer than `order(graph) + 2`?
-# - Change `degree_distribution` so that the list has no trailing zeros.
+# - Change `degree_distribution()` so that the list has no trailing zeros.
 # - Write a function to compute the degree distribution from a degree sequence.
 
 
 def mean_degree(graph):
     """Return the graph's **average degree** (mean of all node degrees)."""
-    o = order(graph)
-    return sum(degree_sequence(graph)) / o if o > 0 else 0
+    degrees = degree_sequence(graph)
+    return sum(degrees) / len(degrees) if degrees else 0
 
 assert mean_degree(EMPTY) == 0
 assert mean_degree(N2) == 0
@@ -512,21 +511,21 @@ assert k_regular(C3) == 2
 # - Write a function to check if a degree sequence forms a regular graph.
 # - Write a function to check if a graph is a null graph.
 # - Write a function to check if a graph is **cubic**, i.e. 3-regular.
-#   The Petersen graph is cubic.
+#   Include a unit test showing that the Petersen graph is cubic.
 # - Write a function to check if a graph is a complete graph.
 #   Include a unit test with a 2-regular graph of order 3 that is not K3.
 # - Write a function to check if a graph is a cycle graph.
 #   Include a unit test with a 2-regular graph of order 2 that is not C2.
 
 
-def clustering_coefficient(node, graph):
+def local_clustering_coefficient(node, graph):
     """
     Return node's **local clustering coefficient** (density of neighbourhood).
     """
     return density(neighbourhood(node, graph))
 
-assert clustering_coefficient(1, K3) == 1
-assert clustering_coefficient(3, PETERSEN) == 0
+assert local_clustering_coefficient(1, K3) == 1
+assert local_clustering_coefficient(3, PETERSEN) == 0
 
 
 def shortest_path(node1, node2, graph):
@@ -566,10 +565,7 @@ def distance(node1, node2, graph):
     If there's no path, the distance is infinite.
     """
     path = shortest_path(node1, node2, graph)
-    if path == []:
-        return float("infinity")
-    else:
-        return len(path) - 1
+    return len(path) - 1 if path else float("infinity")
 
 assert distance(1, 1, C3) == 0
 assert distance(2, 4, C4) == 2
@@ -584,6 +580,7 @@ def diameter(graph):
     return max(distances) if distances else float("infinity")
 
 assert diameter(EMPTY) == float("infinity")
+assert diameter(N1) == 0
 assert diameter(N2) == float("infinity")
 assert diameter(K3) == 1
 assert diameter(C5) == 2
@@ -594,10 +591,12 @@ assert diameter(C5) == 2
 
 
 def connected(graph):
-    """Check if graph is **connected** (all nodes reachable from any node)."""
+    """
+    Check if graph is **connected** (there's a path between any pair of nodes).
+    """
     for node1 in node_set(graph):
         for node2 in node_set(graph):
-            if distance(node1, node2, graph) == float("infinity"):
+            if shortest_path(node1, node2, graph) == []:
                 return False
     return True
 
@@ -607,12 +606,12 @@ assert connected(C5)
 
 # - Make `connected()` more efficient.
 # - Add a function to check if a network is resilient to single edge failure,
-#   i.e. if it remains connected after any one edge is removed.
+#   i.e. if after removing any one edge, the remaining graph is connected.
 #   Write a unit test showing that ARPANET is resilient.
 # - Add a function to check if a network is resilient to single node failure,
 #   i.e. if after removing any one node, the remaining graph is connected.
 #   Show that ARPANET is also resilient in this sense.
-#   Hint: first implement node removal; see earlier exercise.
+#   Hint: first complete the earlier node removal exercise.
 
 
 def components(graph):
@@ -663,9 +662,11 @@ from random import uniform
 
 
 def random(n, p):
-    """Return a simple **random graph** with n nodes and edge probability p."""
-    assert n >= 0
-    assert 0 <= p and p <= 1
+    """
+    Return a simple **random graph** with n nodes and edge probability p.
+
+    The two numbers can't be negative, and p can't be larger than 1.
+    """
     graph = null(n)
     for node1 in range(1, n+1):
         for node2 in range(node1+1, n+1):
@@ -684,22 +685,30 @@ assert simple(random(4, 0.5))
 # Projects
 # --------
 #
-# Write a program that imports SINPLE and reports various properties
-# of the Arpanet network, e.g. the most connected nodes.
+# These are exercises that require using or changing the whole library.
 #
-# Write a program that imports SINPLE, creates several random graphs,
-# collects their mean degrees and diameters, and checks if the
-# empirical values match the expected theoretical values.
-# The expected mean degree is `n/p`.
+# - Functions like `degree(node, graph)` assume that `node` is in `graph`.
+# What happens if it isn't?
+# Decide whether to return some value in those cases or to raise an exception.
+# If the former, add unit tests.
 #
-# Make SINPLE work with Python 2.7.
+# - Write a program that imports SINPLE and reports various properties
+# of the Arpanet network, e.g. the most highly connected nodes.
 #
-# Write an object-oriented version of SINPLE.
+# - Write a program that imports SINPLE, creates several random graphs
+# with fixed `n` but increasing `p`, and reports their properties.
+# Check if the mean degree is the theoretical expected value `p*(n-1)`.
+# Check if a giant component emerges when `p > 1/n`.
+# Check if the network becomes connected when `p > math.log(n) / n`.
 #
-# Extend SINPLE to support **weighted edges**,
+# - Extend SINPLE to support **weighted edges**,
 # i.e. edges that have an associated number, called the edge's weight.
-# By default the edge weight is 1, i.e. an unweighted network can be seen
-# as a weighted network where each edge has weight 1.
-# Learn about default parameter values in Python and change `edge()`.
+# An unweighted network can be seen
+# as a weighted network where each edge has the default weight 1.
+# Add a default parameter to `edge()`.
 # Add a function to return the weight of an edge.
 # Modify `shortest_path()` to return the path with the smallest total weight.
+#
+# - Make SINPLE work with Python 2.7.
+#
+# - Rewrite SINPLE using classes.
