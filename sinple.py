@@ -1,32 +1,25 @@
 """
 SImple Network Python Library for Education (SINPLE)
 
-Michel Wermelinger
+SINPLE is a Python 3 library of functions to create and analyse networks,
+i.e. graphs, of social relations, transport links, communication channels, etc.
 
-Many systems can be represented as networks, e.g. transport connections,
-gene regulation, social interactions, the World Wide Web. Network science is an
-important field to analyse and predict the behaviour of such systems.
+SINPLE is a pedagogical (i.e. simple, readable, and documented) implementation
+to help introduce Python, data structures and algorithms, and network/graph
+theory. SINPLE includes over 40 exercises and a small real-life network.
+SINPLE presents network concepts through executable definitions (functions)
+and concrete examples (unit tests).
 
-SINPLE does not support analysis of very large networks;
-there are various state-of-the-art libraries for that.
-Instead SINPLE's aims are pedagogical:
+SINPLE handles undirected graphs with nodes represented by any hashable value,
+e.g. an integer, a string of the node's name, or a tuple with additional
+information about the node.
 
-- it illustrates sets, comprehensions, string formatting, default parameters;
-- it illustrates simple forms of
-[unit testing](http://en.wikipedia.org/wiki/Unit_testing) using assertions;
-- it explains basic network concepts through executable definitions
-(the functions) and concrete examples (the unit tests);
-- it includes over 40 short exercises and larger projects;
-- it is extensively documented in a simple [literate
-programming](http://en.wikipedia.org/wiki/Literate_programming) style.
+SINPLE's functions assume their arguments are correct, i.e. are of the right
+type and satisfy any additional stated conditions. All functions, except
+`network()` and `add_edges()`, that take edges (or nodes) and a graph, assume
+that the graph contains those edges or nodes.
 
-SINPLE is written for Python 3.
-
-Running [Pycco](http://fitzgen.github.io/pycco/) on the source code
-(`pycco -d . sinple.py`) generates `sinple.html`,
-a side-by-side view of documentation and code.
-
-The latest version of SINPLE can be found on http://tiny.cc/sinple.
+SINPLE is available under a permissive license from http://tiny.cc/sinple.
 """
 
 # Coding conventions
@@ -70,15 +63,15 @@ The latest version of SINPLE can be found on http://tiny.cc/sinple.
 # Each pair of nodes is connected by one edge or it is not connected.
 # A node may be connected to itself.
 #
-# SINPLE represents a network by a pair `(nodes, edges)`,
-# where `nodes` is a Python set of node names (e.g. integers or strings)
-# and `edges` is a Python set of edges.
-# Each edge is represented by a Python set of node names `{node1, node2}`,
+# SINPLE represents a network by a tuple `(nodes, edges)`,
+# where `nodes` is a set of hashable values (numbers, strings, tuples, etc.)
+# and `edges` is a set of edges.
+# Each edge is a set of nodes `{node1, node2}`,
 # because the edge has no direction.
 
 # Core functions
 # --------------
-# These functions encapsulate the network representation
+# These functions hide the network representation
 # from the rest of the library.
 
 
@@ -304,8 +297,8 @@ def renumber(graph, n=1):
         edgeset.add(edge(map[node1], map[node2]))
     return network(edgeset, nodeset)
 
-assert renumber(EMPTY, -1) == EMPTY
-assert renumber(N2, 5) == network(set(), {5, 6})
+assert renumber(EMPTY, 1) == EMPTY
+assert renumber(N2, -1) == network(set(), {-1, 0})
 assert renumber(network({edge("A", "B")})) == network({edge(1, 2)})
 
 
@@ -313,7 +306,7 @@ def subgraph(nodes, graph):
     """
     Return the graph's **subgraph induced** by the set of nodes.
 
-    It includes those edges of graph that connect the given nodes.
+    The induced subgraph has the edges of graph that connect the given nodes.
     """
     edges = {edge(n1, n2) for n1 in nodes for n2 in nodes}
     return network(edges & edge_set(graph), nodes)
@@ -607,6 +600,7 @@ def connected(graph):
                 return False
     return True
 
+assert connected(EMPTY)
 assert connected(N1)
 assert not connected(N2)
 assert connected(C5)
@@ -644,6 +638,7 @@ def components(graph):
             components.append(subgraph(component, graph))
     return components
 
+assert components(EMPTY) == []
 assert components(K3) == [K3]
 assert [order(c) for c in components(N2)] == [1, 1]
 assert [size(c) for c in components(N2)] == [0, 0]
@@ -664,8 +659,9 @@ def giant_component(graph):
             return component
     return null(0)
 
+assert giant_component(EMPTY) == EMPTY
 assert giant_component(C3) == C3
-assert giant_component(N2) == null(0)
+assert giant_component(N2) == EMPTY
 
 # - Rewrite `giant_component()` to return the largest component (most nodes).
 
@@ -690,6 +686,10 @@ def gml(graph):
     # Join the lines, separated by newlines.
     return "\n".join(lines)
 
+assert gml(EMPTY) == """\
+graph [
+  directed 0
+]"""
 assert gml(LOOP) == """\
 graph [
   directed 0
@@ -708,12 +708,11 @@ graph [
 
 # Projects
 # --------
-#
-# These are exercises that require using or changing the whole library.
+# These exercises require using or changing large parts of the library.
 #
 # - Functions like `degree(node, graph)` assume that `node` is in `graph`.
 # What happens if it isn't?
-# Decide whether to return some value in those cases or to raise an exception.
+# Decide whether to return a sensible value or to raise an exception.
 # If the former, add unit tests.
 #
 # - Write a program that imports SINPLE and reports various properties

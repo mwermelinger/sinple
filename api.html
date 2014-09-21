@@ -11,32 +11,25 @@
 ></td></tr></table>
     <p><tt>SImple&nbsp;Network&nbsp;Python&nbsp;Library&nbsp;for&nbsp;Education&nbsp;(SINPLE)<br>
 &nbsp;<br>
-Michel&nbsp;Wermelinger<br>
+SINPLE&nbsp;is&nbsp;a&nbsp;Python&nbsp;3&nbsp;library&nbsp;of&nbsp;functions&nbsp;to&nbsp;create&nbsp;and&nbsp;analyse&nbsp;networks,<br>
+i.e.&nbsp;graphs,&nbsp;of&nbsp;social&nbsp;relations,&nbsp;transport&nbsp;links,&nbsp;communication&nbsp;channels,&nbsp;etc.<br>
 &nbsp;<br>
-Many&nbsp;systems&nbsp;can&nbsp;be&nbsp;represented&nbsp;as&nbsp;networks,&nbsp;e.g.&nbsp;transport&nbsp;connections,<br>
-gene&nbsp;regulation,&nbsp;social&nbsp;interactions,&nbsp;the&nbsp;World&nbsp;Wide&nbsp;Web.&nbsp;Network&nbsp;science&nbsp;is&nbsp;an<br>
-important&nbsp;field&nbsp;to&nbsp;analyse&nbsp;and&nbsp;predict&nbsp;the&nbsp;behaviour&nbsp;of&nbsp;such&nbsp;systems.<br>
+SINPLE&nbsp;is&nbsp;a&nbsp;pedagogical&nbsp;(i.e.&nbsp;simple,&nbsp;readable,&nbsp;and&nbsp;documented)&nbsp;implementation<br>
+to&nbsp;help&nbsp;introduce&nbsp;Python,&nbsp;data&nbsp;structures&nbsp;and&nbsp;algorithms,&nbsp;and&nbsp;network/graph<br>
+theory.&nbsp;SINPLE&nbsp;includes&nbsp;over&nbsp;40&nbsp;exercises&nbsp;and&nbsp;a&nbsp;small&nbsp;real-life&nbsp;network.<br>
+SINPLE&nbsp;presents&nbsp;network&nbsp;concepts&nbsp;through&nbsp;executable&nbsp;definitions&nbsp;(functions)<br>
+and&nbsp;concrete&nbsp;examples&nbsp;(unit&nbsp;tests).<br>
 &nbsp;<br>
-SINPLE&nbsp;does&nbsp;not&nbsp;support&nbsp;analysis&nbsp;of&nbsp;very&nbsp;large&nbsp;networks;<br>
-there&nbsp;are&nbsp;various&nbsp;state-of-the-art&nbsp;libraries&nbsp;for&nbsp;that.<br>
-Instead&nbsp;SINPLE's&nbsp;aims&nbsp;are&nbsp;pedagogical:<br>
+SINPLE&nbsp;handles&nbsp;undirected&nbsp;graphs&nbsp;with&nbsp;nodes&nbsp;represented&nbsp;by&nbsp;any&nbsp;hashable&nbsp;value,<br>
+e.g.&nbsp;an&nbsp;integer,&nbsp;a&nbsp;string&nbsp;of&nbsp;the&nbsp;node's&nbsp;name,&nbsp;or&nbsp;a&nbsp;tuple&nbsp;with&nbsp;additional<br>
+information&nbsp;about&nbsp;the&nbsp;node.<br>
 &nbsp;<br>
--&nbsp;it&nbsp;illustrates&nbsp;sets,&nbsp;comprehensions,&nbsp;string&nbsp;formatting,&nbsp;default&nbsp;parameters;<br>
--&nbsp;it&nbsp;illustrates&nbsp;simple&nbsp;forms&nbsp;of<br>
-[unit&nbsp;testing](<a href="http://en.wikipedia.org/wiki/Unit_testing">http://en.wikipedia.org/wiki/Unit_testing</a>)&nbsp;using&nbsp;assertions;<br>
--&nbsp;it&nbsp;explains&nbsp;basic&nbsp;network&nbsp;concepts&nbsp;through&nbsp;executable&nbsp;definitions<br>
-(the&nbsp;functions)&nbsp;and&nbsp;concrete&nbsp;examples&nbsp;(the&nbsp;unit&nbsp;tests);<br>
--&nbsp;it&nbsp;includes&nbsp;over&nbsp;40&nbsp;short&nbsp;exercises&nbsp;and&nbsp;larger&nbsp;projects;<br>
--&nbsp;it&nbsp;is&nbsp;extensively&nbsp;documented&nbsp;in&nbsp;a&nbsp;simple&nbsp;[literate<br>
-programming](<a href="http://en.wikipedia.org/wiki/Literate_programming">http://en.wikipedia.org/wiki/Literate_programming</a>)&nbsp;style.<br>
+SINPLE's&nbsp;functions&nbsp;assume&nbsp;their&nbsp;arguments&nbsp;are&nbsp;correct,&nbsp;i.e.&nbsp;are&nbsp;of&nbsp;the&nbsp;right<br>
+type&nbsp;and&nbsp;satisfy&nbsp;any&nbsp;additional&nbsp;stated&nbsp;conditions.&nbsp;All&nbsp;functions,&nbsp;except<br>
+`<a href="#-network">network</a>()`&nbsp;and&nbsp;`<a href="#-add_edges">add_edges</a>()`,&nbsp;that&nbsp;take&nbsp;edges&nbsp;(or&nbsp;nodes)&nbsp;and&nbsp;a&nbsp;graph,&nbsp;assume<br>
+that&nbsp;the&nbsp;graph&nbsp;contains&nbsp;those&nbsp;edges&nbsp;or&nbsp;nodes.<br>
 &nbsp;<br>
-SINPLE&nbsp;is&nbsp;written&nbsp;for&nbsp;Python&nbsp;3.<br>
-&nbsp;<br>
-Running&nbsp;[Pycco](<a href="http://fitzgen.github.io/pycco/">http://fitzgen.github.io/pycco/</a>)&nbsp;on&nbsp;the&nbsp;source&nbsp;code<br>
-(`pycco&nbsp;-d&nbsp;.&nbsp;sinple.py`)&nbsp;generates&nbsp;`sinple.html`,<br>
-a&nbsp;side-by-side&nbsp;view&nbsp;of&nbsp;documentation&nbsp;and&nbsp;code.<br>
-&nbsp;<br>
-The&nbsp;latest&nbsp;version&nbsp;of&nbsp;SINPLE&nbsp;can&nbsp;be&nbsp;found&nbsp;on&nbsp;<a href="http://tiny.cc/sinple">http://tiny.cc/sinple</a>.</tt></p>
+SINPLE&nbsp;is&nbsp;available&nbsp;under&nbsp;a&nbsp;permissive&nbsp;license&nbsp;from&nbsp;<a href="http://tiny.cc/sinple">http://tiny.cc/sinple</a>.</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#eeaa77">
@@ -95,7 +88,7 @@ Return&nbsp;[]&nbsp;if&nbsp;there&nbsp;is&nbsp;no&nbsp;path.&nbsp;Return&nbsp;[n
  <dl><dt><a name="-size"><strong>size</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**size**&nbsp;(number&nbsp;of&nbsp;edges).</tt></dd></dl>
  <dl><dt><a name="-subgraph"><strong>subgraph</strong></a>(nodes, graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**subgraph&nbsp;induced**&nbsp;by&nbsp;the&nbsp;set&nbsp;of&nbsp;nodes.<br>
 &nbsp;<br>
-It&nbsp;includes&nbsp;those&nbsp;edges&nbsp;of&nbsp;graph&nbsp;that&nbsp;connect&nbsp;the&nbsp;given&nbsp;nodes.</tt></dd></dl>
+The&nbsp;induced&nbsp;subgraph&nbsp;has&nbsp;the&nbsp;edges&nbsp;of&nbsp;graph&nbsp;that&nbsp;connect&nbsp;the&nbsp;given&nbsp;nodes.</tt></dd></dl>
 </td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#55aa55">
@@ -103,7 +96,7 @@ It&nbsp;includes&nbsp;those&nbsp;edges&nbsp;of&nbsp;graph&nbsp;that&nbsp;connect
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['MIT', 'Utah']), frozenset(['BBN', 'Harvard']), frozenset(['Stanford', 'UCLA']), frozenset(['UCLA', 'UCSB']), frozenset(['SRI', 'UCLA']), frozenset(['Lincoln', 'MIT']), ...]))<br>
+<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['RAND', 'UCLA']), frozenset(['Lincoln', 'MIT']), frozenset(['SRI', 'Stanford']), frozenset(['SRI', 'Utah']), frozenset(['MIT', 'Utah']), frozenset(['UCLA', 'UCSB']), ...]))<br>
 <strong>C3</strong> = (set([1, 2, 3]), set([frozenset([1, 3]), frozenset([1, 2]), frozenset([2, 3])]))<br>
 <strong>C4</strong> = (set([1, 2, 3, 4]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 4])]))<br>
 <strong>C5</strong> = (set([1, 2, 3, 4, 5]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 5]), frozenset([4, 5])]))<br>
@@ -114,5 +107,5 @@ It&nbsp;includes&nbsp;those&nbsp;edges&nbsp;of&nbsp;graph&nbsp;that&nbsp;connect
 <strong>N1</strong> = (set([1]), set([]))<br>
 <strong>N2</strong> = (set([1, 2]), set([]))<br>
 <strong>PETERSEN</strong> = (set([1, 2, 3, 4, 5, 6, ...]), set([frozenset([2, 7]), frozenset([4, 9]), frozenset([7, 10]), frozenset([1, 2]), frozenset([1, 5]), frozenset([6, 9]), ...]))<br>
-<strong>UTILITY</strong> = (set(['water', 1, 2, 3, 'power', 'gas']), set([frozenset(['water', 2]), frozenset(['gas', 3]), frozenset([1, 'power']), frozenset(['water', 3]), frozenset(['water', 1]), frozenset([1, 'gas']), ...]))</td></tr></table>
+<strong>UTILITY</strong> = (set(['power', 1, 2, 3, 'gas', 'water']), set([frozenset([1, 'gas']), frozenset(['power', 2]), frozenset(['gas', 2]), frozenset(['power', 3]), frozenset(['power', 1]), frozenset([2, 'water']), ...]))</td></tr></table>
 </body></html>

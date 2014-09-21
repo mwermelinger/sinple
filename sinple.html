@@ -18,28 +18,21 @@
         <a class='octothorpe' href='#section-0'>#</a>
       </div>
       <p>SImple Network Python Library for Education (SINPLE)</p>
-<p>Michel Wermelinger</p>
-<p>Many systems can be represented as networks, e.g. transport connections,
-gene regulation, social interactions, the World Wide Web. Network science is an
-important field to analyse and predict the behaviour of such systems.</p>
-<p>SINPLE does not support analysis of very large networks;
-there are various state-of-the-art libraries for that.
-Instead SINPLE's aims are pedagogical:</p>
-<ul>
-<li>it illustrates sets, comprehensions, string formatting, default parameters;</li>
-<li>it illustrates simple forms of
-<a href="http://en.wikipedia.org/wiki/Unit_testing">unit testing</a> using assertions;</li>
-<li>it explains basic network concepts through executable definitions
-(the functions) and concrete examples (the unit tests);</li>
-<li>it includes over 40 short exercises and larger projects;</li>
-<li>it is extensively documented in a simple <a href="http://en.wikipedia.org/wiki/Literate_programming">literate
-programming</a> style.</li>
-</ul>
-<p>SINPLE is written for Python 3.</p>
-<p>Running <a href="http://fitzgen.github.io/pycco/">Pycco</a> on the source code
-(<code>pycco -d . sinple.py</code>) generates <code>sinple.html</code>,
-a side-by-side view of documentation and code.</p>
-<p>The latest version of SINPLE can be found on http://tiny.cc/sinple.</p>
+<p>SINPLE is a Python 3 library of functions to create and analyse networks,
+i.e. graphs, of social relations, transport links, communication channels, etc.</p>
+<p>SINPLE is a pedagogical (i.e. simple, readable, and documented) implementation
+to help introduce Python, data structures and algorithms, and network/graph
+theory. SINPLE includes over 40 exercises and a small real-life network.
+SINPLE presents network concepts through executable definitions (functions)
+and concrete examples (unit tests).</p>
+<p>SINPLE handles undirected graphs with nodes represented by any hashable value,
+e.g. an integer, a string of the node's name, or a tuple with additional
+information about the node.</p>
+<p>SINPLE's functions assume their arguments are correct, i.e. are of the right
+type and satisfy any additional stated conditions. All functions, except
+<code>network()</code> and <code>add_edges()</code>, that take edges (or nodes) and a graph, assume
+that the graph contains those edges or nodes.</p>
+<p>SINPLE is available under a permissive license from http://tiny.cc/sinple.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -114,10 +107,10 @@ If a term has multiple meanings in the literature, we chose one of them.</p>
 is a set of <strong>nodes</strong> connected by a set of undirected <strong>edges</strong>.
 Each pair of nodes is connected by one edge or it is not connected.
 A node may be connected to itself.</p>
-<p>SINPLE represents a network by a pair <code>(nodes, edges)</code>,
-where <code>nodes</code> is a Python set of node names (e.g. integers or strings)
-and <code>edges</code> is a Python set of edges.
-Each edge is represented by a Python set of node names <code>{node1, node2}</code>,
+<p>SINPLE represents a network by a tuple <code>(nodes, edges)</code>,
+where <code>nodes</code> is a set of hashable values (numbers, strings, tuples, etc.)
+and <code>edges</code> is a set of edges.
+Each edge is a set of nodes <code>{node1, node2}</code>,
 because the edge has no direction.</p>
     </div>
     <div class='code'>
@@ -131,7 +124,7 @@ because the edge has no direction.</p>
         <a class='octothorpe' href='#section-5'>#</a>
       </div>
       <h2>Core functions</h2>
-<p>These functions encapsulate the network representation
+<p>These functions hide the network representation
 from the rest of the library.</p>
     </div>
     <div class='code'>
@@ -870,8 +863,8 @@ The density of the empty graph is set to zero.</p>
         <span class="n">edgeset</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">edge</span><span class="p">(</span><span class="nb">map</span><span class="p">[</span><span class="n">node1</span><span class="p">],</span> <span class="nb">map</span><span class="p">[</span><span class="n">node2</span><span class="p">]))</span>
     <span class="k">return</span> <span class="n">network</span><span class="p">(</span><span class="n">edgeset</span><span class="p">,</span> <span class="n">nodeset</span><span class="p">)</span>
 
-<span class="k">assert</span> <span class="n">renumber</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">EMPTY</span>
-<span class="k">assert</span> <span class="n">renumber</span><span class="p">(</span><span class="n">N2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="n">network</span><span class="p">(</span><span class="nb">set</span><span class="p">(),</span> <span class="p">{</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">})</span>
+<span class="k">assert</span> <span class="n">renumber</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">EMPTY</span>
+<span class="k">assert</span> <span class="n">renumber</span><span class="p">(</span><span class="n">N2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">network</span><span class="p">(</span><span class="nb">set</span><span class="p">(),</span> <span class="p">{</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">})</span>
 <span class="k">assert</span> <span class="n">renumber</span><span class="p">(</span><span class="n">network</span><span class="p">({</span><span class="n">edge</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">,</span> <span class="s">&quot;B&quot;</span><span class="p">)}))</span> <span class="o">==</span> <span class="n">network</span><span class="p">({</span><span class="n">edge</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)})</span></pre></div>
     </div>
   </div>
@@ -882,7 +875,7 @@ The density of the empty graph is set to zero.</p>
         <a class='octothorpe' href='#section-59'>#</a>
       </div>
       <p>Return the graph's <strong>subgraph induced</strong> by the set of nodes.</p>
-<p>It includes those edges of graph that connect the given nodes.</p>
+<p>The induced subgraph has the edges of graph that connect the given nodes.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="k">def</span> <span class="nf">subgraph</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
@@ -1630,6 +1623,7 @@ If there's no path, the distance is infinite.</p>
                 <span class="k">return</span> <span class="bp">False</span>
     <span class="k">return</span> <span class="bp">True</span>
 
+<span class="k">assert</span> <span class="n">connected</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span>
 <span class="k">assert</span> <span class="n">connected</span><span class="p">(</span><span class="n">N1</span><span class="p">)</span>
 <span class="k">assert</span> <span class="ow">not</span> <span class="n">connected</span><span class="p">(</span><span class="n">N2</span><span class="p">)</span>
 <span class="k">assert</span> <span class="n">connected</span><span class="p">(</span><span class="n">C5</span><span class="p">)</span></pre></div>
@@ -1696,6 +1690,7 @@ If there's no path, the distance is infinite.</p>
             <span class="n">components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">subgraph</span><span class="p">(</span><span class="n">component</span><span class="p">,</span> <span class="n">graph</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">components</span>
 
+<span class="k">assert</span> <span class="n">components</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="p">[]</span>
 <span class="k">assert</span> <span class="n">components</span><span class="p">(</span><span class="n">K3</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">K3</span><span class="p">]</span>
 <span class="k">assert</span> <span class="p">[</span><span class="n">order</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">components</span><span class="p">(</span><span class="n">N2</span><span class="p">)]</span> <span class="o">==</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
 <span class="k">assert</span> <span class="p">[</span><span class="n">size</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">components</span><span class="p">(</span><span class="n">N2</span><span class="p">)]</span> <span class="o">==</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span></pre></div>
@@ -1744,8 +1739,9 @@ If there's no path, the distance is infinite.</p>
             <span class="k">return</span> <span class="n">component</span>
     <span class="k">return</span> <span class="n">null</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
+<span class="k">assert</span> <span class="n">giant_component</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="n">EMPTY</span>
 <span class="k">assert</span> <span class="n">giant_component</span><span class="p">(</span><span class="n">C3</span><span class="p">)</span> <span class="o">==</span> <span class="n">C3</span>
-<span class="k">assert</span> <span class="n">giant_component</span><span class="p">(</span><span class="n">N2</span><span class="p">)</span> <span class="o">==</span> <span class="n">null</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></pre></div>
+<span class="k">assert</span> <span class="n">giant_component</span><span class="p">(</span><span class="n">N2</span><span class="p">)</span> <span class="o">==</span> <span class="n">EMPTY</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -1817,6 +1813,10 @@ If there's no path, the distance is infinite.</p>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">return</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 
+<span class="k">assert</span> <span class="n">gml</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s">graph [</span>
+<span class="s">  directed 0</span>
+<span class="s">]&quot;&quot;&quot;</span>
 <span class="k">assert</span> <span class="n">gml</span><span class="p">(</span><span class="n">LOOP</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s">graph [</span>
 <span class="s">  directed 0</span>
@@ -1852,12 +1852,12 @@ If there's no path, the distance is infinite.</p>
         <a class='octothorpe' href='#section-120'>#</a>
       </div>
       <h2>Projects</h2>
-<p>These are exercises that require using or changing the whole library.</p>
+<p>These exercises require using or changing large parts of the library.</p>
 <ul>
 <li>
 <p>Functions like <code>degree(node, graph)</code> assume that <code>node</code> is in <code>graph</code>.
 What happens if it isn't?
-Decide whether to return some value in those cases or to raise an exception.
+Decide whether to return a sensible value or to raise an exception.
 If the former, add unit tests.</p>
 </li>
 <li>
