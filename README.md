@@ -19,19 +19,20 @@ counter-examples of the network concepts.
 Besides assertions, the code illustrates the use of sets, comprehensions,
 default parameter values, and string formatting.
 
-SINPLE is written in Python 3 in a semi-literate programming style in order to
-generate a [side-by-side view](http://mwermelinger.bitbucket.org/sinple/sinple.html) 
+SINPLE is written in Python 3 in a semi-literate programming style
+in order to generate a 
+[side-by-side view](http://mwermelinger.bitbucket.org/sinple/sinple.html) 
 of documentation and code with [Pycco](http://fitzgen.github.io/pycco/). 
 All functions have 'docstrings' in order to generate the 
 [API documentation](http://mwermelinger.bitbucket.org/sinple/api.html)
 with pydoc.
 
-SINPLE includes over 40 exercises. 
+SINPLE includes almost 50 exercises. 
 Please don't make your solutions publicly available.
 
-SINPLE can write networks in
-[GML](http://en.wikipedia.org/wiki/Graph_Modelling_Language) format. 
-Reading GML files is on the to-do list.
+SINPLE can read and write networks in
+[GML](http://en.wikipedia.org/wiki/Graph_Modelling_Language) format,
+with some restrictions.
 
 SINPLE is released under the Apache license (see the LICENSE.txt file).
 

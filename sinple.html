@@ -22,16 +22,17 @@
 i.e. graphs, of social relations, transport links, communication channels, etc.</p>
 <p>SINPLE is a pedagogical (i.e. simple, readable, and documented) implementation
 to help introduce Python, data structures and algorithms, and network/graph
-theory. SINPLE includes over 40 exercises and a small real-life network.
+theory. SINPLE includes almost 50 exercises and a small real-life network.
 SINPLE presents network concepts through executable definitions (functions)
 and concrete examples (unit tests).</p>
 <p>SINPLE handles undirected graphs with nodes represented by any hashable value,
 e.g. an integer, a string of the node's name, or a tuple with additional
 information about the node.</p>
 <p>SINPLE's functions assume their arguments are correct, i.e. are of the right
-type and satisfy any additional stated conditions. All functions, except
-<code>network()</code> and <code>add_edges()</code>, that take edges (or nodes) and a graph, assume
-that the graph contains those edges or nodes.</p>
+type and satisfy any additional stated conditions. All functions
+that take as arguments a graph and some edges (or nodes),
+except <code>network()</code> and <code>add_edges()</code>,
+assume that the graph contains those edges or nodes.</p>
 <p>SINPLE is available under a permissive license from http://tiny.cc/sinple.</p>
     </div>
     <div class='code'>
@@ -1765,7 +1766,9 @@ If there's no path, the distance is infinite.</p>
         <a class='octothorpe' href='#section-115'>#</a>
       </div>
       <h2>Input / Output</h2>
-<p>These functions help read and write graphs from files.</p>
+<p>These functions help read and write graphs
+in GML (Graph Modelling Language) format. For more details, see the GML
+<a href="https://www.fim.uni-passau.de/fileadmin/files/lehrstuhl/brandenburg/projekte/gml/gml-technical-report.pdf">specification</a>.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -1780,7 +1783,7 @@ If there's no path, the distance is infinite.</p>
       <p>Return a string representing the graph in GML format.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">gml</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">to_gml</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -1813,17 +1816,17 @@ If there's no path, the distance is infinite.</p>
     <div class='code'>
       <div class="highlight"><pre>    <span class="k">return</span> <span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 
-<span class="k">assert</span> <span class="n">gml</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="k">assert</span> <span class="n">to_gml</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s">graph [</span>
 <span class="s">  directed 0</span>
 <span class="s">]&quot;&quot;&quot;</span>
-<span class="k">assert</span> <span class="n">gml</span><span class="p">(</span><span class="n">LOOP</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="k">assert</span> <span class="n">to_gml</span><span class="p">(</span><span class="n">LOOP</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s">graph [</span>
 <span class="s">  directed 0</span>
 <span class="s">  node [id 1]</span>
 <span class="s">  edge [source 1 target 1]</span>
 <span class="s">]&quot;&quot;&quot;</span>
-<span class="k">assert</span> <span class="n">gml</span><span class="p">(</span><span class="n">N2</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="k">assert</span> <span class="n">to_gml</span><span class="p">(</span><span class="n">N2</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;&quot;&quot;</span><span class="se">\</span>
 <span class="s">graph [</span>
 <span class="s">  directed 0</span>
 <span class="s">  node [id 1]</span>
@@ -1837,12 +1840,17 @@ If there's no path, the distance is infinite.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-119'>#</a>
       </div>
-      <ul>
-<li>Write a function that writes a given graph to a file with the given name.</li>
-</ul>
+      <p>Return the list of graphs read from <code>text</code>, a string in GML format.</p>
+<p>This function assumes that the input follows the GML specification,
+provides unique integer ids even for isolated nodes, and
+defines one or more graphs.
+This function ignores anything other than node ids and edge endpoints.
+This means directed graphs are read as undirected graphs,
+node labels and edge weights are discarded, etc.
+If an edge endpoint (integer) is an unknown node id, the node is created.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">from_gml</span><span class="p">(</span><span class="n">text</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -1851,18 +1859,291 @@ If there's no path, the distance is infinite.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-120'>#</a>
       </div>
+      <p>Define the grammar with <a href="http://pyparsing.wikispaces.com">pyparsing</a>.
+Don't use <code>from pyparsing import *</code> as it adds many constants
+to the generated documentation.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="kn">from</span> <span class="nn">pyparsing</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">srange</span><span class="p">,</span> <span class="n">oneOf</span><span class="p">,</span> <span class="n">Forward</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Suppress</span><span class="p">,</span> <span class="n">Word</span><span class="p">,</span> <span class="n">ZeroOrMore</span><span class="p">,</span>
+        <span class="n">dblQuotedString</span><span class="p">,</span> <span class="n">pythonStyleComment</span>
+    <span class="p">)</span>
+
+    <span class="n">digit</span> <span class="o">=</span> <span class="n">srange</span><span class="p">(</span><span class="s">&quot;[0-9]&quot;</span><span class="p">)</span>
+    <span class="n">sign</span> <span class="o">=</span> <span class="n">Optional</span><span class="p">(</span><span class="n">oneOf</span><span class="p">(</span><span class="s">&quot;+ -&quot;</span><span class="p">))</span>
+    <span class="n">mantissa</span> <span class="o">=</span> <span class="n">Optional</span><span class="p">(</span><span class="s">&quot;E&quot;</span> <span class="o">+</span> <span class="n">sign</span> <span class="o">+</span> <span class="n">digit</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-121'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-121'>#</a>
+      </div>
+      <p><code>Word(x)</code> is a sequence of one or more characters from the set x.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">digits</span> <span class="o">=</span> <span class="n">Word</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span>
+    <span class="n">integer</span> <span class="o">=</span> <span class="n">sign</span> <span class="o">+</span> <span class="n">digits</span>
+    <span class="n">real</span> <span class="o">=</span> <span class="n">sign</span> <span class="o">+</span> <span class="n">Optional</span><span class="p">(</span><span class="n">digits</span><span class="p">)</span> <span class="o">+</span> <span class="s">&quot;.&quot;</span> <span class="o">+</span> <span class="n">Optional</span><span class="p">(</span><span class="n">digits</span><span class="p">)</span> <span class="o">+</span> <span class="n">mantissa</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-122'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-122'>#</a>
+      </div>
+      <p>For simplicity, use pyparsing's string with double-quotes,
+hoping that it is a generalisation of GML's definition of a string.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">string</span> <span class="o">=</span> <span class="n">dblQuotedString</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-123'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-123'>#</a>
+      </div>
+      <p>A GML file is a list of key-value pairs, where a value may be a list.
+To handle this recursive definition, we delay what a pair is.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">pair</span> <span class="o">=</span> <span class="n">Forward</span><span class="p">()</span>
+    <span class="nb">list</span> <span class="o">=</span> <span class="n">ZeroOrMore</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-124'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-124'>#</a>
+      </div>
+      <p>A file may have comments, which are as in Python. Ignore them.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nb">list</span><span class="o">.</span><span class="n">ignore</span><span class="p">(</span><span class="n">pythonStyleComment</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-125'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-125'>#</a>
+      </div>
+      <p><code>Word(x, y)</code> is 1 character from x followed by 0 or more from y.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">key</span> <span class="o">=</span> <span class="n">Word</span><span class="p">(</span><span class="n">srange</span><span class="p">(</span><span class="s">&quot;[a-zA-Z]&quot;</span><span class="p">),</span> <span class="n">srange</span><span class="p">(</span><span class="s">&quot;[a-zA-Z0-9]&quot;</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-126'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-126'>#</a>
+      </div>
+      <p><code>Suppress(x)</code> matches x but doesn't put it in the list of parsed tokens.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">listValue</span> <span class="o">=</span> <span class="n">Suppress</span><span class="p">(</span><span class="s">&quot;[&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span> <span class="o">+</span> <span class="n">Suppress</span><span class="p">(</span><span class="s">&quot;]&quot;</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">real</span> <span class="o">|</span> <span class="n">integer</span> <span class="o">|</span> <span class="n">string</span> <span class="o">|</span> <span class="n">listValue</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-127'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-127'>#</a>
+      </div>
+      <p>The mandatory key-value pairs for graphs are as follows.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">graph</span> <span class="o">=</span> <span class="n">Suppress</span><span class="p">(</span><span class="s">&quot;graph&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">listValue</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">Suppress</span><span class="p">(</span><span class="s">&quot;node&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">listValue</span>
+    <span class="n">anEdge</span> <span class="o">=</span> <span class="s">&quot;edge&quot;</span> <span class="o">+</span> <span class="n">listValue</span>     <span class="c"># to avoid conflict with edge() function</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Suppress</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">integer</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">Suppress</span><span class="p">(</span><span class="s">&quot;source&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">integer</span>
+    <span class="n">target</span> <span class="o">=</span> <span class="n">Suppress</span><span class="p">(</span><span class="s">&quot;target&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">integer</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-128'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-128'>#</a>
+      </div>
+      <p>First try to parse graph-specific key-value pairs; otherwise ignore pair.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">pair</span> <span class="o">&lt;&lt;=</span> <span class="n">graph</span> <span class="o">|</span> <span class="n">node</span> <span class="o">|</span> <span class="n">anEdge</span> <span class="o">|</span> <span class="nb">id</span> <span class="o">|</span> <span class="n">source</span> <span class="o">|</span> <span class="n">target</span> <span class="o">|</span> <span class="n">Suppress</span><span class="p">(</span><span class="n">key</span><span class="o">+</span><span class="n">value</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-129'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-129'>#</a>
+      </div>
+      <p>The above suppressions lead to the GML string
+<code>'graph [ node [id 1 label "ego"] edge [source 1 target 1 weight 0.5] ]'</code>
+being parsed into the list of tokens
+<code>["1", "edge", "1", "1"]</code>,
+which is converted by the following functions into a graph.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-130'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-130'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">to_int</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-131'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-131'>#</a>
+      </div>
+      <p>Convert parsed integer tokens to integers, e.g. <code>["1"]</code> to <code>1</code>.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-132'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-132'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">to_edge</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-133'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-133'>#</a>
+      </div>
+      <p>Assuming the above conversion was done,
+convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">return</span> <span class="n">edge</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tokens</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-134'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-134'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">to_graph</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-135'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-135'>#</a>
+      </div>
+      <p><code>tokens</code> is now a list of integers and edges, in any order.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="n">nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">edges</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">network</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">nodes</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-136'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-136'>#</a>
+      </div>
+      <p>Do the conversions as soon as the respective tokens are parsed.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">integer</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">to_int</span><span class="p">)</span>
+    <span class="n">anEdge</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">to_edge</span><span class="p">)</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">setParseAction</span><span class="p">(</span><span class="n">to_graph</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-137'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-137'>#</a>
+      </div>
+      <p>Parse the text with the main grammar rule.
+Return the result as a list, not as a pyparsing object.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="nb">list</span><span class="o">.</span><span class="n">parseString</span><span class="p">(</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">asList</span><span class="p">()</span>
+
+<span class="k">assert</span> <span class="p">[</span><span class="n">EMPTY</span><span class="p">]</span> <span class="o">==</span> <span class="n">from_gml</span><span class="p">(</span><span class="n">to_gml</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">))</span>
+<span class="k">assert</span> <span class="p">[</span><span class="n">N1</span><span class="p">]</span> <span class="o">==</span> <span class="n">from_gml</span><span class="p">(</span><span class="n">to_gml</span><span class="p">(</span><span class="n">N1</span><span class="p">))</span>
+<span class="k">assert</span> <span class="p">[</span><span class="n">LOOP</span><span class="p">]</span> <span class="o">==</span> <span class="n">from_gml</span><span class="p">(</span><span class="n">to_gml</span><span class="p">(</span><span class="n">LOOP</span><span class="p">))</span>
+<span class="k">assert</span> <span class="p">[</span><span class="n">K3</span><span class="p">]</span> <span class="o">==</span> <span class="n">from_gml</span><span class="p">(</span><span class="n">to_gml</span><span class="p">(</span><span class="n">K3</span><span class="p">))</span>
+<span class="k">assert</span> <span class="p">[</span><span class="n">EMPTY</span><span class="p">,</span> <span class="n">LOOP</span><span class="p">]</span> <span class="o">==</span> <span class="n">from_gml</span><span class="p">(</span><span class="s">&#39;&#39;&#39;</span>
+<span class="s">graph [directed 1]  # an empty graph that is (strangely enough) directed</span>
+<span class="s">graph [ node [id 1 label &quot;ego&quot;] edge [source 1 target 1 weight 0.5] ]</span>
+<span class="s">&#39;&#39;&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-138'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-138'>#</a>
+      </div>
+      <ul>
+<li>Write helper functions that read from and write to a file.</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-139'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-139'>#</a>
+      </div>
       <h2>Projects</h2>
 <p>These exercises require using or changing large parts of the library.</p>
 <ul>
 <li>
-<p>Functions like <code>degree(node, graph)</code> assume that <code>node</code> is in <code>graph</code>.
-What happens if it isn't?
-Decide whether to return a sensible value or to raise an exception.
-If the former, add unit tests.</p>
-</li>
-<li>
 <p>Write a program that imports SINPLE and reports various properties
 of the Arpanet network, e.g. the most highly connected nodes.</p>
+</li>
+<li>
+<p>Write a program that imports SINPLE, reads a network from a GML file,
+e.g. provided by <a href="http://www-personal.umich.edu/~mejn/netdata/">Mark Newman</a>,
+and analyses it.</p>
 </li>
 <li>
 <p>Write a program that imports SINPLE, creates several random graphs
@@ -1872,6 +2153,12 @@ Check if a giant component emerges when <code>p &gt; 1/n</code>.
 Check if the network becomes connected when <code>p &gt; math.log(n) / n</code>.</p>
 </li>
 <li>
+<p>Functions like <code>degree(node, graph)</code> assume that <code>node</code> is in <code>graph</code>.
+What happens if it isn't?
+Decide whether to return a sensible value or to raise an exception.
+If the former, add unit tests.</p>
+</li>
+<li>
 <p>Extend SINPLE to support <strong>weighted edges</strong>,
 i.e. edges with an associated number called the edge's weight.
 An unweighted network can be seen
@@ -1879,6 +2166,16 @@ as a weighted network where each edge has the default weight 1.
 Hints: Add a default parameter to <code>edge()</code>.
 Add a function to return the weight of an edge.
 Modify <code>shortest_path()</code> to return the path with the smallest total weight.</p>
+</li>
+<li>
+<p>Extend SINPLE to store node and edge data, like node and edge labels,
+edge weight, etc. Change the GML functions to read and write such data.
+One possibility is to represent each node by a pair <code>(id, data)</code>
+and each edge by a pair <code>(endpoints, data)</code>,
+where <code>data</code> is a dictionary with a key-value pair for each datum.
+Another option is to put all data in a single dictionary,
+indexed by nodes and edges, of dictionaries, i.e. nodes and edges
+remain as now and the graph becomes a triple <code>(nodes, edges, data)</code>.</p>
 </li>
 <li>
 <p>Make SINPLE work with Python 2.7.</p>

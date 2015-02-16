@@ -6,7 +6,7 @@ i.e. graphs, of social relations, transport links, communication channels, etc.
 
 SINPLE is a pedagogical (i.e. simple, readable, and documented) implementation
 to help introduce Python, data structures and algorithms, and network/graph
-theory. SINPLE includes over 40 exercises and a small real-life network.
+theory. SINPLE includes almost 50 exercises and a small real-life network.
 SINPLE presents network concepts through executable definitions (functions)
 and concrete examples (unit tests).
 
@@ -15,9 +15,10 @@ e.g. an integer, a string of the node's name, or a tuple with additional
 information about the node.
 
 SINPLE's functions assume their arguments are correct, i.e. are of the right
-type and satisfy any additional stated conditions. All functions, except
-`network()` and `add_edges()`, that take edges (or nodes) and a graph, assume
-that the graph contains those edges or nodes.
+type and satisfy any additional stated conditions. All functions
+that take as arguments a graph and some edges (or nodes),
+except `network()` and `add_edges()`,
+assume that the graph contains those edges or nodes.
 
 SINPLE is available under a permissive license from http://tiny.cc/sinple.
 """
@@ -668,9 +669,12 @@ assert giant_component(N2) == EMPTY
 
 # Input / Output
 # --------------
-# These functions help read and write graphs from files.
+# These functions help read and write graphs
+# in GML (Graph Modelling Language) format. For more details, see the GML
+# [specification](https://www.fim.uni-passau.de/fileadmin/files/lehrstuhl/brandenburg/projekte/gml/gml-technical-report.pdf).
 
-def gml(graph):
+
+def to_gml(graph):
     """Return a string representing the graph in GML format.
 
     The nodes of the graph must be represented by integers.
@@ -686,43 +690,149 @@ def gml(graph):
     # Join the lines, separated by newlines.
     return "\n".join(lines)
 
-assert gml(EMPTY) == """\
+assert to_gml(EMPTY) == """\
 graph [
   directed 0
 ]"""
-assert gml(LOOP) == """\
+assert to_gml(LOOP) == """\
 graph [
   directed 0
   node [id 1]
   edge [source 1 target 1]
 ]"""
-assert gml(N2) == """\
+assert to_gml(N2) == """\
 graph [
   directed 0
   node [id 1]
   node [id 2]
 ]"""
 
-# - Write a function that writes a given graph to a file with the given name.
+
+def from_gml(text):
+    """
+    Return the list of graphs read from `text`, a string in GML format.
+
+    This function assumes that the input follows the GML specification,
+    provides unique integer ids even for isolated nodes, and
+    defines one or more graphs.
+    This function ignores anything other than node ids and edge endpoints.
+    This means directed graphs are read as undirected graphs,
+    node labels and edge weights are discarded, etc.
+    If an edge endpoint (integer) is an unknown node id, the node is created.
+    """
+    # Define the grammar with [pyparsing](http://pyparsing.wikispaces.com).
+    # Don't use `from pyparsing import *` as it adds many constants
+    # to the generated documentation.
+
+    from pyparsing import (
+        srange, oneOf, Forward, Optional, Suppress, Word, ZeroOrMore,
+        dblQuotedString, pythonStyleComment
+    )
+
+    digit = srange("[0-9]")
+    sign = Optional(oneOf("+ -"))
+    mantissa = Optional("E" + sign + digit)
+
+    # `Word(x)` is a sequence of one or more characters from the set x.
+    digits = Word(digit)
+    integer = sign + digits
+    real = sign + Optional(digits) + "." + Optional(digits) + mantissa
+
+    # For simplicity, use pyparsing's string with double-quotes,
+    # hoping that it is a generalisation of GML's definition of a string.
+    string = dblQuotedString
+
+    # A GML file is a list of key-value pairs, where a value may be a list.
+    # To handle this recursive definition, we delay what a pair is.
+    pair = Forward()
+    list = ZeroOrMore(pair)
+    # A file may have comments, which are as in Python. Ignore them.
+    list.ignore(pythonStyleComment)
+
+    # `Word(x, y)` is 1 character from x followed by 0 or more from y.
+    key = Word(srange("[a-zA-Z]"), srange("[a-zA-Z0-9]"))
+    # `Suppress(x)` matches x but doesn't put it in the list of parsed tokens.
+    listValue = Suppress("[") + list + Suppress("]")
+    value = real | integer | string | listValue
+
+    # The mandatory key-value pairs for graphs are as follows.
+    graph = Suppress("graph") + listValue
+    node = Suppress("node") + listValue
+    anEdge = "edge" + listValue     # to avoid conflict with edge() function
+    id = Suppress("id") + integer
+    source = Suppress("source") + integer
+    target = Suppress("target") + integer
+    # First try to parse graph-specific key-value pairs; otherwise ignore pair.
+    pair <<= graph | node | anEdge | id | source | target | Suppress(key+value)
+
+    # The above suppressions lead to the GML string
+    # `'graph [ node [id 1 label "ego"] edge [source 1 target 1 weight 0.5] ]'`
+    # being parsed into the list of tokens
+    # `["1", "edge", "1", "1"]`,
+    # which is converted by the following functions into a graph.
+
+    def to_int(text, position, tokens):
+        # Convert parsed integer tokens to integers, e.g. `["1"]` to `1`.
+        return int(tokens[0])
+
+    def to_edge(text, position, tokens):
+        # Assuming the above conversion was done,
+        # convert `["edge", a, b]` to an edge incident to a and b.
+        return edge(tokens[1], tokens[2])
+
+    def to_graph(text, position, tokens):
+        # `tokens` is now a list of integers and edges, in any order.
+        nodes = set()
+        edges = set()
+        for token in tokens:
+            if isinstance(token, int):
+                nodes.add(token)
+            else:
+                edges.add(token)
+        return network(edges, nodes)
+
+    # Do the conversions as soon as the respective tokens are parsed.
+    integer.setParseAction(to_int)
+    anEdge.setParseAction(to_edge)
+    graph.setParseAction(to_graph)
+
+    # Parse the text with the main grammar rule.
+    # Return the result as a list, not as a pyparsing object.
+    return list.parseString(text).asList()
+
+assert [EMPTY] == from_gml(to_gml(EMPTY))
+assert [N1] == from_gml(to_gml(N1))
+assert [LOOP] == from_gml(to_gml(LOOP))
+assert [K3] == from_gml(to_gml(K3))
+assert [EMPTY, LOOP] == from_gml('''
+graph [directed 1]  # an empty graph that is (strangely enough) directed
+graph [ node [id 1 label "ego"] edge [source 1 target 1 weight 0.5] ]
+''')
+
+# - Write helper functions that read from and write to a file.
 
 
 # Projects
 # --------
 # These exercises require using or changing large parts of the library.
 #
-# - Functions like `degree(node, graph)` assume that `node` is in `graph`.
-# What happens if it isn't?
-# Decide whether to return a sensible value or to raise an exception.
-# If the former, add unit tests.
-#
 # - Write a program that imports SINPLE and reports various properties
 # of the Arpanet network, e.g. the most highly connected nodes.
+#
+# - Write a program that imports SINPLE, reads a network from a GML file,
+# e.g. provided by [Mark Newman](http://www-personal.umich.edu/~mejn/netdata/),
+# and analyses it.
 #
 # - Write a program that imports SINPLE, creates several random graphs
 # with fixed `n` and increasing `p`, and reports their properties.
 # Check if the mean degree is the theoretical expected value `p*(n-1)`.
 # Check if a giant component emerges when `p > 1/n`.
 # Check if the network becomes connected when `p > math.log(n) / n`.
+#
+# - Functions like `degree(node, graph)` assume that `node` is in `graph`.
+# What happens if it isn't?
+# Decide whether to return a sensible value or to raise an exception.
+# If the former, add unit tests.
 #
 # - Extend SINPLE to support **weighted edges**,
 # i.e. edges with an associated number called the edge's weight.
@@ -731,6 +841,15 @@ graph [
 # Hints: Add a default parameter to `edge()`.
 # Add a function to return the weight of an edge.
 # Modify `shortest_path()` to return the path with the smallest total weight.
+#
+# - Extend SINPLE to store node and edge data, like node and edge labels,
+# edge weight, etc. Change the GML functions to read and write such data.
+# One possibility is to represent each node by a pair `(id, data)`
+# and each edge by a pair `(endpoints, data)`,
+# where `data` is a dictionary with a key-value pair for each datum.
+# Another option is to put all data in a single dictionary,
+# indexed by nodes and edges, of dictionaries, i.e. nodes and edges
+# remain as now and the graph becomes a triple `(nodes, edges, data)`.
 #
 # - Make SINPLE work with Python 2.7.
 #
