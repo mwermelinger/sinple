@@ -69,6 +69,12 @@ This&nbsp;function&nbsp;ignores&nbsp;anything&nbsp;other&nbsp;than&nbsp;node&nbs
 This&nbsp;means&nbsp;directed&nbsp;graphs&nbsp;are&nbsp;read&nbsp;as&nbsp;undirected&nbsp;graphs,<br>
 node&nbsp;labels&nbsp;and&nbsp;edge&nbsp;weights&nbsp;are&nbsp;discarded,&nbsp;etc.<br>
 If&nbsp;an&nbsp;edge&nbsp;endpoint&nbsp;(integer)&nbsp;is&nbsp;an&nbsp;unknown&nbsp;node&nbsp;id,&nbsp;the&nbsp;node&nbsp;is&nbsp;created.</tt></dd></dl>
+ <dl><dt><a name="-geodesics"><strong>geodesics</strong></a>(node1, node2, graph)</dt><dd><tt>Return&nbsp;a&nbsp;list&nbsp;of&nbsp;all&nbsp;geodesics&nbsp;`[node1,...,node2]`&nbsp;between&nbsp;the&nbsp;two&nbsp;nodes.<br>
+&nbsp;<br>
+A&nbsp;**geodesic**&nbsp;is&nbsp;a&nbsp;shortest&nbsp;path.<br>
+A&nbsp;**path**&nbsp;is&nbsp;a&nbsp;node&nbsp;sequence&nbsp;n_1,&nbsp;n_2,&nbsp;...&nbsp;with&nbsp;n_i&nbsp;adjacent&nbsp;to&nbsp;n_i+1.<br>
+Return&nbsp;each&nbsp;path&nbsp;as&nbsp;a&nbsp;list&nbsp;of&nbsp;nodes.&nbsp;Return&nbsp;`[]`&nbsp;if&nbsp;there&nbsp;is&nbsp;no&nbsp;path.<br>
+Return&nbsp;`[[node1]]`&nbsp;if&nbsp;both&nbsp;nodes&nbsp;are&nbsp;the&nbsp;same.</tt></dd></dl>
  <dl><dt><a name="-giant_component"><strong>giant_component</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;**giant&nbsp;component**&nbsp;(component&nbsp;with&nbsp;majority&nbsp;of&nbsp;graph's&nbsp;nodes).<br>
 &nbsp;<br>
 Return&nbsp;the&nbsp;empty&nbsp;graph&nbsp;if&nbsp;there&nbsp;is&nbsp;no&nbsp;giant&nbsp;component.</tt></dd></dl>
@@ -87,15 +93,11 @@ Return&nbsp;the&nbsp;empty&nbsp;graph&nbsp;if&nbsp;there&nbsp;is&nbsp;no&nbsp;gi
 &nbsp;<br>
 The&nbsp;two&nbsp;numbers&nbsp;can't&nbsp;be&nbsp;negative,&nbsp;and&nbsp;p&nbsp;can't&nbsp;be&nbsp;larger&nbsp;than&nbsp;1.</tt></dd></dl>
  <dl><dt><a name="-renumber"><strong>renumber</strong></a>(graph, n=1)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;graph&nbsp;by&nbsp;renaming&nbsp;the&nbsp;graph's&nbsp;nodes&nbsp;as&nbsp;n,&nbsp;n+1,&nbsp;n+2,&nbsp;etc.</tt></dd></dl>
- <dl><dt><a name="-shortest_path"><strong>shortest_path</strong></a>(node1, node2, graph)</dt><dd><tt>Return&nbsp;a&nbsp;shortest&nbsp;path&nbsp;[node1,&nbsp;...,&nbsp;node2]&nbsp;between&nbsp;the&nbsp;two&nbsp;nodes.<br>
-&nbsp;<br>
-A&nbsp;**path**&nbsp;is&nbsp;a&nbsp;node&nbsp;sequence&nbsp;n_1,&nbsp;n_2,&nbsp;...&nbsp;with&nbsp;n_i&nbsp;adjacent&nbsp;to&nbsp;n_i+1.<br>
-Return&nbsp;[]&nbsp;if&nbsp;there&nbsp;is&nbsp;no&nbsp;path.&nbsp;Return&nbsp;[node1]&nbsp;if&nbsp;both&nbsp;nodes&nbsp;are&nbsp;the&nbsp;same.</tt></dd></dl>
  <dl><dt><a name="-simple"><strong>simple</strong></a>(graph)</dt><dd><tt>Check&nbsp;if&nbsp;the&nbsp;graph&nbsp;is&nbsp;**simple**&nbsp;(has&nbsp;no&nbsp;loops).</tt></dd></dl>
  <dl><dt><a name="-size"><strong>size</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**size**&nbsp;(number&nbsp;of&nbsp;edges).</tt></dd></dl>
  <dl><dt><a name="-subgraph"><strong>subgraph</strong></a>(nodes, graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**subgraph&nbsp;induced**&nbsp;by&nbsp;the&nbsp;set&nbsp;of&nbsp;nodes.<br>
 &nbsp;<br>
-The&nbsp;induced&nbsp;subgraph&nbsp;has&nbsp;the&nbsp;edges&nbsp;of&nbsp;graph&nbsp;that&nbsp;connect&nbsp;the&nbsp;given&nbsp;nodes.</tt></dd></dl>
+The&nbsp;induced&nbsp;subgraph&nbsp;has&nbsp;the&nbsp;edges&nbsp;of&nbsp;`graph`&nbsp;that&nbsp;connect&nbsp;the&nbsp;given&nbsp;nodes.</tt></dd></dl>
  <dl><dt><a name="-to_gml"><strong>to_gml</strong></a>(graph)</dt><dd><tt>Return&nbsp;a&nbsp;string&nbsp;representing&nbsp;the&nbsp;graph&nbsp;in&nbsp;GML&nbsp;format.<br>
 &nbsp;<br>
 The&nbsp;nodes&nbsp;of&nbsp;the&nbsp;graph&nbsp;must&nbsp;be&nbsp;represented&nbsp;by&nbsp;integers.</tt></dd></dl>
@@ -106,7 +108,7 @@ The&nbsp;nodes&nbsp;of&nbsp;the&nbsp;graph&nbsp;must&nbsp;be&nbsp;represented&nb
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['BBN', 'Harvard']), frozenset(['RAND', 'SDC']), frozenset(['RAND', 'UCLA']), frozenset(['UCLA', 'UCSB']), frozenset(['SRI', 'UCLA']), frozenset(['SRI', 'UCSB']), ...]))<br>
+<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['RAND', 'SDC']), frozenset(['Carnegie', 'Harvard']), frozenset(['Stanford', 'UCLA']), frozenset(['BBN', 'Harvard']), frozenset(['UCLA', 'UCSB']), frozenset(['BBN', 'RAND']), ...]))<br>
 <strong>C3</strong> = (set([1, 2, 3]), set([frozenset([1, 3]), frozenset([1, 2]), frozenset([2, 3])]))<br>
 <strong>C4</strong> = (set([1, 2, 3, 4]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 4])]))<br>
 <strong>C5</strong> = (set([1, 2, 3, 4, 5]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 5]), frozenset([4, 5])]))<br>
@@ -117,5 +119,5 @@ The&nbsp;nodes&nbsp;of&nbsp;the&nbsp;graph&nbsp;must&nbsp;be&nbsp;represented&nb
 <strong>N1</strong> = (set([1]), set([]))<br>
 <strong>N2</strong> = (set([1, 2]), set([]))<br>
 <strong>PETERSEN</strong> = (set([1, 2, 3, 4, 5, 6, ...]), set([frozenset([2, 7]), frozenset([4, 9]), frozenset([7, 10]), frozenset([1, 2]), frozenset([1, 5]), frozenset([6, 9]), ...]))<br>
-<strong>UTILITY</strong> = (set([1, 2, 3, 'gas', 'power', 'water']), set([frozenset(['power', 3]), frozenset([1, 'water']), frozenset([3, 'water']), frozenset([2, 'water']), frozenset([2, 'gas']), frozenset(['power', 1]), ...]))</td></tr></table>
+<strong>UTILITY</strong> = (set([1, 2, 3, 'gas', 'power', 'water']), set([frozenset(['power', 2]), frozenset([1, 'water']), frozenset([2, 'gas']), frozenset(['power', 1]), frozenset(['power', 3]), frozenset([3, 'water']), ...]))</td></tr></table>
 </body></html>

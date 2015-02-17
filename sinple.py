@@ -307,7 +307,7 @@ def subgraph(nodes, graph):
     """
     Return the graph's **subgraph induced** by the set of nodes.
 
-    The induced subgraph has the edges of graph that connect the given nodes.
+    The induced subgraph has the edges of `graph` that connect the given nodes.
     """
     edges = {edge(n1, n2) for n1 in nodes for n2 in nodes}
     return network(edges & edge_set(graph), nodes)
@@ -519,33 +519,45 @@ assert local_clustering_coefficient(3, PETERSEN) == 0
 # These functions relate to paths within the graph and their distances.
 
 
-def shortest_path(node1, node2, graph):
+def geodesics(node1, node2, graph):
     """
-    Return a shortest path [node1, ..., node2] between the two nodes.
+    Return a list of all geodesics `[node1,...,node2]` between the two nodes.
 
+    A **geodesic** is a shortest path.
     A **path** is a node sequence n_1, n_2, ... with n_i adjacent to n_i+1.
-    Return [] if there is no path. Return [node1] if both nodes are the same.
+    Return each path as a list of nodes. Return `[]` if there is no path.
+    Return `[[node1]]` if both nodes are the same.
     """
-    paths = [[node1]]
-    visited = []
-    while paths:
-        path = paths.pop(0)
+    paths = []
+    candidates = [[node1]]
+    while candidates:
+        path = candidates.pop(0)
+        if paths and len(path) > len(paths[0]):
+            break
         last = path[-1]
-        visited.append(last)
         if last == node2:
-            return path
-        for neighbour in neighbours(last, graph):
-            if neighbour not in visited:
-                paths.append(path + [neighbour])
-    return []
+            paths.append(path)
+        else:
+            for neighbour in neighbours(last, graph):
+                if neighbour not in path:
+                    candidates.append(path + [neighbour])
+    return paths
 
-assert shortest_path(1, 2, N2) == []
-assert shortest_path(1, 1, LOOP) == [1]
-assert shortest_path(3, 1, K3) == [3, 1]
-assert shortest_path(1, 4, C5) == [1, 5, 4]
+assert geodesics(1, 2, N2) == []
+assert geodesics(1, 1, LOOP) == [[1]]
+assert geodesics(3, 1, K3) == [[3, 1]]
+assert geodesics(1, 4, C5) == [[1, 5, 4]]
+# Paths can be listed in any order: sort them to compare with the solution.
+assert sorted(geodesics(1, 3, C4)) == [[1, 2, 3], [1, 4, 3]]
+# Example of 2 geodesics going through same node.
+# Taken from Newman's "Networks: an introduction", page 187.
+assert sorted(geodesics(5, 1, network(
+    {edge(1, 2), edge(2, 3), edge(2, 4), edge(3, 5), edge(4, 5)}))) \
+    == [[5, 3, 2, 1], [5, 4, 2, 1]]
 
-# - Explain how `shortest_path` works.
-# - Write a function to return *all* shortest paths between two nodes.
+# - Explain how `geodesics` works.
+# - Write a simplified `geodesic` (singular!) function that returns
+# the first shortest path found, or `[]` if there is none.
 
 
 def distance(node1, node2, graph):
@@ -555,20 +567,26 @@ def distance(node1, node2, graph):
     The length of a path is the number of its edges.
     If there's no path, the distance is infinite.
     """
-    path = shortest_path(node1, node2, graph)
-    return len(path) - 1 if path else float("infinity")
+    paths = geodesics(node1, node2, graph)
+    return len(paths[0]) - 1 if paths else float("infinity")
 
-assert distance(1, 1, C3) == 0
 assert distance(2, 4, C4) == 2
+# In a complete graph, the distance between different nodes is always 1.
 assert distance(3, 2, K3) == 1
+# In a null graph, the distance between different nodes is always infinite.
 assert distance(1, 2, N2) == float("infinity")
+# The distance between the same node is always 0.
+assert distance(1, 1, N2) == 0
+
+# - Make `distance` more efficient by calling `geodesic`, if you've written it.
 
 
 def diameter(graph):
     """Return the graph's **diameter** (longest of all pairwise distances)."""
+    if order(graph) == 0:
+        return float("infinity")
     nodes = node_set(graph)
-    distances = [distance(n1, n2, graph) for n1 in nodes for n2 in nodes]
-    return max(distances) if distances else float("infinity")
+    return max([distance(n1, n2, graph) for n1 in nodes for n2 in nodes])
 
 assert diameter(EMPTY) == float("infinity")
 assert diameter(N1) == 0
@@ -597,7 +615,7 @@ def connected(graph):
     """
     for node1 in node_set(graph):
         for node2 in node_set(graph):
-            if not shortest_path(node1, node2, graph):
+            if not geodesics(node1, node2, graph):
                 return False
     return True
 
@@ -823,6 +841,12 @@ graph [ node [id 1 label "ego"] edge [source 1 target 1 weight 0.5] ]
 # e.g. provided by [Mark Newman](http://www-personal.umich.edu/~mejn/netdata/),
 # and analyses it.
 #
+# - For example, download the Karate Club graph and check that it has
+# two highly connected members, the student founder and
+# the instructor, who are not friends of each other,
+# and that most members are not friends of both.
+# This conflict led to the split into two clubs.
+#
 # - Write a program that imports SINPLE, creates several random graphs
 # with fixed `n` and increasing `p`, and reports their properties.
 # Check if the mean degree is the theoretical expected value `p*(n-1)`.
@@ -840,7 +864,7 @@ graph [ node [id 1 label "ego"] edge [source 1 target 1 weight 0.5] ]
 # as a weighted network where each edge has the default weight 1.
 # Hints: Add a default parameter to `edge()`.
 # Add a function to return the weight of an edge.
-# Modify `shortest_path()` to return the path with the smallest total weight.
+# Modify `geodesics()` to return the paths with the smallest total weight.
 #
 # - Extend SINPLE to store node and edge data, like node and edge labels,
 # edge weight, etc. Change the GML functions to read and write such data.
