@@ -684,6 +684,40 @@ assert giant_component(N2) == EMPTY
 
 # - Rewrite `giant_component()` to return the largest component (most nodes).
 
+# Centrality
+# ----------
+# These functions relate to how 'important' a node is.
+# The degree is one such metric.
+
+
+def betweenness(node, graph):
+    """Return the **betweenness centrality** of the node.
+
+    It captures the extent to which shortest paths go through the node.
+    """
+    centrality = 0
+    for node1 in node_set(graph):
+        for node2 in node_set(graph):
+            paths = geodesics(node1, node2, graph)
+            if paths:
+                on_paths = sum(1 for path in paths if node in path)
+                centrality = centrality + on_paths / len(paths)
+    return centrality
+
+# In K3, a node A is on all 9 paths except on B-B, C-C, B-C and C-B.
+assert betweenness(1, K3) == 5
+# In a null graph, any node is only on the path with itself.
+assert betweenness(1, N2) == 1
+# In C5, a node is on the 4+4 paths that start and end at the node,
+# on the 1 path to itself, and on the 2 paths between its neighbours.
+assert betweenness(1, C5) == 11
+# Utah is more central to connecting East and West coasts than CASE.
+assert betweenness("Utah", ARPANET) > betweenness("CASE", ARPANET)
+
+# - Some alternative definitions, e.g. on Wikipedia, don't consider
+# geodesics that start or end at the node.
+# Change the function and unit tests accordingly.
+
 
 # Input / Output
 # --------------

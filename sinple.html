@@ -1845,10 +1845,9 @@ If there's no path, the distance is infinite.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-121'>#</a>
       </div>
-      <h2>Input / Output</h2>
-<p>These functions help read and write graphs
-in GML (Graph Modelling Language) format. For more details, see the GML
-<a href="https://www.fim.uni-passau.de/fileadmin/files/lehrstuhl/brandenburg/projekte/gml/gml-technical-report.pdf">specification</a>.</p>
+      <h2>Centrality</h2>
+<p>These functions relate to how 'important' a node is.
+The degree is one such metric.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -1860,10 +1859,10 @@ in GML (Graph Modelling Language) format. For more details, see the GML
       <div class='octowrap'>
         <a class='octothorpe' href='#section-122'>#</a>
       </div>
-      <p>Return a string representing the graph in GML format.</p>
+      <p>Return the <strong>betweenness centrality</strong> of the node.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">to_gml</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">betweenness</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -1871,6 +1870,117 @@ in GML (Graph Modelling Language) format. For more details, see the GML
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-123'>#</a>
+      </div>
+      <p>It captures the extent to which shortest paths go through the node.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">centrality</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">node1</span> <span class="ow">in</span> <span class="n">node_set</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">node2</span> <span class="ow">in</span> <span class="n">node_set</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+            <span class="n">paths</span> <span class="o">=</span> <span class="n">geodesics</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">paths</span><span class="p">:</span>
+                <span class="n">on_paths</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths</span> <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">path</span><span class="p">)</span>
+                <span class="n">centrality</span> <span class="o">=</span> <span class="n">centrality</span> <span class="o">+</span> <span class="n">on_paths</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">centrality</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-124'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-124'>#</a>
+      </div>
+      <p>In K3, a node A is on all 9 paths except on B-B, C-C, B-C and C-B.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">assert</span> <span class="n">betweenness</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">K3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-125'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-125'>#</a>
+      </div>
+      <p>In a null graph, any node is only on the path with itself.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">assert</span> <span class="n">betweenness</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-126'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-126'>#</a>
+      </div>
+      <p>In C5, a node is on the 4+4 paths that start and end at the node,
+on the 1 path to itself, and on the 2 paths between its neighbours.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">assert</span> <span class="n">betweenness</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">C5</span><span class="p">)</span> <span class="o">==</span> <span class="mi">11</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-127'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-127'>#</a>
+      </div>
+      <p>Utah is more central to connecting East and West coasts than CASE.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">assert</span> <span class="n">betweenness</span><span class="p">(</span><span class="s">&quot;Utah&quot;</span><span class="p">,</span> <span class="n">ARPANET</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">betweenness</span><span class="p">(</span><span class="s">&quot;CASE&quot;</span><span class="p">,</span> <span class="n">ARPANET</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-128'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-128'>#</a>
+      </div>
+      <ul>
+<li>Some alternative definitions, e.g. on Wikipedia, don't consider
+geodesics that start or end at the node.
+Change the function and unit tests accordingly.</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-129'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-129'>#</a>
+      </div>
+      <h2>Input / Output</h2>
+<p>These functions help read and write graphs
+in GML (Graph Modelling Language) format. For more details, see the GML
+<a href="https://www.fim.uni-passau.de/fileadmin/files/lehrstuhl/brandenburg/projekte/gml/gml-technical-report.pdf">specification</a>.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-130'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-130'>#</a>
+      </div>
+      <p>Return a string representing the graph in GML format.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">to_gml</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-131'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-131'>#</a>
       </div>
       <p>The nodes of the graph must be represented by integers.</p>
 <p>Concatenating many strings is slow; join a list of strings instead.</p>
@@ -1886,10 +1996,10 @@ in GML (Graph Modelling Language) format. For more details, see the GML
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-124'>
+  <div class='section' id='section-132'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-124'>#</a>
+        <a class='octothorpe' href='#section-132'>#</a>
       </div>
       <p>Join the lines, separated by newlines.</p>
     </div>
@@ -1915,10 +2025,10 @@ in GML (Graph Modelling Language) format. For more details, see the GML
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-125'>
+  <div class='section' id='section-133'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-125'>#</a>
+        <a class='octothorpe' href='#section-133'>#</a>
       </div>
       <p>Return the list of graphs read from <code>text</code>, a string in GML format.</p>
 <p>This function assumes that the input follows the GML specification,
@@ -1934,10 +2044,10 @@ If an edge endpoint (integer) is an unknown node id, the node is created.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-126'>
+  <div class='section' id='section-134'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-126'>#</a>
+        <a class='octothorpe' href='#section-134'>#</a>
       </div>
       <p>Define the grammar with <a href="http://pyparsing.wikispaces.com">pyparsing</a>.
 Don't use <code>from pyparsing import *</code> as it adds many constants
@@ -1955,10 +2065,10 @@ to the generated documentation.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-127'>
+  <div class='section' id='section-135'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-127'>#</a>
+        <a class='octothorpe' href='#section-135'>#</a>
       </div>
       <p><code>Word(x)</code> is a sequence of one or more characters from the set x.</p>
     </div>
@@ -1969,10 +2079,10 @@ to the generated documentation.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-128'>
+  <div class='section' id='section-136'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-128'>#</a>
+        <a class='octothorpe' href='#section-136'>#</a>
       </div>
       <p>For simplicity, use pyparsing's string with double-quotes,
 hoping that it is a generalisation of GML's definition of a string.</p>
@@ -1982,10 +2092,10 @@ hoping that it is a generalisation of GML's definition of a string.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-129'>
+  <div class='section' id='section-137'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-129'>#</a>
+        <a class='octothorpe' href='#section-137'>#</a>
       </div>
       <p>A GML file is a list of key-value pairs, where a value may be a list.
 To handle this recursive definition, we delay what a pair is.</p>
@@ -1996,10 +2106,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-130'>
+  <div class='section' id='section-138'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-130'>#</a>
+        <a class='octothorpe' href='#section-138'>#</a>
       </div>
       <p>A file may have comments, which are as in Python. Ignore them.</p>
     </div>
@@ -2008,10 +2118,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-131'>
+  <div class='section' id='section-139'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-131'>#</a>
+        <a class='octothorpe' href='#section-139'>#</a>
       </div>
       <p><code>Word(x, y)</code> is 1 character from x followed by 0 or more from y.</p>
     </div>
@@ -2020,10 +2130,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-132'>
+  <div class='section' id='section-140'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-132'>#</a>
+        <a class='octothorpe' href='#section-140'>#</a>
       </div>
       <p><code>Suppress(x)</code> matches x but doesn't put it in the list of parsed tokens.</p>
     </div>
@@ -2033,10 +2143,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-133'>
+  <div class='section' id='section-141'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-133'>#</a>
+        <a class='octothorpe' href='#section-141'>#</a>
       </div>
       <p>The mandatory key-value pairs for graphs are as follows.</p>
     </div>
@@ -2050,10 +2160,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-134'>
+  <div class='section' id='section-142'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-134'>#</a>
+        <a class='octothorpe' href='#section-142'>#</a>
       </div>
       <p>First try to parse graph-specific key-value pairs; otherwise ignore pair.</p>
     </div>
@@ -2062,10 +2172,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-135'>
+  <div class='section' id='section-143'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-135'>#</a>
+        <a class='octothorpe' href='#section-143'>#</a>
       </div>
       <p>The above suppressions lead to the GML string
 <code>'graph [ node [id 1 label "ego"] edge [source 1 target 1 weight 0.5] ]'</code>
@@ -2078,10 +2188,10 @@ which is converted by the following functions into a graph.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-136'>
+  <div class='section' id='section-144'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-136'>#</a>
+        <a class='octothorpe' href='#section-144'>#</a>
       </div>
       
     </div>
@@ -2090,10 +2200,10 @@ which is converted by the following functions into a graph.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-137'>
+  <div class='section' id='section-145'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-137'>#</a>
+        <a class='octothorpe' href='#section-145'>#</a>
       </div>
       <p>Convert parsed integer tokens to integers, e.g. <code>["1"]</code> to <code>1</code>.</p>
     </div>
@@ -2102,10 +2212,10 @@ which is converted by the following functions into a graph.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-138'>
+  <div class='section' id='section-146'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-138'>#</a>
+        <a class='octothorpe' href='#section-146'>#</a>
       </div>
       
     </div>
@@ -2114,10 +2224,10 @@ which is converted by the following functions into a graph.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-139'>
+  <div class='section' id='section-147'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-139'>#</a>
+        <a class='octothorpe' href='#section-147'>#</a>
       </div>
       <p>Assuming the above conversion was done,
 convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
@@ -2127,10 +2237,10 @@ convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-140'>
+  <div class='section' id='section-148'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-140'>#</a>
+        <a class='octothorpe' href='#section-148'>#</a>
       </div>
       
     </div>
@@ -2139,10 +2249,10 @@ convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-141'>
+  <div class='section' id='section-149'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-141'>#</a>
+        <a class='octothorpe' href='#section-149'>#</a>
       </div>
       <p><code>tokens</code> is now a list of integers and edges, in any order.</p>
     </div>
@@ -2158,10 +2268,10 @@ convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-142'>
+  <div class='section' id='section-150'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-142'>#</a>
+        <a class='octothorpe' href='#section-150'>#</a>
       </div>
       <p>Do the conversions as soon as the respective tokens are parsed.</p>
     </div>
@@ -2172,10 +2282,10 @@ convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-143'>
+  <div class='section' id='section-151'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-143'>#</a>
+        <a class='octothorpe' href='#section-151'>#</a>
       </div>
       <p>Parse the text with the main grammar rule.
 Return the result as a list, not as a pyparsing object.</p>
@@ -2194,10 +2304,10 @@ Return the result as a list, not as a pyparsing object.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-144'>
+  <div class='section' id='section-152'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-144'>#</a>
+        <a class='octothorpe' href='#section-152'>#</a>
       </div>
       <ul>
 <li>Write helper functions that read from and write to a file.</li>
@@ -2208,10 +2318,10 @@ Return the result as a list, not as a pyparsing object.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-145'>
+  <div class='section' id='section-153'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-145'>#</a>
+        <a class='octothorpe' href='#section-153'>#</a>
       </div>
       <h2>Projects</h2>
 <p>These exercises require using or changing large parts of the library.</p>
