@@ -62,6 +62,7 @@ The&nbsp;length&nbsp;of&nbsp;a&nbsp;path&nbsp;is&nbsp;the&nbsp;number&nbsp;of&nb
 If&nbsp;there's&nbsp;no&nbsp;path,&nbsp;the&nbsp;distance&nbsp;is&nbsp;infinite.</tt></dd></dl>
  <dl><dt><a name="-edge"><strong>edge</strong></a>(node1, node2)</dt><dd><tt>Create&nbsp;an&nbsp;edge&nbsp;connecting&nbsp;the&nbsp;two&nbsp;nodes.</tt></dd></dl>
  <dl><dt><a name="-edge_set"><strong>edge_set</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;set&nbsp;of&nbsp;the&nbsp;graph's&nbsp;edges.</tt></dd></dl>
+ <dl><dt><a name="-ego_graph"><strong>ego_graph</strong></a>(ego, d, graph)</dt><dd><tt>Return&nbsp;the&nbsp;subgraph&nbsp;induced&nbsp;by&nbsp;all&nbsp;nodes&nbsp;up&nbsp;to&nbsp;distance&nbsp;d&nbsp;of&nbsp;the&nbsp;ego&nbsp;node.</tt></dd></dl>
  <dl><dt><a name="-endpoints"><strong>endpoints</strong></a>(edge)</dt><dd><tt>Return&nbsp;a&nbsp;pair&nbsp;with&nbsp;the&nbsp;edge's&nbsp;**endpoints**&nbsp;(the&nbsp;nodes&nbsp;it&nbsp;connects).</tt></dd></dl>
  <dl><dt><a name="-from_gml"><strong>from_gml</strong></a>(text)</dt><dd><tt>Return&nbsp;the&nbsp;list&nbsp;of&nbsp;graphs&nbsp;read&nbsp;from&nbsp;`text`,&nbsp;a&nbsp;string&nbsp;in&nbsp;GML&nbsp;format.<br>
 &nbsp;<br>
@@ -100,7 +101,7 @@ The&nbsp;two&nbsp;numbers&nbsp;can't&nbsp;be&nbsp;negative,&nbsp;and&nbsp;p&nbsp
  <dl><dt><a name="-size"><strong>size</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**size**&nbsp;(number&nbsp;of&nbsp;edges).</tt></dd></dl>
  <dl><dt><a name="-subgraph"><strong>subgraph</strong></a>(nodes, graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**subgraph&nbsp;induced**&nbsp;by&nbsp;the&nbsp;set&nbsp;of&nbsp;nodes.<br>
 &nbsp;<br>
-The&nbsp;induced&nbsp;subgraph&nbsp;has&nbsp;the&nbsp;edges&nbsp;of&nbsp;`graph`&nbsp;that&nbsp;connect&nbsp;the&nbsp;given&nbsp;nodes.</tt></dd></dl>
+The&nbsp;induced&nbsp;subgraph&nbsp;has&nbsp;the&nbsp;graph's&nbsp;edges&nbsp;that&nbsp;connect&nbsp;the&nbsp;given&nbsp;nodes.</tt></dd></dl>
  <dl><dt><a name="-to_gml"><strong>to_gml</strong></a>(graph)</dt><dd><tt>Return&nbsp;a&nbsp;string&nbsp;representing&nbsp;the&nbsp;graph&nbsp;in&nbsp;GML&nbsp;format.<br>
 &nbsp;<br>
 The&nbsp;nodes&nbsp;of&nbsp;the&nbsp;graph&nbsp;must&nbsp;be&nbsp;represented&nbsp;by&nbsp;integers.</tt></dd></dl>
@@ -111,7 +112,7 @@ The&nbsp;nodes&nbsp;of&nbsp;the&nbsp;graph&nbsp;must&nbsp;be&nbsp;represented&nb
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['RAND', 'UCLA']), frozenset(['BBN', 'RAND']), frozenset(['UCLA', 'UCSB']), frozenset(['SRI', 'Utah']), frozenset(['SRI', 'Stanford']), frozenset(['SRI', 'UCSB']), ...]))<br>
+<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['CASE', 'Carnegie']), frozenset(['SDC', 'Utah']), frozenset(['RAND', 'SDC']), frozenset(['SRI', 'Utah']), frozenset(['BBN', 'Harvard']), frozenset(['UCLA', 'UCSB']), ...]))<br>
 <strong>C3</strong> = (set([1, 2, 3]), set([frozenset([1, 3]), frozenset([1, 2]), frozenset([2, 3])]))<br>
 <strong>C4</strong> = (set([1, 2, 3, 4]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 4])]))<br>
 <strong>C5</strong> = (set([1, 2, 3, 4, 5]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 5]), frozenset([4, 5])]))<br>
@@ -122,5 +123,5 @@ The&nbsp;nodes&nbsp;of&nbsp;the&nbsp;graph&nbsp;must&nbsp;be&nbsp;represented&nb
 <strong>N1</strong> = (set([1]), set([]))<br>
 <strong>N2</strong> = (set([1, 2]), set([]))<br>
 <strong>PETERSEN</strong> = (set([1, 2, 3, 4, 5, 6, ...]), set([frozenset([2, 7]), frozenset([4, 9]), frozenset([7, 10]), frozenset([1, 2]), frozenset([1, 5]), frozenset([6, 9]), ...]))<br>
-<strong>UTILITY</strong> = (set([1, 'power', 3, 2, 'gas', 'water']), set([frozenset([3, 'gas']), frozenset(['water', 1]), frozenset(['power', 2]), frozenset(['water', 2]), frozenset([2, 'gas']), frozenset(['water', 3]), ...]))</td></tr></table>
+<strong>UTILITY</strong> = (set([1, 2, 3, 'gas', 'water', 'power']), set([frozenset([1, 'power']), frozenset(['gas', 3]), frozenset(['water', 3]), frozenset(['gas', 1]), frozenset(['water', 1]), frozenset([3, 'power']), ...]))</td></tr></table>
 </body></html>

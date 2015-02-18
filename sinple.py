@@ -307,7 +307,7 @@ def subgraph(nodes, graph):
     """
     Return the graph's **subgraph induced** by the set of nodes.
 
-    The induced subgraph has the edges of `graph` that connect the given nodes.
+    The induced subgraph has the graph's edges that connect the given nodes.
     """
     edges = {edge(n1, n2) for n1 in nodes for n2 in nodes}
     return network(edges & edge_set(graph), nodes)
@@ -315,7 +315,10 @@ def subgraph(nodes, graph):
 assert subgraph({1}, N2) == N1
 assert subgraph({1, 2, 3, 4, 5}, PETERSEN) == C5
 
-# - Explain how `subgraph()` works.
+# - Explain how the function works. Hint: `&` denotes set intersection.
+# - In which cases is the above implementation efficient?
+#   Implement the function in a way that is more efficient for other cases.
+#   Hint: what happens for sparse/dense graphs when many/few nodes are kept?
 # - Write a function to check if *g1* is a **subgraph** of *g2*,
 #   i.e. if the nodes and edges of *g1* are included in those of *g2*.
 
@@ -717,6 +720,21 @@ assert betweenness("Utah", ARPANET) > betweenness("CASE", ARPANET)
 # - Some alternative definitions, e.g. on Wikipedia, don't consider
 # geodesics that start or end at the node.
 # Change the function and unit tests accordingly.
+
+
+def ego_graph(ego, d, graph):
+    """
+    Return the subgraph induced by all nodes up to distance d of the ego node.
+    """
+    nodes = {n for n in node_set(graph) if distance(ego, n, graph) <= d}
+    return subgraph(nodes, graph)
+
+# If the distance is set to the diameter, the ego graph is the whole graph.
+assert ego_graph(5, diameter(PETERSEN), PETERSEN) == PETERSEN
+# For any simple graph, an ego graph with distance zero is just the ego node.
+assert ego_graph(5, 0, PETERSEN) == renumber(N1, 5)
+# In a complete graph, any ego graph with distance > 0 is the whole graph.
+assert ego_graph(1, 1, K3) == K3
 
 
 # Input / Output
