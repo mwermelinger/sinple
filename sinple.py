@@ -868,10 +868,8 @@ assert k_core(3, ARPANET) == EMPTY
 # Centrality
 # ----------
 # These functions relate to how 'important' a node is.
-# The degree is one such metric.
-#
-# - Which node or nodes in the kite and Arpanet graphs
-#   have the highest degree centrality?
+# The higher the value, the more central the node is.
+# A node's degree is one such metric.
 
 
 def betweenness(node, graph):
@@ -898,11 +896,33 @@ assert betweenness(1, C5) == 11
 # Utah is more central to connecting East and West coasts than CASE.
 assert betweenness("Utah", ARPANET) > betweenness("CASE", ARPANET)
 
-# - Which node or nodes in the kite and Arpanet graphs
-#   have the highest betweenness centrality?
 # - Some alternative definitions, e.g. on Wikipedia,
 #   don't consider geodesics that start or end at the node.
 #   Change the function and unit tests accordingly.
+
+
+def closeness(node, graph):
+    """Return the node's **closeness centrality**.
+
+    It indicates how close the node is to all other nodes.
+    """
+    # Use equation 7.30 from page 184 of Newman's book:
+    # average of inverse distance to all *other* nodes.
+    # This handles infinite distances between unconnected nodes.
+    other = node_set(graph) - {node}
+    return sum(1 / distance(node, n, graph) for n in other)/(order(graph) - 1)
+
+# Any isolated node, e.g. in a null graph, has closeness 0.
+assert closeness(1, N2) == 0
+# All nodes in a complete graph have closeness 1.
+assert closeness(1, K3) == 1
+# In C5, each node is at distances 1,1,2,2 from the other four.
+assert closeness(1, C5) == (1+1+.5+.5) / 4
+
+# - Which node or nodes in the kite and Arpanet graphs are the most central,
+#   according to the degree, betweenness and closeness centrality?
+# - Implement an alternative definition: the closeness is the inverse of the
+#   average distance of node to *all* nodes in the same component.
 
 
 def ego_graph(ego, d, graph):

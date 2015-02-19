@@ -2210,11 +2210,8 @@ If there's no path, the distance is infinite.</p>
       </div>
       <h2>Centrality</h2>
 <p>These functions relate to how 'important' a node is.
-The degree is one such metric.</p>
-<ul>
-<li>Which node or nodes in the kite and Arpanet graphs
-  have the highest degree centrality?</li>
-</ul>
+The higher the value, the more central the node is.
+A node's degree is one such metric.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -2307,8 +2304,6 @@ on the 1 path to itself, and on the 2 paths between its neighbours.</p>
         <a class='octothorpe' href='#section-150'>#</a>
       </div>
       <ul>
-<li>Which node or nodes in the kite and Arpanet graphs
-  have the highest betweenness centrality?</li>
 <li>Some alternative definitions, e.g. on Wikipedia,
   don't consider geodesics that start or end at the node.
   Change the function and unit tests accordingly.</li>
@@ -2324,10 +2319,10 @@ on the 1 path to itself, and on the 2 paths between its neighbours.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-151'>#</a>
       </div>
-      <p>Return the subgraph induced by all nodes up to distance d of the ego node.</p>
+      <p>Return the node's <strong>closeness centrality</strong>.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">ego_graph</span><span class="p">(</span><span class="n">ego</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">closeness</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -2336,11 +2331,14 @@ on the 1 path to itself, and on the 2 paths between its neighbours.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-152'>#</a>
       </div>
-      
+      <p>It indicates how close the node is to all other nodes.</p>
+<p>Use equation 7.30 from page 184 of Newman's book:
+average of inverse distance to all <em>other</em> nodes.
+This handles infinite distances between unconnected nodes.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre>    <span class="n">nodes</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">node_set</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="k">if</span> <span class="n">distance</span><span class="p">(</span><span class="n">ego</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">d</span><span class="p">}</span>
-    <span class="k">return</span> <span class="n">subgraph</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre>    <span class="n">other</span> <span class="o">=</span> <span class="n">node_set</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="o">-</span> <span class="p">{</span><span class="n">node</span><span class="p">}</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">distance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">other</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">order</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -2349,10 +2347,10 @@ on the 1 path to itself, and on the 2 paths between its neighbours.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-153'>#</a>
       </div>
-      <p>If the distance is set to the diameter, the ego graph is the whole graph.</p>
+      <p>Any isolated node, e.g. in a null graph, has closeness 0.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">assert</span> <span class="n">ego_graph</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">diameter</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">),</span> <span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="n">PETERSEN</span></pre></div>
+      <div class="highlight"><pre><span class="k">assert</span> <span class="n">closeness</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -2361,10 +2359,10 @@ on the 1 path to itself, and on the 2 paths between its neighbours.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-154'>#</a>
       </div>
-      <p>For any simple graph, an ego graph with distance zero is just the ego node.</p>
+      <p>All nodes in a complete graph have closeness 1.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">assert</span> <span class="n">ego_graph</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="n">renumber</span><span class="p">(</span><span class="n">N1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span></pre></div>
+      <div class="highlight"><pre><span class="k">assert</span> <span class="n">closeness</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">K3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -2373,10 +2371,10 @@ on the 1 path to itself, and on the 2 paths between its neighbours.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-155'>#</a>
       </div>
-      <p>In a complete graph, any ego graph with distance &gt; 0 is the whole graph.</p>
+      <p>In C5, each node is at distances 1,1,2,2 from the other four.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">assert</span> <span class="n">ego_graph</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">K3</span><span class="p">)</span> <span class="o">==</span> <span class="n">K3</span></pre></div>
+      <div class="highlight"><pre><span class="k">assert</span> <span class="n">closeness</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">C5</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="o">+.</span><span class="mi">5</span><span class="o">+.</span><span class="mi">5</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -2385,10 +2383,12 @@ on the 1 path to itself, and on the 2 paths between its neighbours.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-156'>#</a>
       </div>
-      <h2>Input / Output</h2>
-<p>These functions help read and write graphs
-in GML (Graph Modelling Language) format. For more details, see the GML
-<a href="https://www.fim.uni-passau.de/fileadmin/files/lehrstuhl/brandenburg/projekte/gml/gml-technical-report.pdf">specification</a>.</p>
+      <ul>
+<li>Which node or nodes in the kite and Arpanet graphs are the most central,
+  according to the degree, betweenness and closeness centrality?</li>
+<li>Implement an alternative definition: the closeness is the inverse of the
+  average distance of node to <em>all</em> nodes in the same component.</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
@@ -2400,10 +2400,10 @@ in GML (Graph Modelling Language) format. For more details, see the GML
       <div class='octowrap'>
         <a class='octothorpe' href='#section-157'>#</a>
       </div>
-      <p>Return a string representing the graph in GML format.</p>
+      <p>Return the subgraph induced by all nodes up to distance d of the ego node.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">to_gml</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">ego_graph</span><span class="p">(</span><span class="n">ego</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -2411,6 +2411,82 @@ in GML (Graph Modelling Language) format. For more details, see the GML
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-158'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">nodes</span> <span class="o">=</span> <span class="p">{</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">node_set</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span> <span class="k">if</span> <span class="n">distance</span><span class="p">(</span><span class="n">ego</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">d</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">subgraph</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">graph</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-159'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-159'>#</a>
+      </div>
+      <p>If the distance is set to the diameter, the ego graph is the whole graph.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">assert</span> <span class="n">ego_graph</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">diameter</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">),</span> <span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="n">PETERSEN</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-160'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-160'>#</a>
+      </div>
+      <p>For any simple graph, an ego graph with distance zero is just the ego node.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">assert</span> <span class="n">ego_graph</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="n">renumber</span><span class="p">(</span><span class="n">N1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-161'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-161'>#</a>
+      </div>
+      <p>In a complete graph, any ego graph with distance &gt; 0 is the whole graph.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">assert</span> <span class="n">ego_graph</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">K3</span><span class="p">)</span> <span class="o">==</span> <span class="n">K3</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-162'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-162'>#</a>
+      </div>
+      <h2>Input / Output</h2>
+<p>These functions help read and write graphs
+in GML (Graph Modelling Language) format. For more details, see the GML
+<a href="https://www.fim.uni-passau.de/fileadmin/files/lehrstuhl/brandenburg/projekte/gml/gml-technical-report.pdf">specification</a>.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-163'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-163'>#</a>
+      </div>
+      <p>Return a string representing the graph in GML format.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">to_gml</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-164'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-164'>#</a>
       </div>
       <p>The nodes of the graph must be represented by integers.</p>
 <p>Concatenating many strings is slow; join a list of strings instead.</p>
@@ -2426,10 +2502,10 @@ in GML (Graph Modelling Language) format. For more details, see the GML
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-159'>
+  <div class='section' id='section-165'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-159'>#</a>
+        <a class='octothorpe' href='#section-165'>#</a>
       </div>
       <p>Join the lines, separated by newlines.</p>
     </div>
@@ -2455,10 +2531,10 @@ in GML (Graph Modelling Language) format. For more details, see the GML
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-160'>
+  <div class='section' id='section-166'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-160'>#</a>
+        <a class='octothorpe' href='#section-166'>#</a>
       </div>
       <p>Return the list of graphs read from <code>text</code>, a string in GML format.</p>
 <p>This function assumes that the input follows the GML specification,
@@ -2474,10 +2550,10 @@ If an edge endpoint (integer) is an unknown node id, the node is created.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-161'>
+  <div class='section' id='section-167'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-161'>#</a>
+        <a class='octothorpe' href='#section-167'>#</a>
       </div>
       <p>Define the grammar with <a href="http://pyparsing.wikispaces.com">pyparsing</a>.
 Don't use <code>from pyparsing import *</code> as it adds many constants
@@ -2495,10 +2571,10 @@ to the generated documentation.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-162'>
+  <div class='section' id='section-168'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-162'>#</a>
+        <a class='octothorpe' href='#section-168'>#</a>
       </div>
       <p><code>Word(x)</code> is a sequence of one or more characters from the set x.</p>
     </div>
@@ -2509,10 +2585,10 @@ to the generated documentation.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-163'>
+  <div class='section' id='section-169'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-163'>#</a>
+        <a class='octothorpe' href='#section-169'>#</a>
       </div>
       <p>For simplicity, use pyparsing's string with double-quotes,
 hoping that it is a generalisation of GML's definition of a string.</p>
@@ -2522,10 +2598,10 @@ hoping that it is a generalisation of GML's definition of a string.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-164'>
+  <div class='section' id='section-170'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-164'>#</a>
+        <a class='octothorpe' href='#section-170'>#</a>
       </div>
       <p>A GML file is a list of key-value pairs, where a value may be a list.
 To handle this recursive definition, we delay what a pair is.</p>
@@ -2536,10 +2612,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-165'>
+  <div class='section' id='section-171'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-165'>#</a>
+        <a class='octothorpe' href='#section-171'>#</a>
       </div>
       <p>A file may have comments, which are as in Python. Ignore them.</p>
     </div>
@@ -2548,10 +2624,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-166'>
+  <div class='section' id='section-172'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-166'>#</a>
+        <a class='octothorpe' href='#section-172'>#</a>
       </div>
       <p><code>Word(x, y)</code> is 1 character from x followed by 0 or more from y.</p>
     </div>
@@ -2560,10 +2636,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-167'>
+  <div class='section' id='section-173'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-167'>#</a>
+        <a class='octothorpe' href='#section-173'>#</a>
       </div>
       <p><code>Suppress(x)</code> matches x but doesn't put it in the list of parsed tokens.</p>
     </div>
@@ -2573,10 +2649,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-168'>
+  <div class='section' id='section-174'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-168'>#</a>
+        <a class='octothorpe' href='#section-174'>#</a>
       </div>
       <p>The mandatory key-value pairs for graphs are as follows.</p>
     </div>
@@ -2590,10 +2666,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-169'>
+  <div class='section' id='section-175'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-169'>#</a>
+        <a class='octothorpe' href='#section-175'>#</a>
       </div>
       <p>First try to parse graph-specific key-value pairs; otherwise ignore pair.</p>
     </div>
@@ -2602,10 +2678,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-170'>
+  <div class='section' id='section-176'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-170'>#</a>
+        <a class='octothorpe' href='#section-176'>#</a>
       </div>
       <p>The above suppressions lead to the GML string
 <code>'graph [ node [id 1 label "ego"] edge [source 1 target 1 weight 0.5] ]'</code>
@@ -2618,10 +2694,10 @@ which is converted by the following functions into a graph.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-171'>
+  <div class='section' id='section-177'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-171'>#</a>
+        <a class='octothorpe' href='#section-177'>#</a>
       </div>
       
     </div>
@@ -2630,10 +2706,10 @@ which is converted by the following functions into a graph.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-172'>
+  <div class='section' id='section-178'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-172'>#</a>
+        <a class='octothorpe' href='#section-178'>#</a>
       </div>
       <p>Convert parsed integer tokens to integers, e.g. <code>["1"]</code> to <code>1</code>.</p>
     </div>
@@ -2642,10 +2718,10 @@ which is converted by the following functions into a graph.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-173'>
+  <div class='section' id='section-179'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-173'>#</a>
+        <a class='octothorpe' href='#section-179'>#</a>
       </div>
       
     </div>
@@ -2654,10 +2730,10 @@ which is converted by the following functions into a graph.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-174'>
+  <div class='section' id='section-180'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-174'>#</a>
+        <a class='octothorpe' href='#section-180'>#</a>
       </div>
       <p>Assuming the above conversion was done,
 convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
@@ -2667,10 +2743,10 @@ convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-175'>
+  <div class='section' id='section-181'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-175'>#</a>
+        <a class='octothorpe' href='#section-181'>#</a>
       </div>
       
     </div>
@@ -2679,10 +2755,10 @@ convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-176'>
+  <div class='section' id='section-182'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-176'>#</a>
+        <a class='octothorpe' href='#section-182'>#</a>
       </div>
       <p><code>tokens</code> is now a list of integers and edges, in any order.</p>
     </div>
@@ -2693,10 +2769,10 @@ convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-177'>
+  <div class='section' id='section-183'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-177'>#</a>
+        <a class='octothorpe' href='#section-183'>#</a>
       </div>
       <p>If the token is an integer, it's a node id.</p>
     </div>
@@ -2709,10 +2785,10 @@ convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-178'>
+  <div class='section' id='section-184'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-178'>#</a>
+        <a class='octothorpe' href='#section-184'>#</a>
       </div>
       <p>Do the conversions as soon as the respective tokens are parsed.</p>
     </div>
@@ -2723,10 +2799,10 @@ convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-179'>
+  <div class='section' id='section-185'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-179'>#</a>
+        <a class='octothorpe' href='#section-185'>#</a>
       </div>
       <p>Parse the text with the main grammar rule.
 Return the result as a list, not as a pyparsing object.</p>
@@ -2736,10 +2812,10 @@ Return the result as a list, not as a pyparsing object.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-180'>
+  <div class='section' id='section-186'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-180'>#</a>
+        <a class='octothorpe' href='#section-186'>#</a>
       </div>
       <p>Check that converting to GML and back returns the original graph.</p>
     </div>
@@ -2755,10 +2831,10 @@ Return the result as a list, not as a pyparsing object.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-181'>
+  <div class='section' id='section-187'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-181'>#</a>
+        <a class='octothorpe' href='#section-187'>#</a>
       </div>
       <ul>
 <li>Write helper functions that read from and write to a file.</li>
@@ -2769,10 +2845,10 @@ Return the result as a list, not as a pyparsing object.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-182'>
+  <div class='section' id='section-188'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-182'>#</a>
+        <a class='octothorpe' href='#section-188'>#</a>
       </div>
       <h2>Projects</h2>
 <p>These exercises require using or changing large parts of the library.</p>
