@@ -627,6 +627,34 @@ assert local_clustering_coefficient(1, K3) == 1
 assert local_clustering_coefficient(3, PETERSEN) == 0
 
 
+def global_clustering_coefficient(graph):
+    """
+    Return the graph's **clustering coefficient**, a measure of transitivity.
+
+    It measures the mean probability that A and C are connected directly
+    if they are connected through a common node.
+    """
+    # Count the number of paths of length 2 (ABC) and those 'closed' (ABCA).
+    all_paths_2 = 0
+    closed_paths_2 = 0
+    for a in node_set(graph):
+        for b in node_set(graph) - {a}:
+            for c in node_set(graph) - {a, b}:
+                if adjacent(a, b, graph) and adjacent(b, c, graph):
+                    all_paths_2 += 1
+                    if adjacent(a, c, graph):
+                        closed_paths_2 += 1
+    return closed_paths_2 / all_paths_2 if all_paths_2 else 0
+
+# Any cycle graph has coefficient 0.
+assert global_clustering_coefficient(C5) == 0
+# Any complete graph has coefficient 1.
+assert global_clustering_coefficient(K3) == 1
+# The following graph has 6 closed paths of length 2 in the K3 triangle,
+# and 4 open paths of length 2 due to the additional edge.
+assert global_clustering_coefficient(add_edge(3, 4, K3)) == 0.6
+
+
 # Independence
 # ------------
 # These functions relate to non-adjacency.
@@ -639,6 +667,7 @@ assert local_clustering_coefficient(3, PETERSEN) == 0
 #   if its nodes can be separated into two disjoint subsets so that
 #   each edge connects nodes in different subsets.
 #   Write tests to confirm that the utility and women graphs are bipartite.
+# - Explain why bipartite graphs are simple and have clustering coefficient 0.
 
 
 # Paths and distances
@@ -1009,6 +1038,7 @@ def from_gml(text):
         nodes = set()
         edges = set()
         for token in tokens:
+            # If the token is an integer, it's a node id.
             if isinstance(token, int):
                 nodes.add(token)
             else:
@@ -1024,6 +1054,7 @@ def from_gml(text):
     # Return the result as a list, not as a pyparsing object.
     return list.parseString(text).asList()
 
+# Check that converting to GML and back returns the original graph.
 assert [EMPTY] == from_gml(to_gml(EMPTY))
 assert [N1] == from_gml(to_gml(N1))
 assert [LOOP] == from_gml(to_gml(LOOP))
