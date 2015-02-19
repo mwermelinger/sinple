@@ -201,7 +201,7 @@ K3 = network({edge(1, 2), edge(1, 3), edge(2, 3)})
 
 # - Define K1.
 # - Write a function to create a complete graph, given the number of nodes.
-#   Compare the output to the 'manually' created K1, K2, K3.
+#   Write tests comparing the output to the 'manually' created K1, K2, K3.
 
 # A **cycle graph** C*n* has *n* nodes connected in a 'round-robin' fashion.
 # Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, etc.
@@ -244,6 +244,83 @@ ARPANET = network({
     })
 
 
+# The 'kite network' by David Krackhardt illustrates different centralities.
+# Source: http://www.orgnet.com/sna.html
+KITE = network({
+    edge("Andre", "Beverly"), edge("Andre", "Carol"),
+    edge("Andre", "Diane"), edge("Andre", "Fernando"),
+    edge("Beverly", "Diane"), edge("Beverly", "Ed"),
+    edge("Carol", "Diane"), edge("Carol", "Fernando"),
+    edge("Diane", "Ed"), edge("Diane", "Garth"),
+    edge("Fernando", "Garth"), edge("Fernando", "Heather"),
+    edge("Garth", "Heather"), edge("Heather", "Ike"), edge("Ike", "Jane")})
+
+
+# Wayne Zachary obtained in the 1970s the ties between a karate club's members.
+# Source: http://www-personal.umich.edu/~mejn/netdata/
+KARATE = network({
+    edge(2, 1), edge(3, 1), edge(3, 2), edge(4, 1), edge(4, 2), edge(4, 3),
+    edge(5, 1), edge(6, 1), edge(7, 1), edge(7, 5), edge(7, 6),
+    edge(8, 1), edge(8, 2), edge(8, 3), edge(8, 4), edge(9, 1), edge(9, 3),
+    edge(10, 3), edge(11, 1), edge(11, 5), edge(11, 6), edge(12, 1),
+    edge(13, 1), edge(13, 4),
+    edge(14, 1), edge(14, 2), edge(14, 3), edge(14, 4),
+    edge(17, 6), edge(17, 7), edge(18, 1),  edge(18, 2),
+    edge(20, 1), edge(20, 2), edge(22, 1), edge(22, 2),
+    edge(26, 24), edge(26, 25), edge(28, 3), edge(28, 24), edge(28, 25),
+    edge(29, 3), edge(30, 24), edge(30, 27), edge(31, 2), edge(31, 9),
+    edge(32, 1), edge(32, 25), edge(32, 26), edge(32, 29),
+    edge(33, 3), edge(33, 9), edge(33, 15), edge(33, 16), edge(33, 19),
+    edge(33, 21), edge(33, 23), edge(33, 24), edge(33, 30), edge(33, 31),
+    edge(33, 32),
+    edge(34, 9), edge(34, 10), edge(34, 14), edge(34, 15), edge(34, 16),
+    edge(34, 19), edge(34, 20), edge(34, 21), edge(34, 23), edge(34, 24),
+    edge(34, 27), edge(34, 28), edge(34, 29), edge(34, 30), edge(34, 31),
+    edge(34, 32), edge(34, 33)})
+
+
+# The 'Southern Women' dataset about attendance of social events by women
+# in Natchez MS, USA, was collected in the 1930s by Davis et al.
+# Source: Figure 1 of http://moreno.ss.uci.edu/86.pdf
+# Note that other online datasets,
+# e.g. [igraph](http://nexus.igraph.org/api/dataset_info?id=23&format=html),
+# use the probably erroneous Figure 2.
+
+WOMEN = network({
+    edge("Evelyn", 1), edge("Evelyn", 2), edge("Evelyn", 3), edge("Evelyn", 4),
+    edge("Evelyn", 5), edge("Evelyn", 6), edge("Evelyn", 8), edge("Evelyn", 9),
+    edge("Laura", 1), edge("Laura", 2), edge("Laura", 3), edge("Laura", 5),
+    edge("Laura", 6), edge("Laura", 7), edge("Laura", 8),
+    edge("Theresa", 2), edge("Theresa", 3), edge("Theresa", 4),
+    edge("Theresa", 5), edge("Theresa", 6), edge("Theresa", 7),
+    edge("Theresa", 8), edge("Theresa", 9),
+    edge("Brenda", 1), edge("Brenda", 3), edge("Brenda", 4), edge("Brenda", 5),
+    edge("Brenda", 6), edge("Brenda", 7), edge("Brenda", 8),
+    edge("Charlotte", 3), edge("Charlotte", 4),
+    edge("Charlotte", 5), edge("Charlotte", 7),
+    edge("Frances", 3), edge("Frances", 5),
+    edge("Frances", 6), edge("Frances", 8),
+    edge("Eleanor", 5), edge("Eleanor", 6),
+    edge("Eleanor", 7), edge("Eleanor", 8),
+    edge("Pearl", 6), edge("Pearl", 8), edge("Pearl", 9),
+    edge("Ruth", 5), edge("Ruth", 7), edge("Ruth", 8), edge("Ruth", 9),
+    edge("Verne", 7), edge("Verne", 8), edge("Verne", 9), edge("Verne", 12),
+    edge("Myra", 8), edge("Myra", 9), edge("Myra", 10), edge("Myra", 12),
+    edge("Katherine", 8), edge("Katherine", 9), edge("Katherine", 10),
+    edge("Katherine", 12), edge("Katherine", 13), edge("Katherine", 14),
+    edge("Sylvia", 7), edge("Sylvia", 8), edge("Sylvia", 9),
+    edge("Sylvia", 10), edge("Sylvia", 12),
+    edge("Sylvia", 13), edge("Sylvia", 14),
+    edge("Nora", 6), edge("Nora", 7), edge("Nora", 9), edge("Nora", 10),
+    edge("Nora", 11), edge("Nora", 12), edge("Nora", 13), edge("Nora", 14),
+    edge("Helen", 7), edge("Helen", 8), edge("Helen", 10),
+    edge("Helen", 11), edge("Helen", 12),
+    edge("Dorothy", 8), edge("Dorothy", 9),
+    edge("Olivia", 9), edge("Olivia", 11),
+    edge("Flora", 9), edge("Flora", 11)
+})
+
+
 # Basics
 # ------
 
@@ -256,6 +333,8 @@ assert size(EMPTY) == 0
 assert size(N1) == 0
 assert size(C3) == 3
 assert size(PETERSEN) == 15
+assert size(WOMEN) == 89
+assert size(KARATE) == 78
 
 
 def order(graph):
@@ -264,8 +343,11 @@ def order(graph):
 
 assert order(EMPTY) == 0
 assert order(N1) == 1
-assert order(C3) == 3
+assert order(C3) == order(K3)
 assert order(PETERSEN) == 10
+assert order(KARATE) == 34
+# The Southern women dataset has 14 events and 18 women.
+assert order(WOMEN) == 14 + 18
 
 
 def is_loop(edge):
@@ -360,6 +442,7 @@ assert subgraph({1, 2, 3, 4, 5}, PETERSEN) == C5
 #   Hint: what happens for sparse/dense graphs when many/few nodes are kept?
 # - Write a function to check if *g1* is a **subgraph** of *g2*,
 #   i.e. if the nodes and edges of *g1* are also in *g2*.
+# - Rewrite the `delete_nodes` function using `subgraph`.
 
 
 # Import a random number generator with uniform distribution
@@ -437,6 +520,8 @@ assert degree(6, PETERSEN) == 3
 
 # - Explain why all nodes in a cycle graph have degree 2.
 # - What is the degree of each node in K*n*? Write some unit tests to confirm.
+# - Which woman or women attended the most events?
+#   Which event or events were attended by most women?
 
 
 def k_regular(graph):
@@ -549,11 +634,11 @@ assert local_clustering_coefficient(3, PETERSEN) == 0
 # - Write a function to check if a node is **isolated**
 #   (not connected to any node). Implement 4 versions,
 #   using `incident()`, `adjacent()`, `degree()`, and `neighbours()`.
-# - Which version is the most efficient?
+#   Which version is the most efficient?
 # - Write a function to check if a graph is **bipartite**, i.e.
-#   if its nodes can be separated into two parts so that each edge
-#   connects nodes in different parts.
-#   Include a unit test showing that the utility graph is bipartite.
+#   if its nodes can be separated into two disjoint subsets so that
+#   each edge connects nodes in different subsets.
+#   Write tests to confirm that the utility and women graphs are bipartite.
 
 
 # Paths and distances
@@ -746,15 +831,18 @@ assert k_core(3, C5) == EMPTY
 # If the graph is k-regular, its k-core is the whole graph.
 assert k_core(k_regular(K3), K3) == K3
 # In the early Arpanet, no node had 3 neighbours with 3 neighbours themselves.
-print(k_core(3, ARPANET)) == EMPTY
+assert k_core(3, ARPANET) == EMPTY
 
-# - If you have written the `delete_node` function, rewrite `k_core` using it.
+# - Rewrite `k_core` using the `delete_node` function.
 
 
 # Centrality
 # ----------
 # These functions relate to how 'important' a node is.
 # The degree is one such metric.
+#
+# - Which node or nodes in the kite and Arpanet graphs
+#   have the highest degree centrality?
 
 
 def betweenness(node, graph):
@@ -781,9 +869,11 @@ assert betweenness(1, C5) == 11
 # Utah is more central to connecting East and West coasts than CASE.
 assert betweenness("Utah", ARPANET) > betweenness("CASE", ARPANET)
 
-# - Some alternative definitions, e.g. on Wikipedia, don't consider
-# geodesics that start or end at the node.
-# Change the function and unit tests accordingly.
+# - Which node or nodes in the kite and Arpanet graphs
+#   have the highest betweenness centrality?
+# - Some alternative definitions, e.g. on Wikipedia,
+#   don't consider geodesics that start or end at the node.
+#   Change the function and unit tests accordingly.
 
 
 def ego_graph(ego, d, graph):

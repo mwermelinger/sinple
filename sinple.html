@@ -515,7 +515,7 @@ instead of a set to allow obtaining each node with the assignment
       <ul>
 <li>Define K1.</li>
 <li>Write a function to create a complete graph, given the number of nodes.
-  Compare the output to the 'manually' created K1, K2, K3.</li>
+  Write tests comparing the output to the 'manually' created K1, K2, K3.</li>
 </ul>
     </div>
     <div class='code'>
@@ -658,10 +658,18 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-44'>#</a>
       </div>
-      <h2>Basics</h2>
+      <p>The 'kite network' by David Krackhardt illustrates different centralities.
+Source: http://www.orgnet.com/sna.html</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre></pre></div>
+      <div class="highlight"><pre><span class="n">KITE</span> <span class="o">=</span> <span class="n">network</span><span class="p">({</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Andre&quot;</span><span class="p">,</span> <span class="s">&quot;Beverly&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Andre&quot;</span><span class="p">,</span> <span class="s">&quot;Carol&quot;</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Andre&quot;</span><span class="p">,</span> <span class="s">&quot;Diane&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Andre&quot;</span><span class="p">,</span> <span class="s">&quot;Fernando&quot;</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Beverly&quot;</span><span class="p">,</span> <span class="s">&quot;Diane&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Beverly&quot;</span><span class="p">,</span> <span class="s">&quot;Ed&quot;</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Carol&quot;</span><span class="p">,</span> <span class="s">&quot;Diane&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Carol&quot;</span><span class="p">,</span> <span class="s">&quot;Fernando&quot;</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Diane&quot;</span><span class="p">,</span> <span class="s">&quot;Ed&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Diane&quot;</span><span class="p">,</span> <span class="s">&quot;Garth&quot;</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Fernando&quot;</span><span class="p">,</span> <span class="s">&quot;Garth&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Fernando&quot;</span><span class="p">,</span> <span class="s">&quot;Heather&quot;</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Garth&quot;</span><span class="p">,</span> <span class="s">&quot;Heather&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Heather&quot;</span><span class="p">,</span> <span class="s">&quot;Ike&quot;</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Ike&quot;</span><span class="p">,</span> <span class="s">&quot;Jane&quot;</span><span class="p">)})</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -670,10 +678,29 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-45'>#</a>
       </div>
-      <p>Return the graph's <strong>size</strong> (number of edges).</p>
+      <p>Wayne Zachary obtained in the 1970s the ties between a karate club's members.
+Source: http://www-personal.umich.edu/~mejn/netdata/</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+      <div class="highlight"><pre><span class="n">KARATE</span> <span class="o">=</span> <span class="n">network</span><span class="p">({</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>  <span class="n">edge</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">26</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">29</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">27</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">31</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">26</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">29</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">21</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">23</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">31</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">33</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">21</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">23</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">27</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">29</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">31</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="mi">34</span><span class="p">,</span> <span class="mi">33</span><span class="p">)})</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
@@ -681,6 +708,79 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-46'>#</a>
+      </div>
+      <p>The 'Southern Women' dataset about attendance of social events by women
+in Natchez MS, USA, was collected in the 1930s by Davis et al.
+Source: Figure 1 of http://moreno.ss.uci.edu/86.pdf
+Note that other online datasets,
+e.g. <a href="http://nexus.igraph.org/api/dataset_info?id=23&amp;format=html">igraph</a>,
+use the probably erroneous Figure 2.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">WOMEN</span> <span class="o">=</span> <span class="n">network</span><span class="p">({</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Evelyn&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Evelyn&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Evelyn&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Evelyn&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Evelyn&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Evelyn&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Evelyn&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Evelyn&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Laura&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Laura&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Laura&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Laura&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Laura&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Laura&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Laura&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Theresa&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Theresa&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Theresa&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Theresa&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Theresa&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Theresa&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Theresa&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Theresa&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Brenda&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Brenda&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Brenda&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Brenda&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Brenda&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Brenda&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Brenda&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Charlotte&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Charlotte&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Charlotte&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Charlotte&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Frances&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Frances&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Frances&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Frances&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Eleanor&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Eleanor&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Eleanor&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Eleanor&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Pearl&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Pearl&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Pearl&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Ruth&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Ruth&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Ruth&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Ruth&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Verne&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Verne&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Verne&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Verne&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Myra&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Myra&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Myra&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Myra&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Katherine&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Katherine&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Katherine&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Katherine&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Katherine&quot;</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Katherine&quot;</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Sylvia&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Sylvia&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Sylvia&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Sylvia&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Sylvia&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Sylvia&quot;</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Sylvia&quot;</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Nora&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Nora&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Nora&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Nora&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Nora&quot;</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Nora&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Nora&quot;</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Nora&quot;</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Helen&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Helen&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Helen&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Helen&quot;</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Helen&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Dorothy&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Dorothy&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Olivia&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Olivia&quot;</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+    <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Flora&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">edge</span><span class="p">(</span><span class="s">&quot;Flora&quot;</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+<span class="p">})</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-47'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-47'>#</a>
+      </div>
+      <h2>Basics</h2>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-48'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-48'>#</a>
+      </div>
+      <p>Return the graph's <strong>size</strong> (number of edges).</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-49'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-49'>#</a>
       </div>
       
     </div>
@@ -690,14 +790,16 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
 <span class="k">assert</span> <span class="n">size</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 <span class="k">assert</span> <span class="n">size</span><span class="p">(</span><span class="n">N1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 <span class="k">assert</span> <span class="n">size</span><span class="p">(</span><span class="n">C3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
-<span class="k">assert</span> <span class="n">size</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">15</span></pre></div>
+<span class="k">assert</span> <span class="n">size</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">15</span>
+<span class="k">assert</span> <span class="n">size</span><span class="p">(</span><span class="n">WOMEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">89</span>
+<span class="k">assert</span> <span class="n">size</span><span class="p">(</span><span class="n">KARATE</span><span class="p">)</span> <span class="o">==</span> <span class="mi">78</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-47'>
+  <div class='section' id='section-50'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-47'>#</a>
+        <a class='octothorpe' href='#section-50'>#</a>
       </div>
       <p>Return the graph's <strong>order</strong> (number of nodes).</p>
     </div>
@@ -706,10 +808,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-48'>
+  <div class='section' id='section-51'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-48'>#</a>
+        <a class='octothorpe' href='#section-51'>#</a>
       </div>
       
     </div>
@@ -718,15 +820,28 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
 
 <span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 <span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">N1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-<span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">C3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span>
-<span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span></pre></div>
+<span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">C3</span><span class="p">)</span> <span class="o">==</span> <span class="n">order</span><span class="p">(</span><span class="n">K3</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span>
+<span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">KARATE</span><span class="p">)</span> <span class="o">==</span> <span class="mi">34</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-49'>
+  <div class='section' id='section-52'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-49'>#</a>
+        <a class='octothorpe' href='#section-52'>#</a>
+      </div>
+      <p>The Southern women dataset has 14 events and 18 women.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">assert</span> <span class="n">order</span><span class="p">(</span><span class="n">WOMEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">14</span> <span class="o">+</span> <span class="mi">18</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-53'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-53'>#</a>
       </div>
       <p>Check if edge is a <strong>loop</strong> (connects a node to itself).</p>
     </div>
@@ -735,10 +850,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-50'>
+  <div class='section' id='section-54'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-50'>#</a>
+        <a class='octothorpe' href='#section-54'>#</a>
       </div>
       
     </div>
@@ -751,10 +866,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-51'>
+  <div class='section' id='section-55'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-51'>#</a>
+        <a class='octothorpe' href='#section-55'>#</a>
       </div>
       <p>Check if the graph is <strong>simple</strong> (has no loops).</p>
     </div>
@@ -763,10 +878,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-52'>
+  <div class='section' id='section-56'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-52'>#</a>
+        <a class='octothorpe' href='#section-56'>#</a>
       </div>
       
     </div>
@@ -781,10 +896,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-53'>
+  <div class='section' id='section-57'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-53'>#</a>
+        <a class='octothorpe' href='#section-57'>#</a>
       </div>
       <p>Any complete graph is simple.</p>
     </div>
@@ -795,10 +910,10 @@ Source: http://som.csudh.edu/cis/lpress/history/arpamaps.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-54'>
+  <div class='section' id='section-58'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-54'>#</a>
+        <a class='octothorpe' href='#section-58'>#</a>
       </div>
       <p>Return the graph's <strong>density</strong> (ratio of actual to potential edges).</p>
 <p>It's the size divided by the size of a complete graph of the same order.
@@ -809,10 +924,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-55'>
+  <div class='section' id='section-59'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-55'>#</a>
+        <a class='octothorpe' href='#section-59'>#</a>
       </div>
       
     </div>
@@ -825,10 +940,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-56'>
+  <div class='section' id='section-60'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-56'>#</a>
+        <a class='octothorpe' href='#section-60'>#</a>
       </div>
       <p>Every null graph has density 0.</p>
     </div>
@@ -837,10 +952,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-57'>
+  <div class='section' id='section-61'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-57'>#</a>
+        <a class='octothorpe' href='#section-61'>#</a>
       </div>
       <p>Every complete graph has density 1.</p>
     </div>
@@ -849,10 +964,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-58'>
+  <div class='section' id='section-62'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-58'>#</a>
+        <a class='octothorpe' href='#section-62'>#</a>
       </div>
       <p>A graph with loops can have density &gt; 1.</p>
     </div>
@@ -861,10 +976,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-59'>
+  <div class='section' id='section-63'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-59'>#</a>
+        <a class='octothorpe' href='#section-63'>#</a>
       </div>
       <h2>Further graph construction</h2>
     </div>
@@ -873,10 +988,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-60'>
+  <div class='section' id='section-64'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-60'>#</a>
+        <a class='octothorpe' href='#section-64'>#</a>
       </div>
       <p>Create a <strong>null graph</strong> with n nodes numbered 1 to n and no edges.</p>
     </div>
@@ -885,10 +1000,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-61'>
+  <div class='section' id='section-65'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-61'>#</a>
+        <a class='octothorpe' href='#section-65'>#</a>
       </div>
       
     </div>
@@ -900,10 +1015,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-62'>
+  <div class='section' id='section-66'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-62'>#</a>
+        <a class='octothorpe' href='#section-66'>#</a>
       </div>
       <p>Create a new graph by renaming the graph's nodes as n, n+1, n+2, etc.</p>
     </div>
@@ -912,10 +1027,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-63'>
+  <div class='section' id='section-67'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-63'>#</a>
+        <a class='octothorpe' href='#section-67'>#</a>
       </div>
       
     </div>
@@ -938,10 +1053,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-64'>
+  <div class='section' id='section-68'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-64'>#</a>
+        <a class='octothorpe' href='#section-68'>#</a>
       </div>
       <p>Return the graph's <strong>subgraph induced</strong> by the set of nodes.</p>
 <p>The induced subgraph has the graph's edges that connect the given nodes.</p>
@@ -951,10 +1066,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-65'>
+  <div class='section' id='section-69'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-65'>#</a>
+        <a class='octothorpe' href='#section-69'>#</a>
       </div>
       
     </div>
@@ -967,10 +1082,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-66'>
+  <div class='section' id='section-70'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-66'>#</a>
+        <a class='octothorpe' href='#section-70'>#</a>
       </div>
       <ul>
 <li>Explain how the function works. Hint: <code>&amp;</code> denotes set intersection.</li>
@@ -979,6 +1094,7 @@ The density of the graphs with one or zero nodes is set to zero.</p>
   Hint: what happens for sparse/dense graphs when many/few nodes are kept?</li>
 <li>Write a function to check if <em>g1</em> is a <strong>subgraph</strong> of <em>g2</em>,
   i.e. if the nodes and edges of <em>g1</em> are also in <em>g2</em>.</li>
+<li>Rewrite the <code>delete_nodes</code> function using <code>subgraph</code>.</li>
 </ul>
     </div>
     <div class='code'>
@@ -986,10 +1102,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-67'>
+  <div class='section' id='section-71'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-67'>#</a>
+        <a class='octothorpe' href='#section-71'>#</a>
       </div>
       <p>Import a random number generator with uniform distribution</p>
     </div>
@@ -998,10 +1114,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-68'>
+  <div class='section' id='section-72'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-68'>#</a>
+        <a class='octothorpe' href='#section-72'>#</a>
       </div>
       <p>Return a simple <strong>random graph</strong> with n nodes and edge probability p.</p>
 <p>The two numbers can't be negative, and p can't be larger than 1.</p>
@@ -1011,10 +1127,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-69'>
+  <div class='section' id='section-73'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-69'>#</a>
+        <a class='octothorpe' href='#section-73'>#</a>
       </div>
       
     </div>
@@ -1036,10 +1152,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-70'>
+  <div class='section' id='section-74'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-70'>#</a>
+        <a class='octothorpe' href='#section-74'>#</a>
       </div>
       <ul>
 <li>Write a function to create a simple random graph of given order and size.</li>
@@ -1050,10 +1166,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-71'>
+  <div class='section' id='section-75'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-71'>#</a>
+        <a class='octothorpe' href='#section-75'>#</a>
       </div>
       <h2>Adjacency</h2>
 <p>These functions relate to immediate adjacency.</p>
@@ -1063,10 +1179,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-72'>
+  <div class='section' id='section-76'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-72'>#</a>
+        <a class='octothorpe' href='#section-76'>#</a>
       </div>
       <p>Check if the nodes are <strong>adjacent</strong> (an edge connects them).</p>
     </div>
@@ -1075,10 +1191,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-73'>
+  <div class='section' id='section-77'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-73'>#</a>
+        <a class='octothorpe' href='#section-77'>#</a>
       </div>
       
     </div>
@@ -1093,10 +1209,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-74'>
+  <div class='section' id='section-78'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-74'>#</a>
+        <a class='octothorpe' href='#section-78'>#</a>
       </div>
       <p>Check if edge and node are <strong>incident</strong> to each other (edge connects node).</p>
     </div>
@@ -1105,10 +1221,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-75'>
+  <div class='section' id='section-79'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-75'>#</a>
+        <a class='octothorpe' href='#section-79'>#</a>
       </div>
       
     </div>
@@ -1121,10 +1237,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-76'>
+  <div class='section' id='section-80'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-76'>#</a>
+        <a class='octothorpe' href='#section-80'>#</a>
       </div>
       <p>Return the node's <strong>degree</strong> (number of incident edge tips).</p>
     </div>
@@ -1133,10 +1249,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-77'>
+  <div class='section' id='section-81'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-77'>#</a>
+        <a class='octothorpe' href='#section-81'>#</a>
       </div>
       <p>Loops count twice, so that each edge contributes 2 to the degree sum.</p>
     </div>
@@ -1156,14 +1272,16 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-78'>
+  <div class='section' id='section-82'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-78'>#</a>
+        <a class='octothorpe' href='#section-82'>#</a>
       </div>
       <ul>
 <li>Explain why all nodes in a cycle graph have degree 2.</li>
 <li>What is the degree of each node in K<em>n</em>? Write some unit tests to confirm.</li>
+<li>Which woman or women attended the most events?
+  Which event or events were attended by most women?</li>
 </ul>
     </div>
     <div class='code'>
@@ -1171,10 +1289,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-79'>
+  <div class='section' id='section-83'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-79'>#</a>
+        <a class='octothorpe' href='#section-83'>#</a>
       </div>
       <p>Return k if graph is <strong>k-regular</strong> (all nodes have degree k), otherwise -1.</p>
     </div>
@@ -1183,10 +1301,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-80'>
+  <div class='section' id='section-84'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-80'>#</a>
+        <a class='octothorpe' href='#section-84'>#</a>
       </div>
       
     </div>
@@ -1206,10 +1324,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-81'>
+  <div class='section' id='section-85'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-81'>#</a>
+        <a class='octothorpe' href='#section-85'>#</a>
       </div>
       <ul>
 <li>Write a function to check if a graph is a null graph.</li>
@@ -1222,10 +1340,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-82'>
+  <div class='section' id='section-86'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-82'>#</a>
+        <a class='octothorpe' href='#section-86'>#</a>
       </div>
       <p>Return the graph's <strong>degree sequence</strong> (descending list of node degrees).</p>
     </div>
@@ -1234,10 +1352,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-83'>
+  <div class='section' id='section-87'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-83'>#</a>
+        <a class='octothorpe' href='#section-87'>#</a>
       </div>
       
     </div>
@@ -1253,10 +1371,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-84'>
+  <div class='section' id='section-88'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-84'>#</a>
+        <a class='octothorpe' href='#section-88'>#</a>
       </div>
       <ul>
 <li>Write a function to check if a graph is <strong>regular</strong>,
@@ -1269,10 +1387,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-85'>
+  <div class='section' id='section-89'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-85'>#</a>
+        <a class='octothorpe' href='#section-89'>#</a>
       </div>
       <p>Return a list: the n-th value is the probability that a node has degree n.</p>
     </div>
@@ -1281,10 +1399,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-86'>
+  <div class='section' id='section-90'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-86'>#</a>
+        <a class='octothorpe' href='#section-90'>#</a>
       </div>
       
     </div>
@@ -1295,10 +1413,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-87'>
+  <div class='section' id='section-91'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-87'>#</a>
+        <a class='octothorpe' href='#section-91'>#</a>
       </div>
       <p>n-th value is number of nodes with degree n by total number of nodes</p>
     </div>
@@ -1313,10 +1431,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-88'>
+  <div class='section' id='section-92'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-88'>#</a>
+        <a class='octothorpe' href='#section-92'>#</a>
       </div>
       <ul>
 <li>Rewrite <code>degree_distribution()</code> to make it more efficient.</li>
@@ -1327,10 +1445,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-89'>
+  <div class='section' id='section-93'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-89'>#</a>
+        <a class='octothorpe' href='#section-93'>#</a>
       </div>
       <p>Return the graph's <strong>average degree</strong> (mean of all node degrees).</p>
     </div>
@@ -1339,10 +1457,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-90'>
+  <div class='section' id='section-94'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-90'>#</a>
+        <a class='octothorpe' href='#section-94'>#</a>
       </div>
       
     </div>
@@ -1356,10 +1474,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-91'>
+  <div class='section' id='section-95'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-91'>#</a>
+        <a class='octothorpe' href='#section-95'>#</a>
       </div>
       <ul>
 <li>Rewrite <code>mean_degree()</code> to make it much more efficient.
@@ -1371,10 +1489,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-92'>
+  <div class='section' id='section-96'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-92'>#</a>
+        <a class='octothorpe' href='#section-96'>#</a>
       </div>
       <p>Return the set of the node's <strong>neighbours</strong> (adjacent nodes).</p>
     </div>
@@ -1383,10 +1501,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-93'>
+  <div class='section' id='section-97'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-93'>#</a>
+        <a class='octothorpe' href='#section-97'>#</a>
       </div>
       
     </div>
@@ -1398,10 +1516,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-94'>
+  <div class='section' id='section-98'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-94'>#</a>
+        <a class='octothorpe' href='#section-98'>#</a>
       </div>
       <p>Return the node's <strong>open neighbourhood</strong> (subgraph induced by neighbours).</p>
     </div>
@@ -1410,10 +1528,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-95'>
+  <div class='section' id='section-99'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-95'>#</a>
+        <a class='octothorpe' href='#section-99'>#</a>
       </div>
       
     </div>
@@ -1425,75 +1543,14 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-96'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-96'>#</a>
-      </div>
-      <ul>
-<li>Write a function that returns a node's <strong>closed neighbourhood</strong>,
-  which includes the node itself.</li>
-</ul>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-97'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-97'>#</a>
-      </div>
-      <p>Return node's <strong>local clustering coefficient</strong> (density of neighbourhood).</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre><span class="k">def</span> <span class="nf">local_clustering_coefficient</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-98'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-98'>#</a>
-      </div>
-      
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">density</span><span class="p">(</span><span class="n">neighbourhood</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">))</span>
-
-<span class="k">assert</span> <span class="n">local_clustering_coefficient</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">K3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
-<span class="k">assert</span> <span class="n">local_clustering_coefficient</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
-  <div class='section' id='section-99'>
-    <div class='docs'>
-      <div class='octowrap'>
-        <a class='octothorpe' href='#section-99'>#</a>
-      </div>
-      <h2>Independence</h2>
-<p>These functions relate to non-adjacency.</p>
-    </div>
-    <div class='code'>
-      <div class="highlight"><pre></pre></div>
-    </div>
-  </div>
-  <div class='clearall'></div>
   <div class='section' id='section-100'>
     <div class='docs'>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-100'>#</a>
       </div>
       <ul>
-<li>Write a function to check if a node is <strong>isolated</strong>
-  (not connected to any node). Implement 4 versions,
-  using <code>incident()</code>, <code>adjacent()</code>, <code>degree()</code>, and <code>neighbours()</code>.</li>
-<li>Which version is the most efficient?</li>
-<li>Write a function to check if a graph is <strong>bipartite</strong>, i.e.
-  if its nodes can be separated into two parts so that each edge
-  connects nodes in different parts.
-  Include a unit test showing that the utility graph is bipartite.</li>
+<li>Write a function that returns a node's <strong>closed neighbourhood</strong>,
+  which includes the node itself.</li>
 </ul>
     </div>
     <div class='code'>
@@ -1506,6 +1563,67 @@ The density of the graphs with one or zero nodes is set to zero.</p>
       <div class='octowrap'>
         <a class='octothorpe' href='#section-101'>#</a>
       </div>
+      <p>Return node's <strong>local clustering coefficient</strong> (density of neighbourhood).</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">local_clustering_coefficient</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-102'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-102'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">return</span> <span class="n">density</span><span class="p">(</span><span class="n">neighbourhood</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">graph</span><span class="p">))</span>
+
+<span class="k">assert</span> <span class="n">local_clustering_coefficient</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">K3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="k">assert</span> <span class="n">local_clustering_coefficient</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">PETERSEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-103'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-103'>#</a>
+      </div>
+      <h2>Independence</h2>
+<p>These functions relate to non-adjacency.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-104'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-104'>#</a>
+      </div>
+      <ul>
+<li>Write a function to check if a node is <strong>isolated</strong>
+  (not connected to any node). Implement 4 versions,
+  using <code>incident()</code>, <code>adjacent()</code>, <code>degree()</code>, and <code>neighbours()</code>.
+  Which version is the most efficient?</li>
+<li>Write a function to check if a graph is <strong>bipartite</strong>, i.e.
+  if its nodes can be separated into two disjoint subsets so that
+  each edge connects nodes in different subsets.
+  Write tests to confirm that the utility and women graphs are bipartite.</li>
+</ul>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-105'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-105'>#</a>
+      </div>
       <h2>Paths and distances</h2>
 <p>These functions relate to paths within the graph and their distances.</p>
     </div>
@@ -1514,10 +1632,10 @@ The density of the graphs with one or zero nodes is set to zero.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-102'>
+  <div class='section' id='section-106'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-102'>#</a>
+        <a class='octothorpe' href='#section-106'>#</a>
       </div>
       <p>Return a list of all geodesics <code>[node1,...,node2]</code> between the two nodes.</p>
 <p>A <strong>geodesic</strong> is a shortest path.
@@ -1530,10 +1648,10 @@ Return <code>[[node1]]</code> if both nodes are the same.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-103'>
+  <div class='section' id='section-107'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-103'>#</a>
+        <a class='octothorpe' href='#section-107'>#</a>
       </div>
       
     </div>
@@ -1560,10 +1678,10 @@ Return <code>[[node1]]</code> if both nodes are the same.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-104'>
+  <div class='section' id='section-108'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-104'>#</a>
+        <a class='octothorpe' href='#section-108'>#</a>
       </div>
       <p>Paths can be listed in any order: sort them to compare with the solution.</p>
     </div>
@@ -1572,10 +1690,10 @@ Return <code>[[node1]]</code> if both nodes are the same.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-105'>
+  <div class='section' id='section-109'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-105'>#</a>
+        <a class='octothorpe' href='#section-109'>#</a>
       </div>
       <p>Example of 2 geodesics going through same node.
 Taken from Newman's "Networks: an introduction", page 187.</p>
@@ -1586,10 +1704,10 @@ Taken from Newman's "Networks: an introduction", page 187.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-106'>
+  <div class='section' id='section-110'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-106'>#</a>
+        <a class='octothorpe' href='#section-110'>#</a>
       </div>
       <ul>
 <li>Explain how <code>geodesics</code> works.</li>
@@ -1602,10 +1720,10 @@ Taken from Newman's "Networks: an introduction", page 187.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-107'>
+  <div class='section' id='section-111'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-107'>#</a>
+        <a class='octothorpe' href='#section-111'>#</a>
       </div>
       <p>Return the <strong>distance</strong> (length of shortest path) between the nodes.</p>
 <p>The length of a path is the number of its edges.
@@ -1616,10 +1734,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-108'>
+  <div class='section' id='section-112'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-108'>#</a>
+        <a class='octothorpe' href='#section-112'>#</a>
       </div>
       
     </div>
@@ -1631,10 +1749,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-109'>
+  <div class='section' id='section-113'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-109'>#</a>
+        <a class='octothorpe' href='#section-113'>#</a>
       </div>
       <p>In a complete graph, the distance between different nodes is always 1.</p>
     </div>
@@ -1643,10 +1761,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-110'>
+  <div class='section' id='section-114'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-110'>#</a>
+        <a class='octothorpe' href='#section-114'>#</a>
       </div>
       <p>In a null graph, the distance between different nodes is always infinite.</p>
     </div>
@@ -1655,10 +1773,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-111'>
+  <div class='section' id='section-115'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-111'>#</a>
+        <a class='octothorpe' href='#section-115'>#</a>
       </div>
       <p>The distance between the same node is always 0.</p>
     </div>
@@ -1667,10 +1785,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-112'>
+  <div class='section' id='section-116'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-112'>#</a>
+        <a class='octothorpe' href='#section-116'>#</a>
       </div>
       <ul>
 <li>Make <code>distance</code> more efficient by calling <code>geodesic</code>, if you've written it.</li>
@@ -1681,10 +1799,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-113'>
+  <div class='section' id='section-117'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-113'>#</a>
+        <a class='octothorpe' href='#section-117'>#</a>
       </div>
       <p>Return the graph's <strong>diameter</strong> (longest of all pairwise distances).</p>
     </div>
@@ -1693,10 +1811,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-114'>
+  <div class='section' id='section-118'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-114'>#</a>
+        <a class='octothorpe' href='#section-118'>#</a>
       </div>
       
     </div>
@@ -1714,10 +1832,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-115'>
+  <div class='section' id='section-119'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-115'>#</a>
+        <a class='octothorpe' href='#section-119'>#</a>
       </div>
       <ul>
 <li>Explain how <code>diameter()</code> works.</li>
@@ -1735,10 +1853,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-116'>
+  <div class='section' id='section-120'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-116'>#</a>
+        <a class='octothorpe' href='#section-120'>#</a>
       </div>
       <h2>Connectivity</h2>
 <p>These functions relate to connectivity, which extends adjacency.</p>
@@ -1748,10 +1866,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-117'>
+  <div class='section' id='section-121'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-117'>#</a>
+        <a class='octothorpe' href='#section-121'>#</a>
       </div>
       <p>Check if graph is <strong>connected</strong> (there's a path between any pair of nodes).</p>
     </div>
@@ -1760,10 +1878,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-118'>
+  <div class='section' id='section-122'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-118'>#</a>
+        <a class='octothorpe' href='#section-122'>#</a>
       </div>
       
     </div>
@@ -1781,10 +1899,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-119'>
+  <div class='section' id='section-123'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-119'>#</a>
+        <a class='octothorpe' href='#section-123'>#</a>
       </div>
       <ul>
 <li>Make <code>connected()</code> more efficient.</li>
@@ -1806,10 +1924,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-120'>
+  <div class='section' id='section-124'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-120'>#</a>
+        <a class='octothorpe' href='#section-124'>#</a>
       </div>
       <p>Return a list of the graph's <strong>components</strong> (maximal connected subgraphs).</p>
     </div>
@@ -1818,10 +1936,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-121'>
+  <div class='section' id='section-125'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-121'>#</a>
+        <a class='octothorpe' href='#section-125'>#</a>
       </div>
       
     </div>
@@ -1848,10 +1966,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-122'>
+  <div class='section' id='section-126'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-122'>#</a>
+        <a class='octothorpe' href='#section-126'>#</a>
       </div>
       <ul>
 <li>Explain how <code>components()</code> works. Explain its unit tests.</li>
@@ -1863,10 +1981,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-123'>
+  <div class='section' id='section-127'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-123'>#</a>
+        <a class='octothorpe' href='#section-127'>#</a>
       </div>
       <p>Return the <strong>giant component</strong> (component with majority of graph's nodes).</p>
 <p>Return the empty graph if there is no giant component.</p>
@@ -1876,10 +1994,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-124'>
+  <div class='section' id='section-128'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-124'>#</a>
+        <a class='octothorpe' href='#section-128'>#</a>
       </div>
       
     </div>
@@ -1896,10 +2014,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-125'>
+  <div class='section' id='section-129'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-125'>#</a>
+        <a class='octothorpe' href='#section-129'>#</a>
       </div>
       <ul>
 <li>Rewrite <code>giant_component()</code> to return the largest component (most nodes).</li>
@@ -1910,10 +2028,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-126'>
+  <div class='section' id='section-130'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-126'>#</a>
+        <a class='octothorpe' href='#section-130'>#</a>
       </div>
       <p>Return the <em>k</em>-<strong>core</strong> (maximal subgraph of nodes with degree k or more).</p>
     </div>
@@ -1922,10 +2040,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-127'>
+  <div class='section' id='section-131'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-127'>#</a>
+        <a class='octothorpe' href='#section-131'>#</a>
       </div>
       <p>Keep removing nodes with degree &lt; k until no longer possible</p>
     </div>
@@ -1938,10 +2056,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-128'>
+  <div class='section' id='section-132'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-128'>#</a>
+        <a class='octothorpe' href='#section-132'>#</a>
       </div>
       <p>Any k-core of the empty graph is empty.</p>
     </div>
@@ -1950,10 +2068,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-129'>
+  <div class='section' id='section-133'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-129'>#</a>
+        <a class='octothorpe' href='#section-133'>#</a>
       </div>
       <p>The 0-core of any graph is itself.</p>
     </div>
@@ -1962,10 +2080,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-130'>
+  <div class='section' id='section-134'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-130'>#</a>
+        <a class='octothorpe' href='#section-134'>#</a>
       </div>
       <p>If k is larger than the maximum degree, the k-core is empty.</p>
     </div>
@@ -1974,10 +2092,10 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-131'>
+  <div class='section' id='section-135'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-131'>#</a>
+        <a class='octothorpe' href='#section-135'>#</a>
       </div>
       <p>If the graph is k-regular, its k-core is the whole graph.</p>
     </div>
@@ -1986,25 +2104,25 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-132'>
+  <div class='section' id='section-136'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-132'>#</a>
+        <a class='octothorpe' href='#section-136'>#</a>
       </div>
       <p>In the early Arpanet, no node had 3 neighbours with 3 neighbours themselves.</p>
     </div>
     <div class='code'>
-      <div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">k_core</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">ARPANET</span><span class="p">))</span> <span class="o">==</span> <span class="n">EMPTY</span></pre></div>
+      <div class="highlight"><pre><span class="k">assert</span> <span class="n">k_core</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">ARPANET</span><span class="p">)</span> <span class="o">==</span> <span class="n">EMPTY</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-133'>
+  <div class='section' id='section-137'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-133'>#</a>
+        <a class='octothorpe' href='#section-137'>#</a>
       </div>
       <ul>
-<li>If you have written the <code>delete_node</code> function, rewrite <code>k_core</code> using it.</li>
+<li>Rewrite <code>k_core</code> using the <code>delete_node</code> function.</li>
 </ul>
     </div>
     <div class='code'>
@@ -2012,24 +2130,28 @@ If there's no path, the distance is infinite.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-134'>
+  <div class='section' id='section-138'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-134'>#</a>
+        <a class='octothorpe' href='#section-138'>#</a>
       </div>
       <h2>Centrality</h2>
 <p>These functions relate to how 'important' a node is.
 The degree is one such metric.</p>
+<ul>
+<li>Which node or nodes in the kite and Arpanet graphs
+  have the highest degree centrality?</li>
+</ul>
     </div>
     <div class='code'>
       <div class="highlight"><pre></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-135'>
+  <div class='section' id='section-139'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-135'>#</a>
+        <a class='octothorpe' href='#section-139'>#</a>
       </div>
       <p>Return the <strong>betweenness centrality</strong> of the node.</p>
     </div>
@@ -2038,10 +2160,10 @@ The degree is one such metric.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-136'>
+  <div class='section' id='section-140'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-136'>#</a>
+        <a class='octothorpe' href='#section-140'>#</a>
       </div>
       <p>It captures the extent to which shortest paths go through the node.</p>
     </div>
@@ -2057,10 +2179,10 @@ The degree is one such metric.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-137'>
+  <div class='section' id='section-141'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-137'>#</a>
+        <a class='octothorpe' href='#section-141'>#</a>
       </div>
       <p>In K3, a node A is on all 9 paths except on B-B, C-C, B-C and C-B.</p>
     </div>
@@ -2069,10 +2191,10 @@ The degree is one such metric.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-138'>
+  <div class='section' id='section-142'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-138'>#</a>
+        <a class='octothorpe' href='#section-142'>#</a>
       </div>
       <p>In a null graph, any node is only on the path with itself.</p>
     </div>
@@ -2081,10 +2203,10 @@ The degree is one such metric.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-139'>
+  <div class='section' id='section-143'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-139'>#</a>
+        <a class='octothorpe' href='#section-143'>#</a>
       </div>
       <p>In C5, a node is on the 4+4 paths that start and end at the node,
 on the 1 path to itself, and on the 2 paths between its neighbours.</p>
@@ -2094,10 +2216,10 @@ on the 1 path to itself, and on the 2 paths between its neighbours.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-140'>
+  <div class='section' id='section-144'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-140'>#</a>
+        <a class='octothorpe' href='#section-144'>#</a>
       </div>
       <p>Utah is more central to connecting East and West coasts than CASE.</p>
     </div>
@@ -2106,15 +2228,17 @@ on the 1 path to itself, and on the 2 paths between its neighbours.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-141'>
+  <div class='section' id='section-145'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-141'>#</a>
+        <a class='octothorpe' href='#section-145'>#</a>
       </div>
       <ul>
-<li>Some alternative definitions, e.g. on Wikipedia, don't consider
-geodesics that start or end at the node.
-Change the function and unit tests accordingly.</li>
+<li>Which node or nodes in the kite and Arpanet graphs
+  have the highest betweenness centrality?</li>
+<li>Some alternative definitions, e.g. on Wikipedia,
+  don't consider geodesics that start or end at the node.
+  Change the function and unit tests accordingly.</li>
 </ul>
     </div>
     <div class='code'>
@@ -2122,10 +2246,10 @@ Change the function and unit tests accordingly.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-142'>
+  <div class='section' id='section-146'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-142'>#</a>
+        <a class='octothorpe' href='#section-146'>#</a>
       </div>
       <p>Return the subgraph induced by all nodes up to distance d of the ego node.</p>
     </div>
@@ -2134,10 +2258,10 @@ Change the function and unit tests accordingly.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-143'>
+  <div class='section' id='section-147'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-143'>#</a>
+        <a class='octothorpe' href='#section-147'>#</a>
       </div>
       
     </div>
@@ -2147,10 +2271,10 @@ Change the function and unit tests accordingly.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-144'>
+  <div class='section' id='section-148'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-144'>#</a>
+        <a class='octothorpe' href='#section-148'>#</a>
       </div>
       <p>If the distance is set to the diameter, the ego graph is the whole graph.</p>
     </div>
@@ -2159,10 +2283,10 @@ Change the function and unit tests accordingly.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-145'>
+  <div class='section' id='section-149'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-145'>#</a>
+        <a class='octothorpe' href='#section-149'>#</a>
       </div>
       <p>For any simple graph, an ego graph with distance zero is just the ego node.</p>
     </div>
@@ -2171,10 +2295,10 @@ Change the function and unit tests accordingly.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-146'>
+  <div class='section' id='section-150'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-146'>#</a>
+        <a class='octothorpe' href='#section-150'>#</a>
       </div>
       <p>In a complete graph, any ego graph with distance &gt; 0 is the whole graph.</p>
     </div>
@@ -2183,10 +2307,10 @@ Change the function and unit tests accordingly.</li>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-147'>
+  <div class='section' id='section-151'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-147'>#</a>
+        <a class='octothorpe' href='#section-151'>#</a>
       </div>
       <h2>Input / Output</h2>
 <p>These functions help read and write graphs
@@ -2198,10 +2322,10 @@ in GML (Graph Modelling Language) format. For more details, see the GML
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-148'>
+  <div class='section' id='section-152'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-148'>#</a>
+        <a class='octothorpe' href='#section-152'>#</a>
       </div>
       <p>Return a string representing the graph in GML format.</p>
     </div>
@@ -2210,10 +2334,10 @@ in GML (Graph Modelling Language) format. For more details, see the GML
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-149'>
+  <div class='section' id='section-153'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-149'>#</a>
+        <a class='octothorpe' href='#section-153'>#</a>
       </div>
       <p>The nodes of the graph must be represented by integers.</p>
 <p>Concatenating many strings is slow; join a list of strings instead.</p>
@@ -2229,10 +2353,10 @@ in GML (Graph Modelling Language) format. For more details, see the GML
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-150'>
+  <div class='section' id='section-154'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-150'>#</a>
+        <a class='octothorpe' href='#section-154'>#</a>
       </div>
       <p>Join the lines, separated by newlines.</p>
     </div>
@@ -2258,10 +2382,10 @@ in GML (Graph Modelling Language) format. For more details, see the GML
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-151'>
+  <div class='section' id='section-155'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-151'>#</a>
+        <a class='octothorpe' href='#section-155'>#</a>
       </div>
       <p>Return the list of graphs read from <code>text</code>, a string in GML format.</p>
 <p>This function assumes that the input follows the GML specification,
@@ -2277,10 +2401,10 @@ If an edge endpoint (integer) is an unknown node id, the node is created.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-152'>
+  <div class='section' id='section-156'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-152'>#</a>
+        <a class='octothorpe' href='#section-156'>#</a>
       </div>
       <p>Define the grammar with <a href="http://pyparsing.wikispaces.com">pyparsing</a>.
 Don't use <code>from pyparsing import *</code> as it adds many constants
@@ -2298,10 +2422,10 @@ to the generated documentation.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-153'>
+  <div class='section' id='section-157'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-153'>#</a>
+        <a class='octothorpe' href='#section-157'>#</a>
       </div>
       <p><code>Word(x)</code> is a sequence of one or more characters from the set x.</p>
     </div>
@@ -2312,10 +2436,10 @@ to the generated documentation.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-154'>
+  <div class='section' id='section-158'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-154'>#</a>
+        <a class='octothorpe' href='#section-158'>#</a>
       </div>
       <p>For simplicity, use pyparsing's string with double-quotes,
 hoping that it is a generalisation of GML's definition of a string.</p>
@@ -2325,10 +2449,10 @@ hoping that it is a generalisation of GML's definition of a string.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-155'>
+  <div class='section' id='section-159'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-155'>#</a>
+        <a class='octothorpe' href='#section-159'>#</a>
       </div>
       <p>A GML file is a list of key-value pairs, where a value may be a list.
 To handle this recursive definition, we delay what a pair is.</p>
@@ -2339,10 +2463,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-156'>
+  <div class='section' id='section-160'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-156'>#</a>
+        <a class='octothorpe' href='#section-160'>#</a>
       </div>
       <p>A file may have comments, which are as in Python. Ignore them.</p>
     </div>
@@ -2351,10 +2475,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-157'>
+  <div class='section' id='section-161'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-157'>#</a>
+        <a class='octothorpe' href='#section-161'>#</a>
       </div>
       <p><code>Word(x, y)</code> is 1 character from x followed by 0 or more from y.</p>
     </div>
@@ -2363,10 +2487,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-158'>
+  <div class='section' id='section-162'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-158'>#</a>
+        <a class='octothorpe' href='#section-162'>#</a>
       </div>
       <p><code>Suppress(x)</code> matches x but doesn't put it in the list of parsed tokens.</p>
     </div>
@@ -2376,10 +2500,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-159'>
+  <div class='section' id='section-163'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-159'>#</a>
+        <a class='octothorpe' href='#section-163'>#</a>
       </div>
       <p>The mandatory key-value pairs for graphs are as follows.</p>
     </div>
@@ -2393,10 +2517,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-160'>
+  <div class='section' id='section-164'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-160'>#</a>
+        <a class='octothorpe' href='#section-164'>#</a>
       </div>
       <p>First try to parse graph-specific key-value pairs; otherwise ignore pair.</p>
     </div>
@@ -2405,10 +2529,10 @@ To handle this recursive definition, we delay what a pair is.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-161'>
+  <div class='section' id='section-165'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-161'>#</a>
+        <a class='octothorpe' href='#section-165'>#</a>
       </div>
       <p>The above suppressions lead to the GML string
 <code>'graph [ node [id 1 label "ego"] edge [source 1 target 1 weight 0.5] ]'</code>
@@ -2421,10 +2545,10 @@ which is converted by the following functions into a graph.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-162'>
+  <div class='section' id='section-166'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-162'>#</a>
+        <a class='octothorpe' href='#section-166'>#</a>
       </div>
       
     </div>
@@ -2433,10 +2557,10 @@ which is converted by the following functions into a graph.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-163'>
+  <div class='section' id='section-167'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-163'>#</a>
+        <a class='octothorpe' href='#section-167'>#</a>
       </div>
       <p>Convert parsed integer tokens to integers, e.g. <code>["1"]</code> to <code>1</code>.</p>
     </div>
@@ -2445,10 +2569,10 @@ which is converted by the following functions into a graph.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-164'>
+  <div class='section' id='section-168'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-164'>#</a>
+        <a class='octothorpe' href='#section-168'>#</a>
       </div>
       
     </div>
@@ -2457,10 +2581,10 @@ which is converted by the following functions into a graph.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-165'>
+  <div class='section' id='section-169'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-165'>#</a>
+        <a class='octothorpe' href='#section-169'>#</a>
       </div>
       <p>Assuming the above conversion was done,
 convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
@@ -2470,10 +2594,10 @@ convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-166'>
+  <div class='section' id='section-170'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-166'>#</a>
+        <a class='octothorpe' href='#section-170'>#</a>
       </div>
       
     </div>
@@ -2482,10 +2606,10 @@ convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-167'>
+  <div class='section' id='section-171'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-167'>#</a>
+        <a class='octothorpe' href='#section-171'>#</a>
       </div>
       <p><code>tokens</code> is now a list of integers and edges, in any order.</p>
     </div>
@@ -2501,10 +2625,10 @@ convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-168'>
+  <div class='section' id='section-172'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-168'>#</a>
+        <a class='octothorpe' href='#section-172'>#</a>
       </div>
       <p>Do the conversions as soon as the respective tokens are parsed.</p>
     </div>
@@ -2515,10 +2639,10 @@ convert <code>["edge", a, b]</code> to an edge incident to a and b.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-169'>
+  <div class='section' id='section-173'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-169'>#</a>
+        <a class='octothorpe' href='#section-173'>#</a>
       </div>
       <p>Parse the text with the main grammar rule.
 Return the result as a list, not as a pyparsing object.</p>
@@ -2537,10 +2661,10 @@ Return the result as a list, not as a pyparsing object.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-170'>
+  <div class='section' id='section-174'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-170'>#</a>
+        <a class='octothorpe' href='#section-174'>#</a>
       </div>
       <ul>
 <li>Write helper functions that read from and write to a file.</li>
@@ -2551,10 +2675,10 @@ Return the result as a list, not as a pyparsing object.</p>
     </div>
   </div>
   <div class='clearall'></div>
-  <div class='section' id='section-171'>
+  <div class='section' id='section-175'>
     <div class='docs'>
       <div class='octowrap'>
-        <a class='octothorpe' href='#section-171'>#</a>
+        <a class='octothorpe' href='#section-175'>#</a>
       </div>
       <h2>Projects</h2>
 <p>These exercises require using or changing large parts of the library.</p>
