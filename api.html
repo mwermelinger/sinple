@@ -38,7 +38,10 @@ SINPLE&nbsp;is&nbsp;available&nbsp;under&nbsp;a&nbsp;permissive&nbsp;license&nbs
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-add_edges"><strong>add_edges</strong></a>(edges, graph)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;graph&nbsp;by&nbsp;adding&nbsp;the&nbsp;set&nbsp;of&nbsp;edges&nbsp;and&nbsp;their&nbsp;endpoints&nbsp;to&nbsp;graph.</tt></dd></dl>
+<td width="100%"><dl><dt><a name="-add_edge"><strong>add_edge</strong></a>(node1, node2, graph)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;graph&nbsp;by&nbsp;adding&nbsp;to&nbsp;graph&nbsp;the&nbsp;nodes&nbsp;and&nbsp;an&nbsp;edge&nbsp;between&nbsp;them.<br>
+&nbsp;<br>
+The&nbsp;two&nbsp;nodes&nbsp;can&nbsp;be&nbsp;the&nbsp;same.</tt></dd></dl>
+ <dl><dt><a name="-add_edges"><strong>add_edges</strong></a>(edges, graph)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;graph&nbsp;by&nbsp;adding&nbsp;the&nbsp;set&nbsp;of&nbsp;edges&nbsp;and&nbsp;their&nbsp;endpoints&nbsp;to&nbsp;graph.</tt></dd></dl>
  <dl><dt><a name="-adjacent"><strong>adjacent</strong></a>(node1, node2, graph)</dt><dd><tt>Check&nbsp;if&nbsp;the&nbsp;nodes&nbsp;are&nbsp;**adjacent**&nbsp;(an&nbsp;edge&nbsp;connects&nbsp;them).</tt></dd></dl>
  <dl><dt><a name="-betweenness"><strong>betweenness</strong></a>(node, graph)</dt><dd><tt>Return&nbsp;the&nbsp;**betweenness&nbsp;centrality**&nbsp;of&nbsp;the&nbsp;node.<br>
 &nbsp;<br>
@@ -50,17 +53,20 @@ It&nbsp;captures&nbsp;the&nbsp;extent&nbsp;to&nbsp;which&nbsp;shortest&nbsp;path
 Loops&nbsp;count&nbsp;twice,&nbsp;so&nbsp;that&nbsp;each&nbsp;edge&nbsp;contributes&nbsp;2&nbsp;to&nbsp;the&nbsp;degree&nbsp;sum.</tt></dd></dl>
  <dl><dt><a name="-degree_distribution"><strong>degree_distribution</strong></a>(graph)</dt><dd><tt>Return&nbsp;a&nbsp;list:&nbsp;the&nbsp;n-th&nbsp;value&nbsp;is&nbsp;the&nbsp;probability&nbsp;that&nbsp;a&nbsp;node&nbsp;has&nbsp;degree&nbsp;n.</tt></dd></dl>
  <dl><dt><a name="-degree_sequence"><strong>degree_sequence</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**degree&nbsp;sequence**&nbsp;(descending&nbsp;list&nbsp;of&nbsp;node&nbsp;degrees).</tt></dd></dl>
- <dl><dt><a name="-delete_edges"><strong>delete_edges</strong></a>(edges, graph)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;graph&nbsp;by&nbsp;removing&nbsp;the&nbsp;set&nbsp;of&nbsp;edges&nbsp;from&nbsp;graph.</tt></dd></dl>
+ <dl><dt><a name="-delete_edge"><strong>delete_edge</strong></a>(node1, node2, graph)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;graph&nbsp;by&nbsp;removing&nbsp;from&nbsp;graph&nbsp;the&nbsp;edge&nbsp;between&nbsp;the&nbsp;nodes.</tt></dd></dl>
+ <dl><dt><a name="-delete_edges"><strong>delete_edges</strong></a>(edges, graph)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;graph&nbsp;by&nbsp;removing&nbsp;the&nbsp;set&nbsp;of&nbsp;edges&nbsp;from&nbsp;graph.<br>
+&nbsp;<br>
+Edges&nbsp;that&nbsp;don't&nbsp;exist&nbsp;in&nbsp;the&nbsp;graph&nbsp;are&nbsp;ignored.</tt></dd></dl>
  <dl><dt><a name="-density"><strong>density</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**density**&nbsp;(ratio&nbsp;of&nbsp;actual&nbsp;to&nbsp;potential&nbsp;edges).<br>
 &nbsp;<br>
 It's&nbsp;the&nbsp;size&nbsp;divided&nbsp;by&nbsp;the&nbsp;size&nbsp;of&nbsp;a&nbsp;complete&nbsp;graph&nbsp;of&nbsp;the&nbsp;same&nbsp;order.<br>
-The&nbsp;density&nbsp;of&nbsp;the&nbsp;empty&nbsp;graph&nbsp;is&nbsp;set&nbsp;to&nbsp;zero.</tt></dd></dl>
+The&nbsp;density&nbsp;of&nbsp;the&nbsp;graphs&nbsp;with&nbsp;one&nbsp;or&nbsp;zero&nbsp;nodes&nbsp;is&nbsp;set&nbsp;to&nbsp;zero.</tt></dd></dl>
  <dl><dt><a name="-diameter"><strong>diameter</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**diameter**&nbsp;(longest&nbsp;of&nbsp;all&nbsp;pairwise&nbsp;distances).</tt></dd></dl>
  <dl><dt><a name="-distance"><strong>distance</strong></a>(node1, node2, graph)</dt><dd><tt>Return&nbsp;the&nbsp;**distance**&nbsp;(length&nbsp;of&nbsp;shortest&nbsp;path)&nbsp;between&nbsp;the&nbsp;nodes.<br>
 &nbsp;<br>
 The&nbsp;length&nbsp;of&nbsp;a&nbsp;path&nbsp;is&nbsp;the&nbsp;number&nbsp;of&nbsp;its&nbsp;edges.<br>
 If&nbsp;there's&nbsp;no&nbsp;path,&nbsp;the&nbsp;distance&nbsp;is&nbsp;infinite.</tt></dd></dl>
- <dl><dt><a name="-edge"><strong>edge</strong></a>(node1, node2)</dt><dd><tt>Create&nbsp;an&nbsp;edge&nbsp;connecting&nbsp;the&nbsp;two&nbsp;nodes.</tt></dd></dl>
+ <dl><dt><a name="-edge"><strong>edge</strong></a>(node1, node2)</dt><dd><tt>Create&nbsp;an&nbsp;edge&nbsp;connecting&nbsp;the&nbsp;two&nbsp;nodes,&nbsp;which&nbsp;may&nbsp;be&nbsp;the&nbsp;same.</tt></dd></dl>
  <dl><dt><a name="-edge_set"><strong>edge_set</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;set&nbsp;of&nbsp;the&nbsp;graph's&nbsp;edges.</tt></dd></dl>
  <dl><dt><a name="-ego_graph"><strong>ego_graph</strong></a>(ego, d, graph)</dt><dd><tt>Return&nbsp;the&nbsp;subgraph&nbsp;induced&nbsp;by&nbsp;all&nbsp;nodes&nbsp;up&nbsp;to&nbsp;distance&nbsp;d&nbsp;of&nbsp;the&nbsp;ego&nbsp;node.</tt></dd></dl>
  <dl><dt><a name="-endpoints"><strong>endpoints</strong></a>(edge)</dt><dd><tt>Return&nbsp;a&nbsp;pair&nbsp;with&nbsp;the&nbsp;edge's&nbsp;**endpoints**&nbsp;(the&nbsp;nodes&nbsp;it&nbsp;connects).</tt></dd></dl>
@@ -84,12 +90,13 @@ Return&nbsp;`[[node1]]`&nbsp;if&nbsp;both&nbsp;nodes&nbsp;are&nbsp;the&nbsp;same
 Return&nbsp;the&nbsp;empty&nbsp;graph&nbsp;if&nbsp;there&nbsp;is&nbsp;no&nbsp;giant&nbsp;component.</tt></dd></dl>
  <dl><dt><a name="-incident"><strong>incident</strong></a>(edge, node)</dt><dd><tt>Check&nbsp;if&nbsp;edge&nbsp;and&nbsp;node&nbsp;are&nbsp;**incident**&nbsp;to&nbsp;each&nbsp;other&nbsp;(edge&nbsp;connects&nbsp;node).</tt></dd></dl>
  <dl><dt><a name="-is_loop"><strong>is_loop</strong></a>(edge)</dt><dd><tt>Check&nbsp;if&nbsp;edge&nbsp;is&nbsp;a&nbsp;**loop**&nbsp;(connects&nbsp;a&nbsp;node&nbsp;to&nbsp;itself).</tt></dd></dl>
+ <dl><dt><a name="-k_core"><strong>k_core</strong></a>(k, graph)</dt><dd><tt>Return&nbsp;the&nbsp;*k*-**core**&nbsp;(maximal&nbsp;subgraph&nbsp;of&nbsp;nodes&nbsp;with&nbsp;degree&nbsp;k&nbsp;or&nbsp;more).</tt></dd></dl>
  <dl><dt><a name="-k_regular"><strong>k_regular</strong></a>(graph)</dt><dd><tt>Return&nbsp;k&nbsp;if&nbsp;graph&nbsp;is&nbsp;**k-regular**&nbsp;(all&nbsp;nodes&nbsp;have&nbsp;degree&nbsp;k),&nbsp;otherwise&nbsp;-1.</tt></dd></dl>
  <dl><dt><a name="-local_clustering_coefficient"><strong>local_clustering_coefficient</strong></a>(node, graph)</dt><dd><tt>Return&nbsp;node's&nbsp;**local&nbsp;clustering&nbsp;coefficient**&nbsp;(density&nbsp;of&nbsp;neighbourhood).</tt></dd></dl>
  <dl><dt><a name="-mean_degree"><strong>mean_degree</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**average&nbsp;degree**&nbsp;(mean&nbsp;of&nbsp;all&nbsp;node&nbsp;degrees).</tt></dd></dl>
  <dl><dt><a name="-neighbourhood"><strong>neighbourhood</strong></a>(node, graph)</dt><dd><tt>Return&nbsp;the&nbsp;node's&nbsp;**open&nbsp;neighbourhood**&nbsp;(subgraph&nbsp;induced&nbsp;by&nbsp;neighbours).</tt></dd></dl>
  <dl><dt><a name="-neighbours"><strong>neighbours</strong></a>(node, graph)</dt><dd><tt>Return&nbsp;the&nbsp;set&nbsp;of&nbsp;the&nbsp;node's&nbsp;**neighbours**&nbsp;(adjacent&nbsp;nodes).</tt></dd></dl>
- <dl><dt><a name="-network"><strong>network</strong></a>(edges, nodes=set())</dt><dd><tt>Create&nbsp;a&nbsp;graph&nbsp;with&nbsp;the&nbsp;given&nbsp;nodes,&nbsp;edges,&nbsp;and&nbsp;their&nbsp;endpoints.</tt></dd></dl>
+ <dl><dt><a name="-network"><strong>network</strong></a>(edges, nodes=set())</dt><dd><tt>Create&nbsp;a&nbsp;graph&nbsp;with&nbsp;the&nbsp;given&nbsp;sets&nbsp;of&nbsp;nodes,&nbsp;edges,&nbsp;and&nbsp;their&nbsp;endpoints.</tt></dd></dl>
  <dl><dt><a name="-node_set"><strong>node_set</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;set&nbsp;of&nbsp;the&nbsp;graph's&nbsp;nodes.</tt></dd></dl>
  <dl><dt><a name="-null"><strong>null</strong></a>(n)</dt><dd><tt>Create&nbsp;a&nbsp;**null&nbsp;graph**&nbsp;with&nbsp;n&nbsp;nodes&nbsp;numbered&nbsp;1&nbsp;to&nbsp;n&nbsp;and&nbsp;no&nbsp;edges.</tt></dd></dl>
  <dl><dt><a name="-order"><strong>order</strong></a>(graph)</dt><dd><tt>Return&nbsp;the&nbsp;graph's&nbsp;**order**&nbsp;(number&nbsp;of&nbsp;nodes).</tt></dd></dl>
@@ -112,7 +119,7 @@ The&nbsp;nodes&nbsp;of&nbsp;the&nbsp;graph&nbsp;must&nbsp;be&nbsp;represented&nb
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['CASE', 'Carnegie']), frozenset(['SDC', 'Utah']), frozenset(['RAND', 'SDC']), frozenset(['SRI', 'Utah']), frozenset(['BBN', 'Harvard']), frozenset(['UCLA', 'UCSB']), ...]))<br>
+<td width="100%"><strong>ARPANET</strong> = (set(['BBN', 'CASE', 'Carnegie', 'Harvard', 'Lincoln', 'MIT', ...]), set([frozenset(['UCLA', 'UCSB']), frozenset(['RAND', 'UCLA']), frozenset(['CASE', 'Carnegie']), frozenset(['SDC', 'Utah']), frozenset(['RAND', 'SDC']), frozenset(['Stanford', 'UCLA']), ...]))<br>
 <strong>C3</strong> = (set([1, 2, 3]), set([frozenset([1, 3]), frozenset([1, 2]), frozenset([2, 3])]))<br>
 <strong>C4</strong> = (set([1, 2, 3, 4]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 4])]))<br>
 <strong>C5</strong> = (set([1, 2, 3, 4, 5]), set([frozenset([1, 2]), frozenset([3, 4]), frozenset([2, 3]), frozenset([1, 5]), frozenset([4, 5])]))<br>
@@ -123,5 +130,5 @@ The&nbsp;nodes&nbsp;of&nbsp;the&nbsp;graph&nbsp;must&nbsp;be&nbsp;represented&nb
 <strong>N1</strong> = (set([1]), set([]))<br>
 <strong>N2</strong> = (set([1, 2]), set([]))<br>
 <strong>PETERSEN</strong> = (set([1, 2, 3, 4, 5, 6, ...]), set([frozenset([2, 7]), frozenset([4, 9]), frozenset([7, 10]), frozenset([1, 2]), frozenset([1, 5]), frozenset([6, 9]), ...]))<br>
-<strong>UTILITY</strong> = (set([1, 2, 3, 'gas', 'water', 'power']), set([frozenset([1, 'power']), frozenset(['gas', 3]), frozenset(['water', 3]), frozenset(['gas', 1]), frozenset(['water', 1]), frozenset([3, 'power']), ...]))</td></tr></table>
+<strong>UTILITY</strong> = (set([1, 2, 3, 'water', 'power', 'gas']), set([frozenset([3, 'water']), frozenset([2, 'water']), frozenset(['power', 3]), frozenset([1, 'power']), frozenset([1, 'water']), frozenset(['power', 2]), ...]))</td></tr></table>
 </body></html>

@@ -75,11 +75,31 @@ SINPLE is available under a permissive license from http://tiny.cc/sinple.
 # These functions hide the network representation
 # from the rest of the library.
 
+# Start with the **empty graph**, which has no nodes and hence no edges.
+EMPTY = (set(), set())
+
+
+def edge_set(graph):
+    """Return the set of the graph's edges."""
+    (nodes, edges) = graph
+    return edges
+
+assert edge_set(EMPTY) == set()
+
+
+def node_set(graph):
+    """Return the set of the graph's nodes."""
+    (nodes, edges) = graph
+    return nodes
+
+assert node_set(EMPTY) == set()
+
 
 def edge(node1, node2):
-    """Create an edge connecting the two nodes."""
+    """Create an edge connecting the two nodes, which may be the same."""
     return frozenset({node1, node2})
 
+# The order of nodes doesn't matter.
 assert edge(1, 2) == edge(2, 1)
 
 # - Consult the Python documentation about sets.
@@ -87,6 +107,9 @@ assert edge(1, 2) == edge(2, 1)
 #   Hint: read again the definition of graph at the start of this section.
 
 
+# The function to deconstruct a previously constructed edge returns a pair
+# instead of a set to allow obtaining each node with the assignment
+# `(n1, n2) = endpoints(e)`.
 def endpoints(edge):
     """
     Return a pair with the edge's **endpoints** (the nodes it connects).
@@ -100,55 +123,71 @@ assert endpoints(edge(2, 1)) == (2, 1) or endpoints(edge(2, 1)) == (1, 2)
 assert endpoints(edge(1, 1)) == (1, 1)
 
 
-def edge_set(graph):
-    """Return the set of the graph's edges."""
-    (nodes, edges) = graph
-    return edges
-
-
-def node_set(graph):
-    """Return the set of the graph's nodes."""
-    (nodes, edges) = graph
-    return nodes
-
-
 def add_edges(edges, graph):
     """
     Create a new graph by adding the set of edges and their endpoints to graph.
     """
+    # Start with the empty set. Note that `{}` is the empty dictionary.
     nodes = set()
     for edge in edges:
+        # Add both endpoints to the set.
         nodes.update(endpoints(edge))
+    # The new graph's nodes/edges is the union of the old and new sets.
     return (node_set(graph) | nodes, edge_set(graph) | edges)
 
-# - Explain how `add_edges()` works. Why is `set()` used instead of `{}`?
+assert node_set(add_edges({edge(2, 1)}, EMPTY)) == {1, 2}
+
+
+# A convenience function for the common case of adding a single edge.
+def add_edge(node1, node2, graph):
+    """
+    Create a new graph by adding to graph the nodes and an edge between them.
+
+    The two nodes can be the same.
+    """
+    return add_edges({edge(node1, node2)}, graph)
+
+assert node_set(add_edge(1, 1, EMPTY)) == {1}
 
 
 def network(edges, nodes=set()):
-    """Create a graph with the given nodes, edges, and their endpoints."""
+    """
+    Create a graph with the given sets of nodes, edges, and their endpoints.
+    """
     return add_edges(edges, (nodes, set()))
 
+assert network(set()) == EMPTY
 assert network({edge(1, 2)}) == network({edge(2, 1)}, {1, 2})
-
-# - Change `network()` to also accept lists of nodes and edges.
 
 
 def delete_edges(edges, graph):
-    """Create a new graph by removing the set of edges from graph."""
+    """
+    Create a new graph by removing the set of edges from graph.
+
+    Edges that don't exist in the graph are ignored.
+    """
     return (node_set(graph), edge_set(graph) - edges)
 
-assert delete_edges({edge(1, 2)}, network({edge(2, 1)})) \
-    == network(set(), {1, 2})
+assert delete_edges({edge(1, 2)}, EMPTY) == EMPTY
 
-# - Write a function to remove a set of nodes from a graph.
+
+# A convenience function for the common case of deleting a single edge.
+def delete_edge(node1, node2, graph):
+    """
+    Create a new graph by removing from graph the edge between the nodes.
+    """
+    return delete_edges({edge(node1, node2)}, graph)
+
+assert delete_edge(1, 2, network({edge(2, 1)})) == network(set(), {1, 2})
+
+# - Write functions `delete_nodes()` and `delete_node()`.
+#   Don't forget to remove the attached edges.
 
 
 # ### Example networks
 #
 # These networks are used in further unit tests.
 
-# The **empty graph** has no nodes and hence no edges.
-EMPTY = network(set())
 # A **null graph** has no edges.
 N1 = network(set(), {1})
 N2 = network(set(), {1, 2})
@@ -167,8 +206,8 @@ K3 = network({edge(1, 2), edge(1, 3), edge(2, 3)})
 # A **cycle graph** C*n* has *n* nodes connected in a 'round-robin' fashion.
 # Cycle graphs can be drawn as regular shapes: triangle, square, pentagon, etc.
 C3 = network({edge(1, 2), edge(2, 3), edge(3, 1)})
-C4 = add_edges({edge(3, 4), edge(4, 1)}, delete_edges({edge(3, 1)}, C3))
-C5 = add_edges({edge(4, 5), edge(5, 1)}, delete_edges({edge(4, 1)}, C4))
+C4 = add_edges({edge(3, 4), edge(4, 1)}, delete_edge(3, 1, C3))
+C5 = add_edges({edge(4, 5), edge(5, 1)}, delete_edge(4, 1, C4))
 
 # - Define C2.
 # - Explain how C4 is constructed from C3.
@@ -258,19 +297,19 @@ def density(graph):
     Return the graph's **density** (ratio of actual to potential edges).
 
     It's the size divided by the size of a complete graph of the same order.
-    The density of the empty graph is set to zero.
+    The density of the graphs with one or zero nodes is set to zero.
     """
     o = order(graph)
-    return size(graph) / (o * (o - 1) / 2) if o > 0 else 0
+    return size(graph) / (o * (o - 1) / 2) if o > 1 else 0
 
 assert density(EMPTY) == 0
+assert density(LOOP) == 0
 # Every null graph has density 0.
 assert density(N2) == 0
 # Every complete graph has density 1.
 assert density(K3) == 1
 # A graph with loops can have density > 1.
-assert density(add_edges({edge(1, 1)}, K3)) > 1
-
+assert density(add_edge(1, 1, K3)) > 1
 
 # Further graph construction
 # --------------------------
@@ -320,7 +359,7 @@ assert subgraph({1, 2, 3, 4, 5}, PETERSEN) == C5
 #   Implement the function in a way that is more efficient for other cases.
 #   Hint: what happens for sparse/dense graphs when many/few nodes are kept?
 # - Write a function to check if *g1* is a **subgraph** of *g2*,
-#   i.e. if the nodes and edges of *g1* are included in those of *g2*.
+#   i.e. if the nodes and edges of *g1* are also in *g2*.
 
 
 # Import a random number generator with uniform distribution
@@ -333,12 +372,12 @@ def random(n, p):
 
     The two numbers can't be negative, and p can't be larger than 1.
     """
-    edgeset = set()
+    edges = set()
     for node1 in range(1, n+1):
         for node2 in range(node1+1, n+1):
             if uniform(0, 1) < p:
-                edgeset.add(edge(node1, node2))
-    return add_edges(edgeset, null(n))
+                edges.add(edge(node1, node2))
+    return add_edges(edges, null(n))
 
 assert random(0, 1) == EMPTY
 assert random(1, 1) == N1
@@ -554,13 +593,12 @@ assert geodesics(1, 4, C5) == [[1, 5, 4]]
 assert sorted(geodesics(1, 3, C4)) == [[1, 2, 3], [1, 4, 3]]
 # Example of 2 geodesics going through same node.
 # Taken from Newman's "Networks: an introduction", page 187.
-assert sorted(geodesics(5, 1, network(
-    {edge(1, 2), edge(2, 3), edge(2, 4), edge(3, 5), edge(4, 5)}))) \
-    == [[5, 3, 2, 1], [5, 4, 2, 1]]
+assert sorted(geodesics(3, 5, add_edge(1, 5, C4))) \
+    == [[3, 2, 1, 5], [3, 4, 1, 5]]
 
 # - Explain how `geodesics` works.
 # - Write a simplified `geodesic` (singular!) function that returns
-# the first shortest path found, or `[]` if there is none.
+#   the first shortest path found, or `[]` if there is none.
 
 
 def distance(node1, node2, graph):
@@ -686,6 +724,32 @@ assert giant_component(C3) == C3
 assert giant_component(N2) == EMPTY
 
 # - Rewrite `giant_component()` to return the largest component (most nodes).
+
+
+def k_core(k, graph):
+    """
+    Return the *k*-**core** (maximal subgraph of nodes with degree k or more).
+    """
+    # Keep removing nodes with degree < k until no longer possible
+    while True:
+        nodes = {node for node in node_set(graph) if degree(node, graph) >= k}
+        if nodes == node_set(graph):
+            return graph
+        graph = subgraph(nodes, graph)
+
+# Any k-core of the empty graph is empty.
+assert k_core(-1, EMPTY) == EMPTY
+# The 0-core of any graph is itself.
+assert k_core(0, C5) == C5
+# If k is larger than the maximum degree, the k-core is empty.
+assert k_core(3, C5) == EMPTY
+# If the graph is k-regular, its k-core is the whole graph.
+assert k_core(k_regular(K3), K3) == K3
+# In the early Arpanet, no node had 3 neighbours with 3 neighbours themselves.
+print(k_core(3, ARPANET)) == EMPTY
+
+# - If you have written the `delete_node` function, rewrite `k_core` using it.
+
 
 # Centrality
 # ----------
